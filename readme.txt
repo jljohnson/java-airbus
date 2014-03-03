@@ -1,10 +1,17 @@
+Projet de JAVA !
+Je tiens à remercier patoche pour m'avoir soutenu 
+stéfan pour sa chiantitude
+et romain pour ses blagues de cul 
+
+merci
+
                     _
                    /_'. _
                  _   \ / '-.
-                < ``-.;),--'`                              Projet de JAVA !
-                 '--.</()`--.                              Je tiens à remercier patoche pour m'avoir soutenu
-                   / |/-/`'._\                             stéfan pour ses blagues minables
-                   |/ |=|                                  et romain pour ses blagues de cul 
+                < ``-.;),--'`                            
+                 '--.</()`--.                              
+                   / |/-/`'._\                             
+                   |/ |=|                                  
                       |_|
                  ~`   |-| ~~      ~
              ~~  ~~ __|=|__   ~~
