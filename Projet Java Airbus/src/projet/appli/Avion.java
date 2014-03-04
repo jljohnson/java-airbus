@@ -1,7 +1,12 @@
 package projet.appli;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 
 import projet.exceptions.IdAvionException;
 
@@ -11,19 +16,17 @@ public class Avion {
 	private String idAvion;
 	private int capacite;
 	private String modele;
-	private String constructeur;
 	
 	static private Hashtable<String,Avion> lesAvions = new Hashtable<String,Avion>();
 	
 	
 	//Constructeur
-	public Avion (String id, int place, String mod, String marque)
+	public Avion (String id, int place, String mod)
 	{
 		idAvion = id;
 		capacite = place;
 		modele = mod;
-		constructeur = marque;
-		
+	
 		// Ajout dans la map
 		lesAvions.put(idAvion, this);
 				
@@ -45,13 +48,8 @@ public class Avion {
 		return (modele);
 	}
 	
-	public String getConstructeur ()
-	{
-		return (constructeur);
-	}
 	
-	
-	// Méthode statique qui permet de retrouver la réference du pointeur
+	// Mï¿½thode statique qui permet de retrouver la rï¿½ference du pointeur
 	public static Avion getAvion (String id) throws IdAvionException
 	{
 		if (!lesAvions.containsKey(id))
@@ -62,18 +60,69 @@ public class Avion {
 		
 	}
 	
-	// Méthode qui affiche tous les avions
+	// Mï¿½thode qui affiche tous les avions
 	public String toString ()
 	{
-		String res = "Identifiant : " + idAvion + " Constructeur : " + constructeur + " Modèle : " + modele + " Capacite :" + capacite;
+		String res = "Identifiant : " + idAvion + " ModÃ¨le : " + modele + " Capacite :" + capacite;
 		return res;
 	}
 	
-	// Méthode statique pour lire le fichier avion
+	// Mï¿½thode statique pour lire le fichier avion
 	// lit le fichier
 	// creer une instance
 	// ajoute dans la map
 
+	static public void lireAvion (String adresseFichier) 
+	{
+	
+			BufferedReader entree = null;
+			
+			// DÃ©claration d'une ligne
+			String ligne;
+			
+			// DÃ©coupage en mot
+			StringTokenizer mot;
+			
+			try {
+				// EntrÃ©e du fichier
+				 entree = new BufferedReader(new FileReader (adresseFichier));
+				
+				while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
+				  { 
+					// Lecture par mot sur chaque ligne
+					  mot = new StringTokenizer(ligne);
+					
+					  while (mot.hasMoreTokens())
+					  {
+						  // Recuperation du mot
+						  String id = mot.nextToken();
+						  String marque = mot.nextToken();
+						  String place = mot.nextToken();
+						  int capa = Integer.parseInt(place);
+						  
+						 Avion a = new Avion (id,capa,marque);
+					  }
+				  }
+				entree.close();
+			}
+			catch (IOException e)
+		      {
+		    	  System.out.println("Erreur : "+ e.toString());
+		      }
+			catch (NumberFormatException e)
+		      {
+		    	  System.out.println("Erreur : "+ e.toString());
+		      }
+					
+		
+	}
+	
+	static public void afficherInstance()
+	{
+		for (Avion a : lesAvions.values()) {
+			System.out.println(a.toString());
+		}
+	}
 
 }
 

@@ -3,13 +3,13 @@ package projet.appli;
 import java.util.Hashtable;
 
 import projet.outils.Horaire;
+import projet.outils.TrancheHoraire;
 
 public abstract class Tache {
 
 	private String idTache;
 	private String description;
-	private Horaire heureDebut;
-	private Horaire heureFin;
+	private TrancheHoraire duree ;
 
 	static private Hashtable<String, Tache> lesTaches = new Hashtable<String, Tache>();
 
@@ -17,8 +17,7 @@ public abstract class Tache {
 	public Tache(String id, String d, Horaire debut, Horaire fin) {
 		idTache = id;
 		description = d;
-		heureDebut = debut;
-		heureFin = fin;
+		duree = new TrancheHoraire(debut, fin);
 
 		lesTaches.put(idTache, this);
 	}
@@ -32,12 +31,8 @@ public abstract class Tache {
 		return (description);
 	}
 
-	public Horaire getHeureDebut() {
-		return (heureDebut);
-	}
-
-	public Horaire getHeureFin() {
-		return (heureFin);
+	public TrancheHoraire getHoraires() {
+		return (duree);
 	}
 
 }
