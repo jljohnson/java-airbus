@@ -1,9 +1,16 @@
 package projet.appli;
 
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Hashtable;
+import java.util.StringTokenizer;
 
+import projet.exceptions.IdAvionException;
+import projet.exceptions.MatAgentException;
 import projet.outils.Duree;
+import projet.outils.TrancheHoraire;
 
 /**
  * <p>Title: Agent</p>
@@ -18,16 +25,16 @@ public abstract class  Agent {
 	private String matricule;
 	private String nom;
 	private String prenom;
-	private Duree HeureTravaille;
+	private int cycle;
 	static private Hashtable <String,Tache> lesTaches = new Hashtable<String,Tache>();
 	static private Hashtable <String,Agent> lesAgents = new Hashtable<String,Agent>();
 	
 	// constructeur
-	public Agent(String mat, String n, String p){
+	public Agent(String mat, String n, String p, int c){
 		matricule = mat;
 		nom = n;
 		prenom = p;
-		HeureTravaille = new Duree();
+		cycle = c;
 		lesAgents.put(matricule, this);
 	}
 	
@@ -45,8 +52,8 @@ public abstract class  Agent {
 		return prenom;
 	}
 	
-	public Duree getHeureTravaille(){
-		return HeureTravaille;
+	public int getCycle(){
+		return cycle;
 	}
 	
 	
@@ -59,9 +66,21 @@ public abstract class  Agent {
 		 prenom = p;
 	}
 	
-	public void setHeureTravaille(Duree d){
-		HeureTravaille.ajout(d);
+	public void setHeureTravaille(int d){
+		//methode
+		//HeureTravaille.ajout();
 	}
+	
+	// Méthode statique qui permet de retrouver la réference du pointeur
+		public static Agent getAvion (String id) throws MatAgentException
+		{
+			if (!lesAgents.containsKey(id))
+			{
+				throw new MatAgentException (id);
+			}
+			return ((Agent)lesAgents.get(id));
+			
+		}
 	
 	// gestion du temps
 	public Duree tempsDeTravailRestant(){
@@ -70,11 +89,23 @@ public abstract class  Agent {
 		return d;
 	}
 	
+	// gestion de la tranche horaire
+	 public abstract TrancheHoraire getHoraire(int sem);
+	
+	
+	// récupération des données du fichier
+	
+	static public void lireAgent (String adresseFichier){
+	}
+	
 	// gestion du planning
 	
 	// gestion de l'affichage
-	public String toString(){
-		String res = "";
-		return res;
-	}
+		@Override
+		public String toString() {
+			return  "Agent : " + matricule
+					+  "\n - Nom : " + nom 
+					+  "\n - Prénom : " + prenom
+					+  "\n - Cycle de travail : " + cycle;	
+		}
 }
