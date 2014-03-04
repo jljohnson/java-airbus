@@ -72,11 +72,10 @@ public class Avion {
 	// creer une instance
 	// ajoute dans la map
 
-	static public void lireAvion (String adresseFichier) throws NumberFormatException, IOException
+	static public void lireAvion (String adresseFichier) 
 	{
 	
-			// Entrée du fichier
-			BufferedReader entree = new BufferedReader(new FileReader (adresseFichier));
+			BufferedReader entree = null;
 			
 			// Déclaration d'une ligne
 			String ligne;
@@ -85,6 +84,9 @@ public class Avion {
 			StringTokenizer mot;
 			
 			try {
+				// Entrée du fichier
+				 entree = new BufferedReader(new FileReader (adresseFichier));
+				
 				while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
 				  { 
 					// Lecture par mot sur chaque ligne
@@ -101,15 +103,17 @@ public class Avion {
 						 Avion a = new Avion (id,capa,marque);
 					  }
 				  }
+				entree.close();
 			}
 			catch (IOException e)
 		      {
 		    	  System.out.println("Erreur : "+ e.toString());
 		      }
-			finally
-			{
-				entree.close();
-			}	
+			catch (NumberFormatException e)
+		      {
+		    	  System.out.println("Erreur : "+ e.toString());
+		      }
+					
 		
 	}
 	
