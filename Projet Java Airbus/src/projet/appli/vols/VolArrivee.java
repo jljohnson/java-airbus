@@ -9,6 +9,7 @@ import java.util.StringTokenizer;
 
 import projet.appli.Avion;
 import projet.appli.Vol;
+import projet.appli.taches.TacheDebarquement;
 import projet.exceptions.IdAvionException;
 import projet.outils.Horaire;
 
@@ -76,11 +77,9 @@ public class VolArrivee extends Vol {
 	
 	public void creerTache ()
 	{
-		for (VolArrivee a : lesVolsArrivee.values()) {
-			TacheDebarquement(lesVolsArrivee.g,Horaire debut, Horaire fin) {
+		for (VolArrivee v : lesVolsArrivee.values()) {
+			TacheDebarquement td = new TacheDebarquement(v) ;
 		}
-		
-	}
-	
 
+	}
 }
