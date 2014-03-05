@@ -9,6 +9,15 @@ import projet.appli.Agent;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
+/**
+ * <p>Title: AgentPlein</p>
+ * <p>Description: classe d'un agent plein</p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: Miage L3 </p>
+ * @author Le Moing Stéfan
+ * @version 1.0
+ */
+
 public class AgentPlein extends Agent{
 	// constructeur
 		public AgentPlein(String mat, String n, String p, int c){
