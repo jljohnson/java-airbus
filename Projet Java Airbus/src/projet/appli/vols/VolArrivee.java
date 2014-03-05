@@ -28,7 +28,7 @@ public class VolArrivee extends Vol {
 	
 	@Override
 	public String toString() {
-		return "Vol Arrivée n°" + super.toString() +"\n  - ville départ :" + villeDepart;
+		return "Vol Arrivï¿½e nï¿½" + super.toString() +"\n  - ville dï¿½part :" + villeDepart;
 	}
 	
 	static public void lireVolsArrivees (String adresseFichier) {
@@ -73,5 +73,14 @@ public class VolArrivee extends Vol {
 
 		
 	}
+	
+	public void creerTache ()
+	{
+		String idTache = "D";
+		int numero = 1;
+		for (Avion a : lesAvions.values()) {
+		
+	}
+	
 
 }
