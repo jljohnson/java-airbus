@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import projet.appli.Agent;
-import projet.exceptions.semaineInvalideException;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
@@ -32,6 +31,11 @@ public class AgentPlein extends Agent{
 			TrancheHoraire th = new TrancheHoraire(hdeb,hfin);
 			switch(numHo){
 				// cas de la semaine multiple de 3
+				case 0:
+					hdeb = new Horaire(13,30);
+					hfin = new Horaire(21,30);
+					th = new TrancheHoraire(hdeb,hfin);
+					break;
 				case 1:
 					hdeb = new Horaire(9,0);
 					hfin = new Horaire(17,0);
@@ -42,24 +46,16 @@ public class AgentPlein extends Agent{
 					hfin = new Horaire(14,0);
 					th = new TrancheHoraire(hdeb,hfin);
 					break;
-				case 3:
-					hdeb = new Horaire(13,30);
-					hfin = new Horaire(21,30);
-					th = new TrancheHoraire(hdeb,hfin);
-					break;
 			}
 			return th;	
 		}
 
 		// méthode permettant de trouver l'horaire pour une semaine donnée
 		//c = cycle / sem = numéro de la semaine
-		public TrancheHoraire getHoraire(int sem)throws semaineInvalideException{
-			if(sem == 0){
-				throw new semaineInvalideException();
-			}
+		public TrancheHoraire getHoraire(int sem){
 			Horaire hdeb = new Horaire();
 			Horaire hfin = new Horaire();
-			TrancheHoraire th = new TrancheHoraire(hdeb,hfin); 
+			TrancheHoraire th = new TrancheHoraire(hdeb,hfin);
 			if(super.getCycle() == 1){
 				switch(sem%3){
 					// cas de la semaine multiple de 3
@@ -67,24 +63,24 @@ public class AgentPlein extends Agent{
 						th = getH(3);
 						break;
 					case 1:
-						th = getH(1);
+						th = getH(2);
 						break;
 					case 2:
-						th = getH(2);
+						th = getH(1);
 						break;
 				}
 			}
-			else if(super.getCycle() == 2){
+			if(super.getCycle() == 2){
 				switch(sem%3){
 					// cas de la semaine multiple de 3
 					case 0:
 						th = getH(2);
 						break;
 					case 1:
-						th = getH(3);
+						th = getH(1);
 						break;
 					case 2:
-						th = getH(1);
+						th = getH(3);
 						break;
 				}
 			}
@@ -95,10 +91,10 @@ public class AgentPlein extends Agent{
 					th = getH(1);
 					break;
 				case 1:
-					th = getH(2);
+					th = getH(3);
 					break;
 				case 2:
-					th = getH(3);
+					th = getH(2);
 					break;
 			}
 			}
