@@ -14,9 +14,8 @@ public abstract class Tache {
 	static private Hashtable<String, Tache> lesTaches = new Hashtable<String, Tache>();
 
 	// Constructeur
-	public Tache(String id, String d, Horaire debut, Horaire fin) {
+	public Tache(String id, Horaire debut, Horaire fin) {
 		idTache = id;
-		description = d;
 		duree = new TrancheHoraire(debut, fin);
 
 		lesTaches.put(idTache, this);
