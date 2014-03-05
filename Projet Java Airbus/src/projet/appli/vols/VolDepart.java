@@ -8,6 +8,9 @@ import java.util.StringTokenizer;
 
 import projet.appli.Avion;
 import projet.appli.Vol;
+import projet.appli.taches.TacheDebarquement;
+import projet.appli.taches.TacheEmbarquement;
+import projet.appli.taches.TacheEnregistrement;
 import projet.outils.Horaire;
 
 public class VolDepart extends Vol {
@@ -69,11 +72,18 @@ public class VolDepart extends Vol {
 	      }	
 	}
 	
-	@Override
-	public void creerTaches() {
-		
+	
+	
+	// Création des taches debarquement
+	public void creerTaches ()
+	{
 		for (VolDepart v : lesVolsDepart.values()) {
-			// tache d'embarquem
+			TacheEmbarquement te = new TacheEmbarquement(v) ;
+			
+			int nbTachesEnregistrement = v.getAvion().getCapacite() / 90 ;
+			for (int i=0;i<nbTachesEnregistrement; i++) {
+				TacheEnregistrement tEr = new TacheEnregistrement(v);
+			}
 		}
 	}
 

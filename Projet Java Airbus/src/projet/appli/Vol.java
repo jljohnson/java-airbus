@@ -29,6 +29,10 @@ public abstract class Vol {
 		return (heure);
 	}
 	
+	public Avion getAvion() {
+		return avion;
+	}
+	
 	@Override
 	public String toString() {
 		return idVol 
