@@ -24,6 +24,11 @@ public abstract class Vol {
 		lesVols.put(idVol, this);
 	}
 	
+	public Horaire getHeure()
+	{
+		return (heure);
+	}
+	
 	@Override
 	public String toString() {
 		return idVol 

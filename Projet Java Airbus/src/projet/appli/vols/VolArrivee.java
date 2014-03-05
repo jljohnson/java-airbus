@@ -76,9 +76,9 @@ public class VolArrivee extends Vol {
 	
 	public void creerTache ()
 	{
-		String idTache = "D";
-		int numero = 1;
-		for (Avion a : lesAvions.values()) {
+		for (VolArrivee a : lesVolsArrivee.values()) {
+			TacheDebarquement(lesVolsArrivee.g,Horaire debut, Horaire fin) {
+		}
 		
 	}
 	
