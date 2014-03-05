@@ -75,6 +75,7 @@ public class VolArrivee extends Vol {
 		
 	}
 	
+	// Création des taches debarquement
 	public void creerTache ()
 	{
 		for (VolArrivee v : lesVolsArrivee.values()) {
