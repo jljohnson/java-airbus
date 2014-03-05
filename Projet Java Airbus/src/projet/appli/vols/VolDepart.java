@@ -26,21 +26,22 @@ public class VolDepart extends Vol {
 	
 	@Override
 	public String toString() {
-		return "Vol Départ n°" + super.toString() + "ville arrivée : " + villeArrivee;
+		return "Vol Départ n°" + super.toString() + "\n - ville arrivée : " + villeArrivee;
 	}
 	
-	static public void lireVolsDepart (String adresseFichier) throws NumberFormatException, IOException {
+	static public void lireVolsDepart (String adresseFichier) {
 		
-		// EntrÃ©e du fichier
-		BufferedReader entree = new BufferedReader(new FileReader (adresseFichier));
-		
-		// DÃ©claration d'une ligne
-		String ligne;
-		
-		// DÃ©coupage en mot
-		StringTokenizer mot;
-		
+
 		try {
+			// EntrÃ©e du fichier
+			BufferedReader entree = new BufferedReader(new FileReader (adresseFichier));
+			
+			// DÃ©claration d'une ligne
+			String ligne;
+			
+			// DÃ©coupage en mot
+			StringTokenizer mot;
+			
 			while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
 			  { 
 				// Lecture par mot sur chaque ligne
@@ -60,16 +61,12 @@ public class VolDepart extends Vol {
 					  VolDepart v = new VolDepart(id, heureDepart, ville, Avion.getAvion(idAvion));
 				  }
 			  }
+			entree.close();
 		}
 		catch (Exception e)
 	      {
 	    	  System.out.println("Erreur : "+ e.toString());
-	      }
-		finally
-		{
-			entree.close();
-		}	
-	
+	      }	
 	}
 
 }
