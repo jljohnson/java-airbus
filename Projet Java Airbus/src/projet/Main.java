@@ -3,6 +3,9 @@ package projet;
 import java.io.IOException;
 
 import projet.appli.Avion;
+import projet.appli.Vol;
+import projet.appli.vols.VolArrivee;
+import projet.appli.vols.VolDepart;
 
 public class Main {
 
@@ -14,7 +17,11 @@ public class Main {
 			Avion.lireAvion(adresseFichier);
 			
 			Avion.afficherInstance();
-		
+			
+			VolArrivee.lireVolsArrivees("fichiers/ProgrammeVolsArrivees14-v2.txt");
+			VolDepart.lireVolsDepart("fichiers/ProgrammeVolsDeparts14-v2.txt");
+			
+			Vol.afficherInstances();
 	}
 
 }
