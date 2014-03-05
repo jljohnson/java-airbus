@@ -63,7 +63,6 @@ public class AgentPartiel extends Agent{
 		Horaire hfin = new Horaire();
 		TrancheHoraire th = new TrancheHoraire(hdeb,hfin);
 		if(super.getCycle() == 1){
-			System.out.println(sem%3);
 			switch(sem%3){
 				// cas de la semaine multiple de 3
 				case 0:

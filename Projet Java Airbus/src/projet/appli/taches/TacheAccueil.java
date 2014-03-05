@@ -1,5 +1,14 @@
 package projet.appli.taches;
 
-public class TacheAccueil {
+import projet.appli.Tache;
+import projet.outils.Duree;
+import projet.outils.Horaire;
 
+public class TacheAccueil extends Tache {
+	private static int numTaches = 1 ;
+	
+	public TacheAccueil(Horaire horaireDeb, Horaire horaireFin){
+		super("A" + numTaches,horaireDeb,horaireFin);
+		numTaches++;
+	}
 }
