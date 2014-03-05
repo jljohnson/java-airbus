@@ -4,11 +4,11 @@ import projet.appli.Tache;
 import projet.outils.Horaire;
 
 public class TacheAccueil extends Tache {
-	private static int numTache = 1 ;
+	private static int numTaches = 1 ;
 
 	public TacheAccueil(Horaire debut, Horaire fin) {
-		super("ACC" + numTache, debut, fin);
-		// TODO Auto-generated constructor stub
+		super("ACC" + numTaches, debut, fin);
+		numTaches++;
 	}
 
 }

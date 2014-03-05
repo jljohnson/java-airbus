@@ -93,9 +93,6 @@ public abstract class  Agent {
 	// gestion de la tranche horaire
 	 public abstract TrancheHoraire getHoraire(int sem) throws semaineInvalideException;
 	
-	
-
-	
 	// gestion du planning
 	
 	// gestion de l'affichage
@@ -113,4 +110,6 @@ public abstract class  Agent {
 				System.out.println(a.toString());
 			}
 		}
+		
+		
 }
