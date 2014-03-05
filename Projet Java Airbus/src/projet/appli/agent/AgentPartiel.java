@@ -6,8 +6,18 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import projet.appli.Agent;
+import projet.exceptions.semaineInvalideException;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
+
+/**
+ * <p>Title: AgentPartiel</p>
+ * <p>Description: classe d'un agent partiel</p>
+ * <p>Copyright: Copyright (c) 2014</p>
+ * <p>Company: Miage L3 </p>
+ * @author Le Moing Stéfan
+ * @version 1.0
+ */
 
 public class AgentPartiel extends Agent{
 
@@ -23,11 +33,6 @@ public class AgentPartiel extends Agent{
 		TrancheHoraire th = new TrancheHoraire(hdeb,hfin);
 		switch(numHo){
 			// cas de la semaine multiple de 3
-			case 0:
-				hdeb = new Horaire(20,0);
-				hfin = new Horaire(23,30);
-				th = new TrancheHoraire(hdeb,hfin);
-				break;
 			case 1:
 				hdeb = new Horaire(9,0);
 				hfin = new Horaire(12,30);
@@ -38,59 +43,69 @@ public class AgentPartiel extends Agent{
 				hfin = new Horaire(9,0);
 				th = new TrancheHoraire(hdeb,hfin);
 				break;
+			case 3:
+				hdeb = new Horaire(20,0);
+				hfin = new Horaire(23,30);
+				th = new TrancheHoraire(hdeb,hfin);
+				break;
 		}
 		return th;	
 	}
 
 	// méthode permettant de trouver l'horaire pour une semaine donnée
 	//c = cycle / sem = numéro de la semaine
-	public TrancheHoraire getHoraire(int sem){
+	public TrancheHoraire getHoraire(int sem) throws semaineInvalideException{
+		if(sem == 0){
+			throw new semaineInvalideException();
+		}
+		
 		Horaire hdeb = new Horaire();
 		Horaire hfin = new Horaire();
 		TrancheHoraire th = new TrancheHoraire(hdeb,hfin);
 		if(super.getCycle() == 1){
+			System.out.println(sem%3);
 			switch(sem%3){
 				// cas de la semaine multiple de 3
 				case 0:
 					th = getH(3);
 					break;
 				case 1:
-					th = getH(2);
+					th = getH(1);
 					break;
 				case 2:
-					th = getH(1);
+					th = getH(2);
 					break;
 			}
 		}
-		if(super.getCycle() == 2){
+		else if(super.getCycle() == 2){
+			
 			switch(sem%3){
 				// cas de la semaine multiple de 3
 				case 0:
 					th = getH(2);
 					break;
 				case 1:
-					th = getH(1);
+					th = getH(3);
 					break;
 				case 2:
-					th = getH(3);
+					th = getH(1);
 					break;
 			}
 		}
-		else{
+		else
+			
 			switch(sem%3){
 			// cas de la semaine multiple de 3
 			case 0:
 				th = getH(1);
 				break;
 			case 1:
-				th = getH(3);
-				break;
-			case 2:
 				th = getH(2);
 				break;
-		}
-		}
-			
+			case 2:
+				th = getH(3);
+				break;
+		}			
 		
 		return th;
 	}

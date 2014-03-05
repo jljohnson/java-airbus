@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 
 import projet.exceptions.IdAvionException;
 import projet.exceptions.MatAgentException;
+import projet.exceptions.semaineInvalideException;
 import projet.outils.Duree;
 import projet.outils.TrancheHoraire;
 
@@ -72,7 +73,7 @@ public abstract class  Agent {
 	}
 	
 	// Méthode statique qui permet de retrouver la réference du pointeur
-		public static Agent getAvion (String id) throws MatAgentException
+		public static Agent getAgent (String id) throws MatAgentException
 		{
 			if (!lesAgents.containsKey(id))
 			{
@@ -90,7 +91,7 @@ public abstract class  Agent {
 	}
 	
 	// gestion de la tranche horaire
-	 public abstract TrancheHoraire getHoraire(int sem);
+	 public abstract TrancheHoraire getHoraire(int sem) throws semaineInvalideException;
 	
 	
 
