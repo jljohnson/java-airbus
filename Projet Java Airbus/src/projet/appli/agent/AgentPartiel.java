@@ -1,16 +1,22 @@
 package projet.appli.agent;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.StringTokenizer;
+
 import projet.appli.Agent;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
 public class AgentPartiel extends Agent{
 
+	// constructeur
 	public AgentPartiel(String mat, String n, String p, int c){
 		super(mat,n,p,c);
 	}
 	
-	// récupère le planning des horaires
+	// récupère les horaires en temps partiel
 	public TrancheHoraire getH (int numHo){
 		Horaire hdeb = new Horaire();
 		Horaire hfin = new Horaire();		
@@ -33,8 +39,7 @@ public class AgentPartiel extends Agent{
 				th = new TrancheHoraire(hdeb,hfin);
 				break;
 		}
-		return th;
-		
+		return th;	
 	}
 
 	// méthode permettant de trouver l'horaire pour une semaine donnée
@@ -89,4 +94,53 @@ public class AgentPartiel extends Agent{
 		
 		return th;
 	}
+	
+	
+	// récupération des données du fichier
+	
+	 static public void lireAgent (String adresseFichier) 
+		{
+		
+				BufferedReader entree = null;
+				
+				// DÃ©claration d'une ligne
+				String ligne;
+				
+				// DÃ©coupage en mot
+				StringTokenizer mot;
+				
+				try {
+					// EntrÃ©e du fichier
+					 entree = new BufferedReader(new FileReader (adresseFichier));
+					
+					while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
+					  { 
+						// Lecture par mot sur chaque ligne
+						  mot = new StringTokenizer(ligne);
+						
+						  while (mot.hasMoreTokens())
+						  {
+							  // Recuperation du mot
+							  String mat = mot.nextToken();
+							  String nom = mot.nextToken();
+							  String prenom = mot.nextToken();
+							  String c = mot.nextToken();
+							  int cycle = Integer.parseInt(c);
+							  
+							 AgentPartiel a = new AgentPartiel (mat,nom,prenom,cycle);
+						  }
+					  }
+					entree.close();
+				}
+				catch (IOException e)
+			      {
+			    	  System.out.println("Erreur : "+ e.toString());
+			      }
+				catch (NumberFormatException e)
+			      {
+			    	  System.out.println("Erreur : "+ e.toString());
+			      }
+			
+		}
+	
 }
