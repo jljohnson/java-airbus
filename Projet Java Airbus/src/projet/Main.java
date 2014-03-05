@@ -6,6 +6,7 @@ import projet.appli.Avion;
 import projet.appli.Vol;
 import projet.appli.vols.VolArrivee;
 import projet.appli.vols.VolDepart;
+import projet.ihm.FenetreGestion;
 
 public class Main {
 
@@ -22,6 +23,8 @@ public class Main {
 			VolDepart.lireVolsDepart("fichiers/ProgrammeVolsDeparts14-v2.txt");
 			
 			Vol.afficherInstances();
+			
+			new FenetreGestion().setVisible(true);
 	}
 
 }
