@@ -4,6 +4,7 @@ package projet.appli;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
@@ -66,9 +67,8 @@ public abstract class  Agent {
 		 prenom = p;
 	}
 	
-	public void setHeureTravaille(int d){
-		//methode
-		//HeureTravaille.ajout();
+	public void setCycle(int c){
+		cycle = c;	
 	}
 	
 	// Méthode statique qui permet de retrouver la réference du pointeur
@@ -93,10 +93,7 @@ public abstract class  Agent {
 	 public abstract TrancheHoraire getHoraire(int sem);
 	
 	
-	// récupération des données du fichier
-	
-	static public void lireAgent (String adresseFichier){
-	}
+
 	
 	// gestion du planning
 	
@@ -107,5 +104,12 @@ public abstract class  Agent {
 					+  "\n - Nom : " + nom 
 					+  "\n - Prénom : " + prenom
 					+  "\n - Cycle de travail : " + cycle;	
+		}
+		
+		static public void afficherInstance()
+		{
+			for (Agent a : lesAgents.values()) {
+				System.out.println(a.toString());
+			}
 		}
 }
