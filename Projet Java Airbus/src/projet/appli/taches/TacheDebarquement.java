@@ -3,10 +3,11 @@ import projet.appli.Tache;
 import projet.outils.Horaire;
 
 public class TacheDebarquement extends Tache {
+	private static int numTaches = 0 ;
 
-	public TacheDebarquement(String id, String d, Horaire debut, Horaire fin) {
-		super(id, d, debut, fin);
-
+	public TacheDebarquement( String d, Horaire debut, Horaire fin) {
+		super("D" + numTaches, d, debut, fin);
+		numTaches++;
 	}
 
 }

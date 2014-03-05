@@ -68,5 +68,13 @@ public class VolDepart extends Vol {
 	    	  System.out.println("Erreur : "+ e.toString());
 	      }	
 	}
+	
+	@Override
+	public void creerTaches() {
+		
+		for (VolDepart v : lesVolsDepart.values()) {
+			// tache d'embarquem
+		}
+	}
 
 }
