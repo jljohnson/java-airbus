@@ -112,9 +112,7 @@ public class Avion {
 			catch (NumberFormatException e)
 		      {
 		    	  System.out.println("Erreur : "+ e.toString());
-		      }
-					
-		
+		      }	
 	}
 	
 	static public void afficherInstance()

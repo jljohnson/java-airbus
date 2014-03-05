@@ -35,14 +35,14 @@ public abstract class Vol {
 			throws NumberFormatException, IOException {
 		BufferedReader entree = null;
 
-		// Déclaration d'une ligne
+		// D��claration d'une ligne
 		String ligne;
 
-		// Découpage en mot
+		// D��coupage en mot
 		StringTokenizer mot;
 
 		try {
-			// Entrée du fichier
+			// Entr��e du fichier
 			entree = new BufferedReader(new FileReader(adresseFichier));
 
 			while ((ligne = entree.readLine()) != null) // boucle de
@@ -76,4 +76,7 @@ public abstract class Vol {
 			
 		}
 	}
+	
+	// Méthode pour la création des taches
+			public abstract void  creerTaches ();
 }
