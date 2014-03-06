@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
@@ -16,6 +17,7 @@ public abstract class Tache implements Comparable{
 	private TrancheHoraire horaire;
 
 	static private Hashtable<String, Tache> lesTaches = new Hashtable<String, Tache>();
+	static private TreeSet<Tache> tachesCourantes = new TreeSet<Tache>();
 
 	// Constructeur
 	public Tache(String id, Horaire debut, Horaire fin) {
@@ -23,6 +25,7 @@ public abstract class Tache implements Comparable{
 		horaire = new TrancheHoraire(debut, fin);
 
 		lesTaches.put(idTache, this);
+		tachesCourantes.add(this);
 	}
 
 	// tous les gets
@@ -50,17 +53,19 @@ public abstract class Tache implements Comparable{
 	}
 	
 	
-	public static ArrayList<Tache> getTache ()
+	public static TreeSet<Tache> getTache ()
 	{
-		ArrayList<Tache> retour = new ArrayList<Tache>(lesTaches.values()); 
-		Collections.sort(retour);
-		return retour;
+		return tachesCourantes;
+	}
+	
+	public static TreeSet<Tache> test() {
+		return new TreeSet<Tache>(lesTaches.values());
 	}
 	
 	// Méthode qui affiche tous les avions
 	public String toString ()
 	{
-		String res = "Identifiant : " + idTache + " tranche horaire :" + horaire;
+		String res = "Identifiant : " + idTache + " tranche horaire :" + horaire.toString();
 		return res;
 	}
 

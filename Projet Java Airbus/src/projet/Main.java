@@ -1,12 +1,17 @@
 package projet;
 
 import java.io.IOException;
+import java.util.Iterator;
 
+import projet.appli.Agent;
 import projet.appli.Avion;
 import projet.appli.Tache;
 import projet.appli.Vol;
+import projet.appli.agent.AgentPartiel;
+import projet.appli.agent.AgentPlein;
 import projet.appli.vols.VolArrivee;
 import projet.appli.vols.VolDepart;
+import projet.exceptions.MatAgentException;
 import projet.ihm.FenetreGestion;
 
 public class Main {
@@ -24,19 +29,18 @@ public class Main {
 			VolDepart.lireVolsDepart("fichiers/ProgrammeVolsDeparts14-v2.txt");
 			
 			Vol.genererTaches();
+
+			AgentPlein.lireAgent("fichiers/AgentsTempsPlein-14-v1.txt");
 			
-			//Vol.afficherInstances();
-			//VolDepart.afficherInstances();
-			//VolArrivee.afficherInstances();
+			Agent.genererCalendrier();
 			
-			System.out.println("tache sans tri");
-			//Tache.afficherInstance();
+			try {
+				Agent.getAgent("P0003").afficherPlanning();
+			} catch (MatAgentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-			System.out.println("tache avec tri");
-			// recupe taches
-			Tache.afficherInstanceTrier();
-			
-			//new FenetreGestion().setVisible(true);
 	}
 
 }
