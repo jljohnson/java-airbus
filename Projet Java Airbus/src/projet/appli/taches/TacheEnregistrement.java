@@ -11,6 +11,7 @@ public class TacheEnregistrement extends Tache {
 	public TacheEnregistrement(VolDepart v) {
 		super("ER" + numTache, v.getHeure().retrait(new Duree (1,30)),
 				v.getHeure().retrait(new Duree (0,15)));
+		numTache++;
 	}
 
 }

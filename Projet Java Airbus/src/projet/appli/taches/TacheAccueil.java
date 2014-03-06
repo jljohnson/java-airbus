@@ -11,4 +11,5 @@ public class TacheAccueil extends Tache{
 		super("ACC" + numTaches ,horaireDeb, horaireFin) ;
 		numTaches++;
 	}
+
 }

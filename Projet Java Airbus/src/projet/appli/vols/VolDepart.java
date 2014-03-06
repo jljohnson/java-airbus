@@ -77,14 +77,14 @@ public class VolDepart extends Vol {
 	// Création des taches debarquement
 	public void creerTaches ()
 	{
-		for (VolDepart v : lesVolsDepart.values()) {
-			TacheEmbarquement te = new TacheEmbarquement(v) ;
+			TacheEmbarquement te = new TacheEmbarquement(this) ;
 			
-			int nbTachesEnregistrement = v.getAvion().getCapacite() / 90 ;
+			int nbTachesEnregistrement = this.getAvion().getCapacite() / 90 ;
+			
 			for (int i=0;i<nbTachesEnregistrement; i++) {
-				TacheEnregistrement tEr = new TacheEnregistrement(v);
+				TacheEnregistrement tEr = new TacheEnregistrement(this);
 			}
-		}
+		
 	}
 
 }

@@ -86,6 +86,12 @@ public abstract class Vol {
 		}
 	}
 	
+	public static void genererTaches() {
+		for (Vol v : lesVols.values()) {
+			v.creerTaches();
+		}
+	}
+	
 	// Méthode pour la création des taches
-			public abstract void  creerTaches ();
+	public abstract void  creerTaches ();
 }
