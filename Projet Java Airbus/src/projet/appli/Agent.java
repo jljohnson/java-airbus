@@ -33,14 +33,14 @@ public abstract class  Agent {
 	private String nom;
 	private String prenom;
 	private int cycle;
-	private boolean aMange = false;
+	private boolean aMange;
 	private TreeSet<Tache> tachesAgent ;
 	static private Hashtable <String,Agent> lesAgents = new Hashtable<String,Agent>();
 	
 	// constructeur
 	public Agent(String mat, String n, String p, int c){
 		tachesAgent = new TreeSet<Tache>();
-		tachesAgent.add(new TacheRepas(new Horaire(4)));
+		aMange = false ;
 		matricule = mat;
 		nom = n;
 		prenom = p;
@@ -106,50 +106,7 @@ public abstract class  Agent {
 	// gestion du planning pour les agents à temps plein
 	public void creerPlanning() throws semaineInvalideException {
 		TrancheHoraire trancheTravail = getHoraire(1);
-		TrancheHoraire trancheRepas = new TrancheHoraire(new Horaire(11, 30),new Horaire(14, 0));
-		TrancheHoraire trancheLastTache;
 		
-		boolean repasEffectue = false ;
-		
-		for (Tache t : Tache.getTache()) {		
-			if (trancheTravail.contient(t.getHoraires())) {		// si t est contenue dans les horaires de l'agent
-				// si l'agent n'a pas de taches on lui en ajoute
-				if (tachesAgent.isEmpty()) {
-					ajouterTache(t);
-					// on met une tache d'accueil entre s'il y a de la place
-					if (t.getHoraires().getDebutTrancheHoraire().retrait(trancheTravail.getDebutTrancheHoraire()).dureeEnMinutes() >= 30) {
-						ajouterTache(new TacheAccueil(trancheTravail.getDebutTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()));
-					}
-				} else {
-					trancheLastTache = tachesAgent.last().getHoraires();
-					
-					// si la tache courante commence après la dernière tache
-					if (trancheLastTache.getFinTrancheHoraire().retrait(t.getHoraires().getDebutTrancheHoraire()).dureeEnMinutes() > 0 ) {
-						// vérifier que l'agent peut terminer la tache
-						if (trancheTravail.contient(trancheLastTache)) {
-							ajouterTache(t);
-							if (trancheLastTache.getFinTrancheHoraire().retrait(t.getHoraires().getDebutTrancheHoraire()).dureeEnMinutes() >= 30) {
-								ajouterTache(new TacheAccueil(trancheLastTache.getFinTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()));
-							}
-							trancheLastTache = t.getHoraires(); 
-						}
-					}
-					
-					// création de la tache repas
-					if (!repasEffectue && trancheRepas.contient(trancheLastTache)) {
-						ajouterTache(new TacheRepas(trancheLastTache.getFinTrancheHoraire()));
-						repasEffectue=true;
-					}
-				}
-				
-			}
-		}
-		
-		trancheLastTache = tachesAgent.last().getHoraires();
-
-		if (trancheLastTache.getFinTrancheHoraire().retrait(trancheTravail.getFinTrancheHoraire()).dureeEnMinutes() >= 30) {
-			ajouterTache(new TacheAccueil(trancheLastTache.getFinTrancheHoraire(), trancheTravail.getFinTrancheHoraire()));
-		}
 	}
 	
 	public void ajouterTache(Tache t) {
