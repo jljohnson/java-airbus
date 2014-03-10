@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import projet.appli.taches.TacheRepas;
 import projet.exceptions.PlusDeTachesExeception;
+import projet.outils.Duree;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
@@ -19,8 +20,8 @@ public abstract class Tache implements Comparable{
 	private TrancheHoraire horaire;
 
 	static private Hashtable<String, Tache> lesTaches = new Hashtable<String, Tache>();
-	static private TreeSet<Tache> tachesCourantes = new TreeSet<Tache>();
-	static private ArrayList<Tache> tachesAttribuees = new ArrayList<Tache>();
+	static public TreeSet<Tache> tachesCourantes = new TreeSet<Tache>();
+	static public ArrayList<Tache> tachesAttribuees = new ArrayList<Tache>();
 
 	// Constructeur
 	public Tache(String id, Horaire debut, Horaire fin) {
@@ -85,14 +86,9 @@ public abstract class Tache implements Comparable{
 		}
 	}
 	
-	static public Tache demanderTache(TrancheHoraire trancheH, boolean aMange) throws PlusDeTachesExeception {
+	static public Tache demanderTache(TrancheHoraire trancheH) throws PlusDeTachesExeception {
 		TrancheHoraire repas = new TrancheHoraire(new Horaire(11,30), new Horaire(14,00));
 		
-		if ((trancheH.getDebutTrancheHoraire().horaireEnMinutes() > repas.getDebutTrancheHoraire().horaireEnMinutes())
-				&& (trancheH.getDebutTrancheHoraire().horaireEnMinutes() < repas.getFinTrancheHoraire().horaireEnMinutes()) &&
-				!aMange) {
-			return new TacheRepas(trancheH.getDebutTrancheHoraire());
-		}
 		for (Tache t : tachesCourantes) {
 			if (trancheH.contient(t.getHoraires()) && !tachesAttribuees.contains(t)) {
 				tachesAttribuees.add(t);
@@ -100,5 +96,9 @@ public abstract class Tache implements Comparable{
 			} 
 		}
 		throw new PlusDeTachesExeception();
+	}
+	
+	static public Tache demanderTacheRepas(Horaire hDeb) {
+		return new TacheRepas(hDeb);
 	}
 }

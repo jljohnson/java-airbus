@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import projet.appli.Agent;
+import projet.appli.Tache;
 import projet.exceptions.semaineInvalideException;
+import projet.outils.Duree;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
@@ -109,6 +111,27 @@ public class AgentPartiel extends Agent{
 		
 		return th;
 	}
+	
+	public void creerPlanning() throws semaineInvalideException {
+		TrancheHoraire trancheTravail = getHoraire(1);
+		TrancheHoraire trancheRepas = new TrancheHoraire(new Horaire(11, 30),new Horaire(14, 0));
+		TrancheHoraire trancheLastTache;
+		boolean fini = false;
+		
+
+		while((trancheTravail.getDebutTrancheHoraire().compareTo(trancheTravail.getFinTrancheHoraire()) < 0) && !fini){
+			try{
+				Tache t;
+				t = Tache.demanderTache(trancheTravail);
+				ajouterTache(t);
+				trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire(), trancheTravail.getFinTrancheHoraire());
+			}
+			catch (Exception e){
+					fini = true;
+					//e.printStackTrace();
+			}
+		}				
+}
 	
 	
 	// récupération des données du fichier

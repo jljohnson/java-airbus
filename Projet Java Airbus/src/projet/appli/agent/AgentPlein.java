@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 import projet.appli.Agent;
+import projet.appli.Tache;
+import projet.appli.taches.TacheRepas;
+import projet.exceptions.semaineInvalideException;
+import projet.outils.Duree;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
@@ -19,9 +23,12 @@ import projet.outils.TrancheHoraire;
  */
 
 public class AgentPlein extends Agent{
+	
+		private boolean aMange;
 	// constructeur
 		public AgentPlein(String mat, String n, String p, int c){
 			super(mat,n,p,c);
+			aMange = false ;
 		}
 		
 		// récupère les horaires en temps partiel
@@ -31,17 +38,17 @@ public class AgentPlein extends Agent{
 			TrancheHoraire th = new TrancheHoraire(hdeb,hfin);
 			switch(numHo){
 				// cas de la semaine multiple de 3
-				case 0:
+				case 1:
 					hdeb = new Horaire(13,30);
 					hfin = new Horaire(21,30);
 					th = new TrancheHoraire(hdeb,hfin);
 					break;
-				case 1:
+				case 2:
 					hdeb = new Horaire(9,0);
 					hfin = new Horaire(17,0);
 					th = new TrancheHoraire(hdeb,hfin);
 					break;
-				case 2:
+				case 3:
 					hdeb = new Horaire(6,0);
 					hfin = new Horaire(14,0);
 					th = new TrancheHoraire(hdeb,hfin);
@@ -150,5 +157,34 @@ public class AgentPlein extends Agent{
 				      }
 				
 			}
+
+		@Override
+		// gestion du planning pour les agents à temps plein
+		public void creerPlanning() throws semaineInvalideException {
+				TrancheHoraire trancheTravail = getHoraire(1);
+				TrancheHoraire trancheRepas = new TrancheHoraire(new Horaire(11, 30),new Horaire(14, 0));
+				TrancheHoraire trancheLastTache;
+				boolean fini = false;
+				
+
+				while((trancheTravail.getDebutTrancheHoraire().compareTo(trancheTravail.getFinTrancheHoraire()) < 0) && !fini){
+					try{
+					Tache t;
+					t = Tache.demanderTache(trancheTravail);
+					ajouterTache(t);
+					trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire(), trancheTravail.getFinTrancheHoraire());
+					//System.out.println(trancheTravail.toString());
+					if (trancheRepas.contient(t.getHoraires().getFinTrancheHoraire()) && !aMange) {
+						trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire().ajout(new Duree(1,0)), trancheTravail.getFinTrancheHoraire());
+						aMange = true ;
+					}
+
+				}
+				catch (Exception e){
+						fini = true;
+						//e.printStackTrace();
+					}
+				}				
+		}
 		
 }

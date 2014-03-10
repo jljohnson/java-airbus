@@ -10,6 +10,8 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import projet.appli.agent.AgentPartiel;
+import projet.appli.agent.AgentPlein;
 import projet.appli.taches.TacheAccueil;
 import projet.appli.taches.TacheRepas;
 import projet.exceptions.IdAvionException;
@@ -33,14 +35,12 @@ public abstract class  Agent {
 	private String nom;
 	private String prenom;
 	private int cycle;
-	private boolean aMange;
 	private TreeSet<Tache> tachesAgent ;
-	static private Hashtable <String,Agent> lesAgents = new Hashtable<String,Agent>();
+	static public Hashtable <String,Agent> lesAgents = new Hashtable<String,Agent>();
 	
 	// constructeur
 	public Agent(String mat, String n, String p, int c){
 		tachesAgent = new TreeSet<Tache>();
-		aMange = false ;
 		matricule = mat;
 		nom = n;
 		prenom = p;
@@ -111,16 +111,13 @@ public abstract class  Agent {
 		for (Agent a : lesAgents.values()) {
 			try {
 				a.creerPlanning();
+				System.out.println(a.toString());
 				a.afficherPlanning();
 			} catch (semaineInvalideException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	public boolean aMange(){
-		return aMange;
 	}
 	
 	public void afficherPlanning() {
@@ -130,26 +127,7 @@ public abstract class  Agent {
 	}
 	
 	// gestion du planning pour les agents à temps plein
-	public void creerPlanning() throws semaineInvalideException {
-			TrancheHoraire trancheTravail = getHoraire(1);
-			TrancheHoraire trancheRepas = new TrancheHoraire(new Horaire(11, 30),new Horaire(14, 0));
-			TrancheHoraire trancheLastTache;
-			boolean fini = false;
-			
-			while(trancheTravail.getDebutTrancheHoraire().compareTo(trancheTravail.getFinTrancheHoraire()) > 0 && !fini){
-				try{
-				Tache t = Tache.demanderTache(trancheTravail,aMange);
-				ajouterTache(t);
-				trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire(), trancheTravail.getFinTrancheHoraire());
-			}
-				catch (Exception e){
-					fini = true;
-				}
-			}
-			
-			
-				
-	}
+	public abstract void creerPlanning() throws semaineInvalideException ;
 	
 	// gestion de l'affichage
 		@Override

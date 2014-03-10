@@ -9,9 +9,11 @@ import projet.appli.Tache;
 import projet.appli.Vol;
 import projet.appli.agent.AgentPartiel;
 import projet.appli.agent.AgentPlein;
+import projet.appli.taches.TacheRepas;
 import projet.appli.vols.VolArrivee;
 import projet.appli.vols.VolDepart;
 import projet.exceptions.MatAgentException;
+import projet.exceptions.semaineInvalideException;
 import projet.ihm.FenetreGestion;
 
 public class Main {
@@ -31,16 +33,10 @@ public class Main {
 			Vol.genererTaches();
 
 			AgentPlein.lireAgent("fichiers/AgentsTempsPlein-14-v1.txt");
+			AgentPartiel.lireAgent("fichiers/AgentsMiTemps-14-v1.txt");
 			
 			Agent.genererCalendrier();
-			
-			try {
-				Agent.getAgent("P0003").afficherPlanning();
-			} catch (MatAgentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribuées :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
 	}
 
 }
