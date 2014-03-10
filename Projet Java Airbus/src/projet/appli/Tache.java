@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import projet.appli.taches.TacheRepas;
+import projet.exceptions.PlusDeTachesExeception;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
@@ -53,8 +55,7 @@ public abstract class Tache implements Comparable{
 	}
 	
 	
-	public static TreeSet<Tache> getTache ()
-	{
+	public static TreeSet<Tache> getTache () {
 		return tachesCourantes;
 	}
 	
@@ -81,5 +82,21 @@ public abstract class Tache implements Comparable{
 		while(it.hasNext()){
 			System.out.println(it.next().toString());
 		}
+	}
+	
+	static public Tache demanderTache(TrancheHoraire trancheH, boolean aMange) throws PlusDeTachesExeception {
+		TrancheHoraire repas = new TrancheHoraire(new Horaire(11,30), new Horaire(14,00));
+		
+		if ((trancheH.getDebutTrancheHoraire().horaireEnMinutes() > repas.getDebutTrancheHoraire().horaireEnMinutes())
+				&& (trancheH.getDebutTrancheHoraire().horaireEnMinutes() < repas.getFinTrancheHoraire().horaireEnMinutes()) &&
+				!aMange) {
+			return new TacheRepas(trancheH.getDebutTrancheHoraire());
+		}
+		for (Tache t : tachesCourantes) {
+			if (trancheH.contient(t.getHoraires())) {
+				return t;
+			} 
+		}
+		throw new PlusDeTachesExeception();
 	}
 }
