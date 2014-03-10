@@ -20,6 +20,7 @@ public abstract class Tache implements Comparable{
 
 	static private Hashtable<String, Tache> lesTaches = new Hashtable<String, Tache>();
 	static private TreeSet<Tache> tachesCourantes = new TreeSet<Tache>();
+	static private ArrayList<Tache> tachesAttribuees = new ArrayList<Tache>();
 
 	// Constructeur
 	public Tache(String id, Horaire debut, Horaire fin) {
@@ -93,7 +94,8 @@ public abstract class Tache implements Comparable{
 			return new TacheRepas(trancheH.getDebutTrancheHoraire());
 		}
 		for (Tache t : tachesCourantes) {
-			if (trancheH.contient(t.getHoraires())) {
+			if (trancheH.contient(t.getHoraires()) && !tachesAttribuees.contains(t)) {
+				tachesAttribuees.add(t);
 				return t;
 			} 
 		}

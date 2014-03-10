@@ -103,17 +103,8 @@ public abstract class  Agent {
 	 public abstract TrancheHoraire getHoraire(int sem) throws semaineInvalideException;
 	
 	
-	// gestion du planning pour les agents à temps plein
-	public void creerPlanning() throws semaineInvalideException {
-		TrancheHoraire trancheTravail = getHoraire(1);
-		
-	}
-	
 	public void ajouterTache(Tache t) {
 		tachesAgent.add(t);
-		if (Tache.getTache().contains(t)) {
-			Tache.getTache().remove(t);
-		}
 	}
 	
 	public static void genererCalendrier() {
@@ -128,7 +119,7 @@ public abstract class  Agent {
 		}
 	}
 	
-	public boolean aMangé(){
+	public boolean aMange(){
 		return aMange;
 	}
 	
@@ -136,6 +127,28 @@ public abstract class  Agent {
 		for (Tache t : tachesAgent) {
 			System.out.println(t.toString());
 		}
+	}
+	
+	// gestion du planning pour les agents à temps plein
+	public void creerPlanning() throws semaineInvalideException {
+			TrancheHoraire trancheTravail = getHoraire(1);
+			TrancheHoraire trancheRepas = new TrancheHoraire(new Horaire(11, 30),new Horaire(14, 0));
+			TrancheHoraire trancheLastTache;
+			boolean fini = false;
+			
+			while(trancheTravail.getDebutTrancheHoraire().compareTo(trancheTravail.getFinTrancheHoraire()) > 0 && !fini){
+				try{
+				Tache t = Tache.demanderTache(trancheTravail,aMange);
+				ajouterTache(t);
+				trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire(), trancheTravail.getFinTrancheHoraire());
+			}
+				catch (Exception e){
+					fini = true;
+				}
+			}
+			
+			
+				
 	}
 	
 	// gestion de l'affichage
