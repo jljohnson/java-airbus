@@ -33,12 +33,14 @@ public abstract class  Agent {
 	private String nom;
 	private String prenom;
 	private int cycle;
+	private boolean aMange = false;
 	private TreeSet<Tache> tachesAgent ;
 	static private Hashtable <String,Agent> lesAgents = new Hashtable<String,Agent>();
 	
 	// constructeur
 	public Agent(String mat, String n, String p, int c){
 		tachesAgent = new TreeSet<Tache>();
+		tachesAgent.add(new TacheRepas(new Horaire(4)));
 		matricule = mat;
 		nom = n;
 		prenom = p;
@@ -161,11 +163,16 @@ public abstract class  Agent {
 		for (Agent a : lesAgents.values()) {
 			try {
 				a.creerPlanning();
+				a.afficherPlanning();
 			} catch (semaineInvalideException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public boolean aMangé(){
+		return aMange;
 	}
 	
 	public void afficherPlanning() {
