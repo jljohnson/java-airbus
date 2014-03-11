@@ -39,17 +39,17 @@ public class AgentPlein extends Agent{
 			TrancheHoraire th = new TrancheHoraire(hdeb,hfin);
 			switch(numHo){
 				// cas de la semaine multiple de 3
-				case 1:
+				case 3:
 					hdeb = new Horaire(13,30);
 					hfin = new Horaire(21,30);
 					th = new TrancheHoraire(hdeb,hfin);
 					break;
-				case 2:
+				case 1:
 					hdeb = new Horaire(9,0);
 					hfin = new Horaire(17,0);
 					th = new TrancheHoraire(hdeb,hfin);
 					break;
-				case 3:
+				case 2:
 					hdeb = new Horaire(6,0);
 					hfin = new Horaire(14,0);
 					th = new TrancheHoraire(hdeb,hfin);
@@ -71,24 +71,24 @@ public class AgentPlein extends Agent{
 						th = getH(3);
 						break;
 					case 1:
-						th = getH(2);
+						th = getH(1);
 						break;
 					case 2:
-						th = getH(1);
+						th = getH(2);
 						break;
 				}
 			}
-			if(super.getCycle() == 2){
+			else if(super.getCycle() == 2){
 				switch(sem%3){
 					// cas de la semaine multiple de 3
 					case 0:
 						th = getH(2);
 						break;
 					case 1:
-						th = getH(1);
+						th = getH(3);
 						break;
 					case 2:
-						th = getH(3);
+						th = getH(1);
 						break;
 				}
 			}
@@ -99,10 +99,10 @@ public class AgentPlein extends Agent{
 					th = getH(1);
 					break;
 				case 1:
-					th = getH(3);
+					th = getH(2);
 					break;
 				case 2:
-					th = getH(2);
+					th = getH(3);
 					break;
 			}
 			}
@@ -162,7 +162,8 @@ public class AgentPlein extends Agent{
 		@Override
 		// gestion du planning pour les agents à temps plein
 		public void creerPlanning() throws semaineInvalideException {
-				TrancheHoraire trancheTravail = getHoraire(1);
+				TrancheHoraire trancheTravail = getHoraire(3);
+				System.out.println("Val de trancheHoraire First" + trancheTravail.toString());
 				TrancheHoraire trancheRepas = new TrancheHoraire(new Horaire(11, 30),new Horaire(14, 0));
 				TrancheHoraire trancheLastTache;
 				boolean fini = false;
@@ -190,23 +191,7 @@ public class AgentPlein extends Agent{
 				
 				// gestion des taches accueil et repas
 				// parcours d'un planning
-				
-				/* Algo
-				 * On copie la treeSet de l'agent dans une autre treeSet
-				 * on parcours la COPIE
-				 * on ajoute l'élément dans la vrai treeSet
-				 * 
-				 * pareil pour tache accueil
-				 * for (Tache t : tachesAgent) {
-					if(tachesAgent.first() != tPrec){
-						if(trancheRepas.contient(tPrec.getHoraires().getFinTrancheHoraire()) && (t.getHoraires().getDebutTrancheHoraire().horaireEnMinutes() - tPrec.getHoraires().getFinTrancheHoraire().horaireEnMinutes() > 60 ));
-							TrancheHoraire th = new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(),t.getHoraires().getDebutTrancheHoraire());
-							t = Tache.demanderTacheAccueil(th);
-							ajouterTache(t);
-					}
-				}
-				 * */
-				
+						
 				
 				TreeSet<Tache> tachesAgentCopie =  new TreeSet<Tache>();
 				// création de la copie
@@ -215,28 +200,36 @@ public class AgentPlein extends Agent{
 				}
 				// récupération de la premiere tache
 				Tache tPrec = tachesAgentCopie.first();
-				System.out.println(tPrec.toString());
+				
+				// gestion de la tache repas en debut de service soir
+				
 				// gestion de la tache repas
 				for (Tache t : tachesAgentCopie) {
-					//System.out.println("Val de tache agent" + tachesAgentCopie.first().toString());
-					if(t.compareTo(tPrec) == 1){
-						System.out.println("Boucle ! ");
-						if(trancheRepas.contient(tPrec.getHoraires().getFinTrancheHoraire()) && ((t.getHoraires().getDebutTrancheHoraire().horaireEnMinutes() - tPrec.getHoraires().getFinTrancheHoraire().horaireEnMinutes()) >= 60 ));
+					
+					if(t.compareTo(tPrec) > 0){
 						
-						t = Tache.demanderTacheRepas(tPrec.getHoraires().getFinTrancheHoraire());
-							ajouterTache(t);
-							tPrec = t;
+						
+						if((trancheRepas.contient(tPrec.getHoraires().getFinTrancheHoraire()) && t.getHoraires().getDebutTrancheHoraire().horaireEnMinutes() - tPrec.getHoraires().getFinTrancheHoraire().horaireEnMinutes() >= 60) || trancheTravail.contient(tPrec.getHoraires().getFinTrancheHoraire().ajout(new Duree(1,0)))){
+			
+						Tache v;
+						v = Tache.demanderTacheRepas(tPrec.getHoraires().getFinTrancheHoraire());
+							ajouterTache(v);
+							
+						}
+						// gestion de la tache repas qu'en plus aucune tache 
+						tPrec = t;
 					}
 				}
 				// gestion des taches accueil
 				for (Tache t : tachesAgentCopie) {
 					if(tachesAgentCopie.first() != tPrec){
 						if(t.getHoraires().getDebutTrancheHoraire().horaireEnMinutes() - tPrec.getHoraires().getFinTrancheHoraire().horaireEnMinutes() > 30 );
-							TrancheHoraire th = new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(),t.getHoraires().getDebutTrancheHoraire());
-							t = Tache.demanderTacheAccueil(th);
-							ajouterTache(t);
-							tPrec = t;
+							//TrancheHoraire th = new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(),t.getHoraires().getDebutTrancheHoraire());
+							//t = Tache.demanderTacheAccueil(th);
+							//ajouterTache(t);
+							//tPrec = t;
 					}
+					
 				}
 				
 		}
