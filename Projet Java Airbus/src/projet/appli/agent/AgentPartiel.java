@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import projet.appli.Agent;
 import projet.appli.Tache;
@@ -130,7 +131,29 @@ public class AgentPartiel extends Agent{
 					fini = true;
 					//e.printStackTrace();
 			}
-		}				
+		}
+		
+		/*
+		// gestion des taches accueil et repas
+		TreeSet<Tache> tachesAgentCopie =  new TreeSet<Tache>();
+		// création de la copie
+		for (Tache t : tachesAgent) {
+			tachesAgentCopie.add(t);
+		}
+		
+		// récupération de la premiere tache
+			Tache tPrec = tachesAgentCopie.first();
+		
+		// gestion des taches accueil
+		for (Tache t : tachesAgentCopie) {
+			if(tachesAgentCopie.first() != tPrec){
+				if(t.getHoraires().getDebutTrancheHoraire().horaireEnMinutes() - tPrec.getHoraires().getFinTrancheHoraire().horaireEnMinutes() > 30 );
+					TrancheHoraire th = new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(),t.getHoraires().getDebutTrancheHoraire());
+					t = Tache.demanderTacheAccueil(th);
+					tPrec = t;
+					ajouterTache(t);
+			}
+		}*/ 
 }
 	
 	

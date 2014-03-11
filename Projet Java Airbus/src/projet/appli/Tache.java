@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import projet.appli.taches.TacheAccueil;
 import projet.appli.taches.TacheRepas;
 import projet.exceptions.PlusDeTachesExeception;
 import projet.outils.Duree;
@@ -100,5 +101,9 @@ public abstract class Tache implements Comparable{
 	
 	static public Tache demanderTacheRepas(Horaire hDeb) {
 		return new TacheRepas(hDeb);
+	}
+	
+	static public Tache demanderTacheAccueil(TrancheHoraire trancheH) {
+		return new TacheAccueil(trancheH.getDebutTrancheHoraire(),trancheH.getFinTrancheHoraire());
 	}
 }

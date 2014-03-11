@@ -35,7 +35,7 @@ public abstract class  Agent {
 	private String nom;
 	private String prenom;
 	private int cycle;
-	private TreeSet<Tache> tachesAgent ;
+	protected TreeSet<Tache> tachesAgent ;
 	static public Hashtable <String,Agent> lesAgents = new Hashtable<String,Agent>();
 	
 	// constructeur
@@ -128,6 +128,8 @@ public abstract class  Agent {
 	
 	// gestion du planning pour les agents à temps plein
 	public abstract void creerPlanning() throws semaineInvalideException ;
+	
+	
 	
 	// gestion de l'affichage
 		@Override

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import projet.appli.Agent;
 import projet.appli.Tache;
@@ -184,7 +185,60 @@ public class AgentPlein extends Agent{
 						fini = true;
 						//e.printStackTrace();
 					}
-				}				
+				}
+				
+				
+				// gestion des taches accueil et repas
+				// parcours d'un planning
+				
+				/* Algo
+				 * On copie la treeSet de l'agent dans une autre treeSet
+				 * on parcours la COPIE
+				 * on ajoute l'élément dans la vrai treeSet
+				 * 
+				 * pareil pour tache accueil
+				 * for (Tache t : tachesAgent) {
+					if(tachesAgent.first() != tPrec){
+						if(trancheRepas.contient(tPrec.getHoraires().getFinTrancheHoraire()) && (t.getHoraires().getDebutTrancheHoraire().horaireEnMinutes() - tPrec.getHoraires().getFinTrancheHoraire().horaireEnMinutes() > 60 ));
+							TrancheHoraire th = new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(),t.getHoraires().getDebutTrancheHoraire());
+							t = Tache.demanderTacheAccueil(th);
+							ajouterTache(t);
+					}
+				}
+				 * */
+				
+				
+				TreeSet<Tache> tachesAgentCopie =  new TreeSet<Tache>();
+				// création de la copie
+				for (Tache t : tachesAgent) {
+					tachesAgentCopie.add(t);
+				}
+				// récupération de la premiere tache
+				Tache tPrec = tachesAgentCopie.first();
+				System.out.println(tPrec.toString());
+				// gestion de la tache repas
+				for (Tache t : tachesAgentCopie) {
+					//System.out.println("Val de tache agent" + tachesAgentCopie.first().toString());
+					if(t.compareTo(tPrec) == 1){
+						System.out.println("Boucle ! ");
+						if(trancheRepas.contient(tPrec.getHoraires().getFinTrancheHoraire()) && ((t.getHoraires().getDebutTrancheHoraire().horaireEnMinutes() - tPrec.getHoraires().getFinTrancheHoraire().horaireEnMinutes()) >= 60 ));
+						
+						t = Tache.demanderTacheRepas(tPrec.getHoraires().getFinTrancheHoraire());
+							ajouterTache(t);
+							tPrec = t;
+					}
+				}
+				// gestion des taches accueil
+				for (Tache t : tachesAgentCopie) {
+					if(tachesAgentCopie.first() != tPrec){
+						if(t.getHoraires().getDebutTrancheHoraire().horaireEnMinutes() - tPrec.getHoraires().getFinTrancheHoraire().horaireEnMinutes() > 30 );
+							TrancheHoraire th = new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(),t.getHoraires().getDebutTrancheHoraire());
+							t = Tache.demanderTacheAccueil(th);
+							ajouterTache(t);
+							tPrec = t;
+					}
+				}
+				
 		}
 		
 }
