@@ -21,7 +21,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		String adresseFichier = "fichiers/avions14-v1.txt";
+			/* String adresseFichier = "fichiers/avions14-v1.txt";
 	
 			Avion.lireAvion(adresseFichier);
 			
@@ -36,7 +36,9 @@ public class Main {
 			AgentPartiel.lireAgent("fichiers/AgentsMiTemps-14-v1.txt");
 			
 			Agent.genererCalendrier();
-			System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribuées :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
+			System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribuï¿½es :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
+			*/
+			FenetreGestion f = new FenetreGestion();
 	}
 
 }
