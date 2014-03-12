@@ -17,92 +17,134 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.UIManager;
+
+import com.sun.codemodel.internal.JLabel;
+
+import projet.appli.Avion;
 
 public class FenetreGestion extends JFrame {
+	
+	private Ecouteur monEcouteur;
+	
+	private JMenuBar menu;
+	protected JMenu menuAvion,menuAgent,menuVol,menuPlanning,menuAccueil;
+	protected JMenuItem listeAvion; 
+	protected JPanel contentPane;
+	protected String etat;
+	
+	
+	
+	
 	public FenetreGestion() {
-		setTitle("Gestion Aéroport Paris"); //On donne un titre à l'application
+	
+		monEcouteur = new Ecouteur();
+	 
+		// Récupération du design système
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (Exception e){}
+		
+		setTitle("Gestion Aéroport"); //On donne un titre à l'application
 		setSize(800,500); //On donne une taille à notre fenètre
 		setLocationRelativeTo(null); //On centre la fenètre sur l'écran
 		setResizable(false); //On interdit la redimensionnement de la fenètre
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //On dit à l'application de se fermer lors du clic sur la croix
 			
 		// Création du menu
-		JMenuBar menuBar = new JMenuBar();
+		 menu = new JMenuBar();
+		this.setJMenuBar(menu);
 		
-		// Création des différents onglets
-		JMenu menuAgent = new JMenu("Agents");
-		JMenu menuAvions = new JMenu("Avions");
-		JMenu menuVols= new JMenu("Vols");
-		JMenu menuPlanning = new JMenu("Planning");
-		JMenu menuQuitter= new JMenu("Quitter");
+		 menuAccueil = new JMenu("Accueil");
+		 menuAvion = new JMenu("Avion");
+		 menuAgent = new JMenu("Agent");
+		 menuVol = new JMenu("Vols");
+		 menuPlanning = new JMenu("Planning");
 		
-		// Ajout au menu principale
-		menuBar.add(menuAgent);
-		menuBar.add(menuAvions);
-		menuBar.add(menuVols);
-		menuBar.add(menuPlanning);
-		menuBar.add(menuQuitter);
+		//Ajout au menu principale
+		menu.add(menuAccueil);
+		menu.add(menuAvion);
+		menu.add(menuAgent);
+		menu.add(menuVol);
+		menu.add(menuPlanning);
 		
-		// Création des menus item pour agent
-		JMenuItem voirAgent = new JMenuItem("Liste Des Agents");
-		menuAgent.add(voirAgent);
+		//Création des items
+		 listeAvion = new JMenuItem("ListeAvions");
 		
-		// Création des menus items pour avions
-		JMenuItem voirAvions = new JMenuItem("Liste Des Avions");
-		menuAvions.add(voirAvions);
+		// Ajout des écouteurs
+		 menuAccueil.addActionListener(monEcouteur);
+		listeAvion.addActionListener(monEcouteur);
 		
-		// Création des menus item pour Vols
-		JMenuItem voirArrive = new JMenuItem("Liste Des Vols Arrivés");
-		menuVols.add(voirArrive);
-		
-		JMenuItem voirDepart = new JMenuItem("Liste Des Vols Départ");
-		menuVols.add(voirDepart);
-		
-		// Création dans le menu planning
-		JMenuItem voirPlanning = new JMenuItem("Afficher le planning");
-		menuPlanning.add(voirPlanning);
-	
-		// Affichage du menu
-		this.setJMenuBar(menuBar);
-		
-		// Création du panel principale + Grille + Ajout à la fenetre
-		JPanel panneauPrincipale = new JPanel ();
-		BorderLayout grillePrincipale = new BorderLayout ();
-		panneauPrincipale.setLayout(grillePrincipale);
-		
-		// Ajout de la combo Box
-		JCheckBox boxPlein = new JCheckBox("Agent Temps Plein");
-		JCheckBox boxPartiel = new JCheckBox("Agent Temps Partiel");
-		
-		// Création du pannel north
-		JPanel pannelNord = new JPanel();
-		pannelNord.add(boxPlein);
-		pannelNord.add(boxPartiel);
-		
-		panneauPrincipale.add(pannelNord,BorderLayout.NORTH);
-		
-		
-		// Création de la jtable 
-		
-		JTable tableAgent = new JTable();
-		panneauPrincipale.add(tableAgent,BorderLayout.CENTER);
-		
-		
-	
-		this.add(panneauPrincipale);
+		// Ajout des composants
+		 menuAvion.add(listeAvion);
+		 
+		 
+		// Création du panel Principale (BorderLayout) on ne le touche plus
+			contentPane = new JPanel();
+			BorderLayout grillePrincipale = new BorderLayout();
+			contentPane.setLayout(grillePrincipale);
+			setContentPane(contentPane);
+			
+			
+		// Modification sur chaque page en fonction de ce qu'on veut
+			
+			// Création du panel qu'on veut mettre en position north
+			JPanel AccueilHaut = new JPanel();
+			//Création de la grille dans le north
+			FlowLayout grilleHaut = new FlowLayout();
+			//Ajout de la grille au panel north
+			AccueilHaut.setLayout(grilleHaut);
+			
+			// Composant que l'on veut mettre
+			javax.swing.JLabel label = new javax.swing.JLabel("Bienvenue");
+			// Ajout au panel haut
+			AccueilHaut.add(label);
+			
+			// Ajout des panels cré
+			contentPane.add(AccueilHaut,BorderLayout.NORTH);
+			
+			etat = "Gestion";
 
-		
+		this.setVisible(true);
+	}
 	
-	
+
+
+ private class Ecouteur implements ActionListener{
+			  
+		public void actionPerformed (ActionEvent evt)
+		{
+			Object source = evt.getSource();
+			
+		// Redirection depuis Gestion
+		if (etat.equals("Gestion"));
+		{
+			if (source == listeAvion)
+			{
+				// dispose();
+				 FenetreAgent FA = new FenetreAgent();
+				System.out.println(etat);
+				return;
+			}
+		}
+			
+		// Redirection depuis Agent
+		if (etat.equals("Agent"))
+		{
+			if (source == menuAccueil)
+			{
+				dispose();
+				FenetreGestion FG = new FenetreGestion();
+				System.out.println(etat);
+				return;
+			}
+		}
+				
+		}
+
 	}
 	
 	
-	
-	public static void main(String[] args) 
-	{
-		JFrame f = new FenetreGestion();
-		f.setVisible(true);
-		
-	
-	}
+
 }
