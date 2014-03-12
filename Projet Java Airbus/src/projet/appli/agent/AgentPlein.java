@@ -3,6 +3,7 @@ package projet.appli.agent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.TreeSet;
 
@@ -110,13 +111,10 @@ public class AgentPlein extends Agent{
 			
 			return th;
 		}
-		
-		
+				
 		// récupération des données du fichier
 		
-		 static public void lireAgent (String adresseFichier) 
-			{
-			
+		 static public void lireAgent (String adresseFichier) {
 					BufferedReader entree = null;
 					
 					// DÃ©claration d'une ligne
@@ -175,15 +173,27 @@ public class AgentPlein extends Agent{
 
 				while((trancheTravail.getDebutTrancheHoraire().compareTo(trancheTravail.getFinTrancheHoraire()) < 0) && !fini){
 					try{
+					if (trancheService.equals(trancheHoraireSoir) && !aMange) {
+							ajouterTache(Tache.demanderTacheRepas(trancheService.getDebutTrancheHoraire()));
+							aMange = true ;
+					}
 					Tache t;
 					t = Tache.demanderTache(trancheTravail);
+					
 					ajouterTache(t);
 					trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire(), trancheTravail.getFinTrancheHoraire());
-					//System.out.println(trancheTravail.toString());
-					if (trancheRepas.contient(t.getHoraires().getFinTrancheHoraire()) && !aMange) {
-						trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire().ajout(new Duree(1,0)), trancheTravail.getFinTrancheHoraire());
+					if (!aMange) {
+						// la tache se finit pendant la tranche repas
+						if (trancheRepas.contient(t.getHoraires().getFinTrancheHoraire())) {
+							ajouterTache(Tache.demanderTacheRepas(t.getHoraires().getFinTrancheHoraire()));
+						}
+						// la tache commence après la tranche repas et tache précédente finit avant
+						else if (trancheTravail.getDebutTrancheHoraire().compareTo(trancheRepas.getDebutTrancheHoraire()) < 0) {
+								ajouterTache(Tache.demanderTacheRepas(trancheRepas.getDebutTrancheHoraire()));
+						}  		
 						aMange = true ;
 					}
+
 
 				}
 				catch (Exception e){
@@ -192,92 +202,16 @@ public class AgentPlein extends Agent{
 					}
 				}
 				
-				
-				// gestion des taches accueil et repas
-				// parcours d'un planning
-				System.out.println("Val de trancheHoraire First" + trancheTravail.toString());
-				System.out.println("Val de trancheService " + trancheService.toString());		
-				
-				TreeSet<Tache> tachesAgentCopie =  new TreeSet<Tache>();
-				// création de la copie
-				for (Tache t : tachesAgent) {
-					tachesAgentCopie.add(t);
-				}
-				// récupération de la premiere tache
-				
-				Tache tPrec = tachesAgentCopie.first();
-				Tache tFinal = tachesAgentCopie.last();
-				
-				Tache v;
-				
-				//gestion debut service a 13h30 et premiere tache fini après 14h
-				if(trancheService.equals(trancheHoraireSoir) && !trancheRepas.contient(tPrec.getHoraires().getDebutTrancheHoraire())){			
-					v = Tache.demanderTacheRepas(trancheService.getDebutTrancheHoraire());
-					ajouterTache(v);
-					mange = true;
-				}
-				else if(trancheService.equals(trancheHoraireSoir) && trancheRepas.contient(tPrec.getHoraires().getFinTrancheHoraire())){
-					v = Tache.demanderTacheRepas(tPrec.getHoraires().getFinTrancheHoraire());
-					ajouterTache(v);
-					mange = true;
+				if (!aMange) {
+					if (trancheService.equals(trancheHoraireSoir)) {
+						ajouterTache(Tache.demanderTacheRepas(trancheService.getDebutTrancheHoraire()));						
+					} else {
+						ajouterTache(Tache.demanderTacheRepas(trancheRepas.getDebutTrancheHoraire()));
+					}		
 				}
 				
-				// gestion de la tache repas
-				for (Tache t : tachesAgentCopie) {		
-					if(t.compareTo(tPrec) > 0){
-
-							if(((trancheRepas.contient(tPrec.getHoraires().getFinTrancheHoraire()) && t.getHoraires().getDebutTrancheHoraire().horaireEnMinutes() - tPrec.getHoraires().getFinTrancheHoraire().horaireEnMinutes() >= 60) 
-									|| (trancheRepas.contient(t.getHoraires().getDebutTrancheHoraire()) && trancheTravail.contient(tPrec.getHoraires().getFinTrancheHoraire().ajout(new Duree(1,0))))) && !mange )
-							{	
-								v = Tache.demanderTacheRepas(tPrec.getHoraires().getFinTrancheHoraire());
-								ajouterTache(v);
-								mange = true;
-							}
-						tPrec = t;
-					}
-				}
-				// gestion  des taches repas où il n'y a pas de tache après
-				if(trancheRepas.contient(tFinal.getHoraires().getFinTrancheHoraire())){
-					v = Tache.demanderTacheRepas(tFinal.getHoraires().getFinTrancheHoraire());
-					ajouterTache(v);
-					mange = true;
-				}
-				
-				if((!trancheRepas.contient(tFinal.getHoraires().getFinTrancheHoraire())) && tFinal.getHoraires().getFinTrancheHoraire().compareTo(trancheRepas.getDebutTrancheHoraire()) < 0){
-					v = Tache.demanderTacheRepas(trancheRepas.getDebutTrancheHoraire());
-					ajouterTache(v);
-					mange = true;
-				}
-				
-				/*//rechargement de la treeset copiée
-				tachesAgentCopie.clear();
-				for (Tache t : tachesAgent) {
-					tachesAgentCopie.add(t);
-				}
-				tPrec = tachesAgentCopie.first();
-				tFinal = tachesAgentCopie.last();
-				
-				// gestion des taches accueil
-				for (Tache t : tachesAgentCopie) {
-					if(t.compareTo(tPrec) > 0){
-						if((t.getHoraires().getDebutTrancheHoraire().horaireEnMinutes() - tPrec.getHoraires().getFinTrancheHoraire().horaireEnMinutes() >= 30)){
-							TrancheHoraire th = new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(),t.getHoraires().getDebutTrancheHoraire());
-							t = Tache.demanderTacheAccueil(th);
-							ajouterTache(t);
-							System.out.println("ppapa :");
-						}
-					}
-					tPrec = t;
-				}
-				
-				if(trancheService.getFinTrancheHoraire().horaireEnMinutes() - tFinal.getHoraires().getFinTrancheHoraire().horaireEnMinutes() >= 30){
-					System.out.println("horaire fin tache accueil : " + tFinal.getHoraires().getFinTrancheHoraire());
-					System.out.println("YOOLO :");
-					TrancheHoraire th = new TrancheHoraire(tFinal.getHoraires().getFinTrancheHoraire(),trancheService.getFinTrancheHoraire());
-					Tache t = Tache.demanderTacheAccueil(th);
-					ajouterTache(t);
-				}*/
-				
+				genererTachesAccueil();
 		}
+		
 		
 }

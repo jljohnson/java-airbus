@@ -8,7 +8,7 @@ import projet.outils.Horaire;
 
 public class TacheAccueil extends Tache{
 	private static int numTaches = 1 ;
-	static private Hashtable<String, Tache> lesTachesAccueil = new Hashtable<String, Tache>();
+	static private Hashtable<String, TacheAccueil> lesTachesAccueil = new Hashtable<String, TacheAccueil>();
 
 	
 	public TacheAccueil(Horaire horaireDeb, Horaire horaireFin) {

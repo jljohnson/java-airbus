@@ -10,7 +10,7 @@ import projet.outils.Horaire;
 public class TacheEmbarquement extends Tache{
 	private static int numTaches = 1 ;
 	private VolDepart volEmbarquement ;
-	static private Hashtable<String, Tache> lesTachesEmbarquement = new Hashtable<String, Tache>();
+	static private Hashtable<String, TacheEmbarquement> lesTachesEmbarquement = new Hashtable<String, TacheEmbarquement>();
 
 	
 	public TacheEmbarquement(VolDepart v) {

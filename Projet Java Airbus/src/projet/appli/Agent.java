@@ -5,7 +5,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -31,6 +33,10 @@ import projet.outils.TrancheHoraire;
  */
 
 public abstract class  Agent {
+	
+	/// A CHANGER 
+	private static final int N_SEM = 1;
+	
 	private String matricule;
 	private String nom;
 	private String prenom;
@@ -134,7 +140,7 @@ public abstract class  Agent {
 	// gestion de l'affichage
 		@Override
 		public String toString() {
-			return  "Agent : " + matricule
+			return  "\nAgent : " + matricule
 					+  "\n - Nom : " + nom 
 					+  "\n - Prénom : " + prenom
 					+  "\n - Cycle de travail : " + cycle;	
@@ -144,6 +150,50 @@ public abstract class  Agent {
 		{
 			for (Agent a : lesAgents.values()) {
 				a.afficherPlanning();
+			}
+		}
+
+		public ArrayList<TrancheHoraire> tranchesLibres() {
+
+			TrancheHoraire trancheService = null ;
+			try {
+				trancheService = getHoraire(N_SEM);
+			} catch (semaineInvalideException e) {
+				e.printStackTrace();
+			}
+		
+			
+			ArrayList<TrancheHoraire> tranches = new ArrayList<TrancheHoraire>();
+			
+			if (tachesAgent.isEmpty()) {
+				tranches.add(trancheService);
+				return tranches;
+			}
+			
+			Tache first = tachesAgent.first();
+			tranches.add(new TrancheHoraire(trancheService.getDebutTrancheHoraire(), first.getHoraires().getDebutTrancheHoraire()));
+			
+			Tache t,tPrec ;
+			for (Iterator it = tachesAgent.iterator(); it.hasNext();) {
+				tPrec = (Tache) it.next();
+
+				if (it.hasNext()) {
+					t = (Tache) it.next();
+					tranches.add(new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()) ) ;
+				} else {
+					tranches.add(new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), trancheService.getFinTrancheHoraire()));
+				}
+			}
+						
+			return tranches;
+		}
+		
+		public void genererTachesAccueil() {
+			ArrayList<TrancheHoraire> listeTranches = this.tranchesLibres();
+			for (TrancheHoraire tH : listeTranches) {
+				if (tH.getDuree().dureeEnMinutes() >= 30) {
+					tachesAgent.add(new TacheAccueil(tH.getDebutTrancheHoraire(), tH.getFinTrancheHoraire()));
+				}
 			}
 		}
 }

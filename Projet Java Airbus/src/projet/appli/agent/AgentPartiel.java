@@ -66,7 +66,6 @@ public class AgentPartiel extends Agent{
 		Horaire hfin = new Horaire();
 		TrancheHoraire th = new TrancheHoraire(hdeb,hfin);
 		if(super.getCycle() == 1){
-			System.out.println(sem%3);
 			switch(sem%3){
 				// cas de la semaine multiple de 3
 				case 0:
@@ -133,27 +132,7 @@ public class AgentPartiel extends Agent{
 			}
 		}
 		
-		/*
-		// gestion des taches accueil et repas
-		TreeSet<Tache> tachesAgentCopie =  new TreeSet<Tache>();
-		// création de la copie
-		for (Tache t : tachesAgent) {
-			tachesAgentCopie.add(t);
-		}
-		
-		// récupération de la premiere tache
-			Tache tPrec = tachesAgentCopie.first();
-		
-		// gestion des taches accueil
-		for (Tache t : tachesAgentCopie) {
-			if(tachesAgentCopie.first() != tPrec){
-				if(t.getHoraires().getDebutTrancheHoraire().horaireEnMinutes() - tPrec.getHoraires().getFinTrancheHoraire().horaireEnMinutes() > 30 );
-					TrancheHoraire th = new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(),t.getHoraires().getDebutTrancheHoraire());
-					t = Tache.demanderTacheAccueil(th);
-					tPrec = t;
-					ajouterTache(t);
-			}
-		}*/ 
+		genererTachesAccueil();
 }
 	
 	
