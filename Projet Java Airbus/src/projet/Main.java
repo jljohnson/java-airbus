@@ -33,7 +33,7 @@ public class Main {
 			Vol.genererTaches();
 
 			AgentPlein.lireAgent("fichiers/AgentsTempsPlein-14-v1.txt");
-			AgentPartiel.lireAgent("fichiers/AgentsMiTemps-14-v1.txt");
+			//AgentPartiel.lireAgent("fichiers/AgentsMiTemps-14-v1.txt");
 			
 			Agent.genererCalendrier();
 			System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribuées :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
