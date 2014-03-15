@@ -97,7 +97,7 @@ public class TrancheHoraire {
 	}
 
 	public String toString() {
-		String info = " début:" + debut.toString() + " fin:" + fin.toString();
+		String info =  debut.toString() + " - " + fin.toString();
 		return info;
 	}
 

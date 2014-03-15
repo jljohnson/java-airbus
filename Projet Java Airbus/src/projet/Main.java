@@ -14,7 +14,6 @@ import projet.appli.vols.VolArrivee;
 import projet.appli.vols.VolDepart;
 import projet.exceptions.MatAgentException;
 import projet.exceptions.semaineInvalideException;
-import projet.ihm.FenetreAgent;
 import projet.ihm.FenetreGestion;
 import projet.ihm.FenetrePlanning;
 
@@ -39,9 +38,10 @@ public class Main {
 			
 			Agent.genererCalendrier();
 			System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribu�es :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
-			
+	
+			new FenetreGestion();
 			try {
-				new FenetrePlanning(Agent.getAgent("P0007"));
+				new FenetrePlanning(Agent.getAgent("P0008"));
 			} catch (MatAgentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

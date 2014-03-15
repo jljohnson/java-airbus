@@ -14,11 +14,19 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
 import projet.appli.Agent;
+import projet.ihm.FenetrePlanning;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelAgent extends JPanel{
 	JPanel courant = this;
@@ -28,11 +36,13 @@ public class PanelAgent extends JPanel{
 	BorderLayout layout = new BorderLayout();
 	FlowLayout layoutBtns = new FlowLayout();
 	JCheckBox tempsPlein, tempsPartiel ;
-	JScrollPane tableauAgents ;
+	JTable tableauAgents ;
 	JButton boutonPlanning ;
+	ArrayList<Agent> lAgents;
 
 
-	public PanelAgent(ArrayList<Agent> lAgents) {
+	public PanelAgent(ArrayList<Agent> lA) {
+		lAgents = lA ;
 		
 		this.setLayout(layout);
 	
@@ -47,25 +57,23 @@ public class PanelAgent extends JPanel{
 		
 		/* création du bouton planning*/	
 		boutonPlanning = new JButton("Voir planning");
+		boutonPlanning.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new FenetrePlanning(lAgents.get(tableauAgents.convertRowIndexToModel(tableauAgents.getSelectedRow()))) ;
+			}
+		});
 		boutonPlanning.setEnabled(false);
 		panelBtns.add(boutonPlanning);
 		this.add(panelBtns,BorderLayout.SOUTH);
 		
 		/* création du tableau d'agents */
-		tableauAgents = new JScrollPane(new JTable(new TableAgent(lAgents)));
-		tableauAgents.addPropertyChangeListener(new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent arg0) {
-				System.out.println("test");
-
-			}
-		});
-		tableauAgents.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("test");
-			}
-		});
+		tableauAgents = new JTable(new TableAgent(lAgents));
 		
-		panelCenter.add(tableauAgents);	
+		ListSelectionModel listSelectionModel = tableauAgents.getSelectionModel();        
+		listSelectionModel.addListSelectionListener(new ControleurTable());
+
+		
+		panelCenter.add(new JScrollPane(tableauAgents));	
 		this.add(panelCenter,BorderLayout.CENTER);
 	}
 	
@@ -113,7 +121,23 @@ public class PanelAgent extends JPanel{
 		public String getColumnName(int colonne) {
 	        return index[colonne];
 	    }
-
+	}
+	
+	private class ControleurTable  implements ListSelectionListener{
+		public void valueChanged(ListSelectionEvent listSelectionEvent) {
+			if (listSelectionEvent.getValueIsAdjusting())
+	            return;
+	        ListSelectionModel lsm = (ListSelectionModel)listSelectionEvent.getSource();
+	        if (lsm.isSelectionEmpty()) {
+	            System.out.println("No rows selected");
+	        }
+	        else{
+	            int selectedRow = lsm.getMinSelectionIndex();
+	            System.out.println("The row "+selectedRow+" is now selected");
+	            boutonPlanning.setEnabled(true);
+	 
+	        }			
+		}
 	}
 	
 	
