@@ -1,9 +1,6 @@
-Projet de JAVA !
-Je tiens à remercier patoche pour m'avoir soutenu 
-stéfan pour sa chiantitude de tout instant
-et romain pour ses blagues de cul 
+Projet de JAVA de L3 MIAGE
 
-merci
+Création d'un outil de gestion de planning informatisé
 
                     _
                    /_'. _
@@ -15,7 +12,7 @@ merci
                       |_|
                  ~`   |-| ~~      ~
              ~~  ~~ __|=|__   ~~
-           ~~   .-'`  |_|  ``""-._   ~~                    yoan
+           ~~   .-'`  |_|  ``""-._   ~~                    
             ~~.'      |=|    O    '-.  ~
               |      `"""`  <|\      \   ~
           ~   \              |\      | ~~
