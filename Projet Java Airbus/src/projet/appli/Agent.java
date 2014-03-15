@@ -248,5 +248,11 @@ public abstract class  Agent {
 			
 			return false ;
 		}
+
+
+		public static ArrayList<Agent> getAgents() {
+			// TODO Auto-generated method stub
+			return new ArrayList<Agent>(lesAgents.values());
+		}
 		
 }

@@ -177,9 +177,8 @@ public class AgentPlein extends Agent{
 							ajouterTache(Tache.demanderTacheRepas(trancheService.getDebutTrancheHoraire()));
 							aMange = true ;
 					}
-					Tache t;
-					t = Tache.demanderTache(trancheTravail);
 					
+					Tache t= Tache.demanderTache(trancheTravail);
 					ajouterTache(t);
 					trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire(), trancheTravail.getFinTrancheHoraire());
 					if (!aMange) {
