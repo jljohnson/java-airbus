@@ -129,7 +129,10 @@ public class PanelAgent extends JPanel{
 	            return;
 	        ListSelectionModel lsm = (ListSelectionModel)listSelectionEvent.getSource();
 	        if (!lsm.isSelectionEmpty()) {
-	            boutonPlanning.setEnabled(true);
+	        	Agent a = lAgents.get(tableauAgents.convertRowIndexToModel(tableauAgents.getSelectedRow()));
+	        	if (a.isAbsent()) {
+		            boutonPlanning.setEnabled(false);
+	        	} else boutonPlanning.setEnabled(true);
 	        }			
 		}
 	}	

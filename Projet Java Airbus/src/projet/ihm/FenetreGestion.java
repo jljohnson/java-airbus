@@ -22,6 +22,7 @@ import javax.swing.UIManager;
 
 
 
+
 import projet.appli.Agent;
 import projet.appli.Avion;
 import projet.ihm.panels.PanelAgent;
@@ -38,6 +39,11 @@ public class FenetreGestion extends JFrame {
 	
 	
 	public FenetreGestion() {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (Exception e){}
+		
 		setTitle("Gestion Aéroport"); // On donne un titre à l'application
 		setSize(900, 700); // On donne une taille à notre fenètre
 		setLocationRelativeTo(null); // On centre la fenètre sur l'écran
