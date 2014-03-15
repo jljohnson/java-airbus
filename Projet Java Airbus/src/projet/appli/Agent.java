@@ -42,9 +42,11 @@ public abstract class  Agent {
 	private String nom;
 	private String prenom;
 	private int cycle;
+	private TrancheHoraire horaires ;
 	protected TreeSet<Tache> tachesAgent ;
 	private TreeSet<TacheAccueil> tachesAccueil ;
 	static public Hashtable <String,Agent> lesAgents = new Hashtable<String,Agent>();
+	private boolean absent ;
 	
 	// constructeur
 	public Agent(String mat, String n, String p, int c){
@@ -54,10 +56,19 @@ public abstract class  Agent {
 		nom = n;
 		prenom = p;
 		cycle = c;
+		absent = false ;
+		try {
+			horaires = horaireSemaine(N_SEM);
+		} catch (semaineInvalideException e) {
+			e.printStackTrace();
+		}
 		lesAgents.put(matricule, this);
 		
 	}
 	
+	public boolean isAbsent() {
+		return absent ;
+	}
 	
 	// getteur
 	public String getMatricules(){
@@ -109,8 +120,11 @@ public abstract class  Agent {
 	}
 	
 	// gestion de la tranche horaire
-	 public abstract TrancheHoraire getHoraire(int sem) throws semaineInvalideException;
+	public abstract TrancheHoraire horaireSemaine(int sem) throws semaineInvalideException;
 	
+	public TrancheHoraire getHoraire() {
+		return horaires;
+	}
 	
 	public void ajouterTache(Tache t) {
 		tachesAgent.add(t);
@@ -120,12 +134,17 @@ public abstract class  Agent {
 		for (Agent a : lesAgents.values()) {
 			try {
 				a.creerPlanning();
-				System.out.println(a.toString());
-				a.afficherPlanning();
 			} catch (semaineInvalideException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public static void afficherCalendrier() {
+		for (Agent a : lesAgents.values()) {
+			System.out.println(a.toString());
+			a.afficherPlanning();
 		}
 	}
 	
@@ -162,12 +181,8 @@ public abstract class  Agent {
 
 		public ArrayList<TrancheHoraire> tranchesLibres() {
 
-			TrancheHoraire trancheService = null ;
-			try {
-				trancheService = getHoraire(N_SEM);
-			} catch (semaineInvalideException e) {
-				e.printStackTrace();
-			}
+			TrancheHoraire trancheService = horaires ;
+
 		
 			
 			ArrayList<TrancheHoraire> tranches = new ArrayList<TrancheHoraire>();
@@ -206,17 +221,52 @@ public abstract class  Agent {
 			}
 		}
 		
-		
-	
-		public void retard(Horaire retard) {
+		public void absence() {
+			absent = true ;
+			horaires = new TrancheHoraire(new Horaire(0),new Horaire(0));
+			
 			TreeSet<Tache> tachesAReaffecter = new TreeSet<Tache>();
 			
+			for (Tache t : tachesAgent) {
+					tachesAReaffecter.add(t);
+			} 
+		
+			for (Tache t : tachesAReaffecter) {
+				if (tachesAgent.contains(t)) {
+					tachesAgent.remove(t);
+				}
+			}
+			
+			for (Agent a : lesAgents.values()) {
+				boolean affecte = false ;
+				for (Tache t: tachesAReaffecter) {
+					if (affecterTache(t)) {
+						affecte = true ;
+						break;
+					}
+					if (affecte==true) break;
+				}
+			}
+		}
+	
+		public void retard(Horaire retard) {
+			horaires = new TrancheHoraire(retard, horaires.getFinTrancheHoraire());
+			
+			TreeSet<Tache> tachesAReaffecter = new TreeSet<Tache>();
+			
+
 			for (Tache t : tachesAgent) {
 				if (retard.compareTo(t.getHoraires().getDebutTrancheHoraire())>0) {
 					tachesAReaffecter.add(t);
 				} else break ;
 			} 
 			
+			for (Tache t : tachesAReaffecter) {
+				if (tachesAgent.contains(t)) {
+					tachesAgent.remove(t);
+				}
+			}
+
 			for (Agent a : lesAgents.values()) {
 				boolean affecte = false ;
 				for (Tache t: tachesAReaffecter) {

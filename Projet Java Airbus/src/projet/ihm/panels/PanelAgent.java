@@ -21,7 +21,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
 import projet.appli.Agent;
-import projet.ihm.FenetrePlanning;
+import projet.ihm.popups.PopupPlanning;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -59,7 +59,7 @@ public class PanelAgent extends JPanel{
 		boutonPlanning = new JButton("Voir planning");
 		boutonPlanning.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new FenetrePlanning(lAgents.get(tableauAgents.convertRowIndexToModel(tableauAgents.getSelectedRow()))) ;
+				new PopupPlanning(lAgents.get(tableauAgents.convertRowIndexToModel(tableauAgents.getSelectedRow()))) ;
 			}
 		});
 		boutonPlanning.setEnabled(false);
@@ -79,7 +79,7 @@ public class PanelAgent extends JPanel{
 	
 	private class TableAgent extends AbstractTableModel {
 		private ArrayList<Agent> agents ;
-		private String index[] =  {"Identifiant","Nom","Prénom","Cycle de travail"};
+		private String index[] =  {"Identifiant","Nom","Prénom","Horaires"};
 		
 		public TableAgent(ArrayList<Agent> lAgents) {
 			super();
@@ -112,7 +112,7 @@ public class PanelAgent extends JPanel{
 			case 2:
 				return a.getPrenom();
 			case 3:
-				return a.getCycle();
+				return (a.isAbsent() ? "ABSENT" : a.getHoraire());
 			default:
 				return null;
 			}
@@ -128,17 +128,9 @@ public class PanelAgent extends JPanel{
 			if (listSelectionEvent.getValueIsAdjusting())
 	            return;
 	        ListSelectionModel lsm = (ListSelectionModel)listSelectionEvent.getSource();
-	        if (lsm.isSelectionEmpty()) {
-	            System.out.println("No rows selected");
-	        }
-	        else{
-	            int selectedRow = lsm.getMinSelectionIndex();
-	            System.out.println("The row "+selectedRow+" is now selected");
+	        if (!lsm.isSelectionEmpty()) {
 	            boutonPlanning.setEnabled(true);
-	 
 	        }			
 		}
-	}
-	
-	
+	}	
 }

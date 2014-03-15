@@ -1,4 +1,4 @@
-package projet.ihm;
+package projet.ihm.popups;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,19 +20,22 @@ import org.w3c.dom.views.AbstractView;
 
 import projet.appli.Agent;
 import projet.appli.Tache;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+
 import java.awt.Font;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class FenetrePlanning extends JFrame {
+public class PopupPlanning extends JDialog {
 	private Agent agent;
 	private JPanel panelNord,panelCentre,panelSud,contentPane;
 	private BorderLayout layout ;
 	private FlowLayout layoutSud ;
 	private JScrollPane planning ;
 	
-	public FenetrePlanning(Agent a) {
+	public PopupPlanning(Agent a) {
 		agent = a ;
 		// Récupération du design système
 		try {
@@ -43,6 +47,10 @@ public class FenetrePlanning extends JFrame {
 		setSize(600,500); //On donne une taille à notre fenètre
 		setLocationRelativeTo(null); //On centre la fenètre sur l'écran
 		setResizable(false); //On interdit la redimensionnement de la fenètre
+		setModal (true);
+		setAlwaysOnTop (true);
+		setModalityType (ModalityType.APPLICATION_MODAL);
+
 		
 		panelCentre = new JPanel();
 		panelNord = new JPanel();

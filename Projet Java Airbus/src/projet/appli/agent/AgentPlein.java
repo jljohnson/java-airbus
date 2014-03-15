@@ -61,7 +61,7 @@ public class AgentPlein extends Agent{
 
 		// méthode permettant de trouver l'horaire pour une semaine donnée
 		//c = cycle / sem = numéro de la semaine
-		public TrancheHoraire getHoraire(int sem){
+		public TrancheHoraire horaireSemaine(int sem){
 			Horaire hdeb = new Horaire();
 			Horaire hfin = new Horaire();
 			TrancheHoraire th = new TrancheHoraire(hdeb,hfin);
@@ -160,8 +160,8 @@ public class AgentPlein extends Agent{
 		@Override
 		// gestion du planning pour les agents à temps plein
 		public void creerPlanning() throws semaineInvalideException {
-				TrancheHoraire trancheTravail = getHoraire(1);
-				TrancheHoraire trancheService = getHoraire(1);
+				TrancheHoraire trancheTravail = getHoraire();
+				TrancheHoraire trancheService = getHoraire();
 				TrancheHoraire trancheHoraireSoir = getH(3);
 				boolean mange = false;
 				

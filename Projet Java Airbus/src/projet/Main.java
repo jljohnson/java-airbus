@@ -15,7 +15,8 @@ import projet.appli.vols.VolDepart;
 import projet.exceptions.MatAgentException;
 import projet.exceptions.semaineInvalideException;
 import projet.ihm.FenetreGestion;
-import projet.ihm.FenetrePlanning;
+import projet.ihm.popups.PopupPlanning;
+import projet.outils.Horaire;
 
 public class Main {
 
@@ -39,13 +40,16 @@ public class Main {
 			Agent.genererCalendrier();
 			System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribu�es :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
 	
-			new FenetreGestion();
 			try {
-				new FenetrePlanning(Agent.getAgent("P0008"));
-			} catch (MatAgentException e) {
+				Agent.getAgent("P0007").absence();
+				Agent.getAgent("P0007").afficherPlanning();
+				System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribu�es :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
+
+			} catch (MatAgentException e1) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e1.printStackTrace();
 			}
+			new FenetreGestion();
 	}
 
 }

@@ -66,7 +66,7 @@ public class AgentPartiel extends Agent {
 
 	// méthode permettant de trouver l'horaire pour une semaine donnée
 	// c = cycle / sem = numéro de la semaine
-	public TrancheHoraire getHoraire(int sem) throws semaineInvalideException {
+	public TrancheHoraire horaireSemaine(int sem) throws semaineInvalideException {
 		if (sem == 0) {
 			throw new semaineInvalideException();
 		}
@@ -120,7 +120,7 @@ public class AgentPartiel extends Agent {
 	}
 
 	public void creerPlanning() throws semaineInvalideException {
-		TrancheHoraire trancheTravail = getHoraire(1);
+		TrancheHoraire trancheTravail = getHoraire();
 
 		boolean fini = false;
 
