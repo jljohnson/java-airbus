@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -42,11 +43,13 @@ public abstract class  Agent {
 	private String prenom;
 	private int cycle;
 	protected TreeSet<Tache> tachesAgent ;
+	private TreeSet<TacheAccueil> tachesAccueil ;
 	static public Hashtable <String,Agent> lesAgents = new Hashtable<String,Agent>();
 	
 	// constructeur
 	public Agent(String mat, String n, String p, int c){
 		tachesAgent = new TreeSet<Tache>();
+		tachesAccueil = new TreeSet<TacheAccueil>();
 		matricule = mat;
 		nom = n;
 		prenom = p;
@@ -132,6 +135,10 @@ public abstract class  Agent {
 		}
 	}
 	
+	public TreeSet<Tache> getPlanning() {
+		return tachesAgent;
+	}
+	
 	// gestion du planning pour les agents à temps plein
 	public abstract void creerPlanning() throws semaineInvalideException ;
 	
@@ -192,8 +199,54 @@ public abstract class  Agent {
 			ArrayList<TrancheHoraire> listeTranches = this.tranchesLibres();
 			for (TrancheHoraire tH : listeTranches) {
 				if (tH.getDuree().dureeEnMinutes() >= 30) {
-					tachesAgent.add(new TacheAccueil(tH.getDebutTrancheHoraire(), tH.getFinTrancheHoraire()));
+					TacheAccueil t = new TacheAccueil(tH.getDebutTrancheHoraire(), tH.getFinTrancheHoraire());
+					tachesAgent.add(t);
+					tachesAccueil.add(t);
 				}
 			}
 		}
+		
+		
+	
+		public void retard(Horaire retard) {
+			TreeSet<Tache> tachesAReaffecter = new TreeSet<Tache>();
+			
+			for (Tache t : tachesAgent) {
+				if (retard.compareTo(t.getHoraires().getDebutTrancheHoraire())>0) {
+					tachesAReaffecter.add(t);
+				} else break ;
+			} 
+			
+			for (Agent a : lesAgents.values()) {
+				boolean affecte = false ;
+				for (Tache t: tachesAReaffecter) {
+					if (affecterTache(t)) {
+						affecte = true ;
+						break;
+					}
+					if (affecte==true) break;
+				}
+			}
+		}
+		
+		public boolean affecterTache(Tache t) {
+			for (TrancheHoraire tH : this.tranchesLibres()) {
+				if (tH.contient(t.getHoraires())) {
+					tachesAgent.add(t);
+					return true ;
+				}
+			}			
+			
+			for (TacheAccueil tAcc : tachesAccueil) {
+				if (tAcc.getHoraires().contient(t.getHoraires())) {
+					tachesAgent.remove(tAcc);
+					tachesAgent.add(t);
+			
+					return true ;
+				}
+			}
+			
+			return false ;
+		}
+		
 }

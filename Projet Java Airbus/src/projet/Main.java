@@ -14,14 +14,16 @@ import projet.appli.vols.VolArrivee;
 import projet.appli.vols.VolDepart;
 import projet.exceptions.MatAgentException;
 import projet.exceptions.semaineInvalideException;
+import projet.ihm.FenetreAgent;
 import projet.ihm.FenetreGestion;
+import projet.ihm.FenetrePlanning;
 
 public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-			/* String adresseFichier = "fichiers/avions14-v1.txt";
+			String adresseFichier = "fichiers/avions14-v1.txt";
 	
 			Avion.lireAvion(adresseFichier);
 			
@@ -37,8 +39,13 @@ public class Main {
 			
 			Agent.genererCalendrier();
 			System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribu�es :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
-			*/
-			FenetreGestion f = new FenetreGestion();
+			
+			try {
+				new FenetrePlanning(Agent.getAgent("P0007"));
+			} catch (MatAgentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 
 }
