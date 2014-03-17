@@ -25,6 +25,8 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 
@@ -78,8 +80,25 @@ public class PopupPlanning extends JDialog {
 		
 		JLabel lblNom = new JLabel("Nom : " + a.getNom());
 		
-		JButton button = new JButton("Indiquer un retard");
-		JButton button_1 = new JButton("Indiquer une abscence");
+		JButton boutonRetard = new JButton("Indiquer un retard");
+		JButton boutonAbsence = new JButton("Indiquer une abscence");
+		
+		boutonRetard.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new PopupRetard(agent);
+			}
+		});
+		
+		boutonAbsence.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				agent.absence();
+				dispose();
+			}
+		});
 		
 		JLabel lblPrnom = new JLabel("Pr\u00E9nom :" + a.getPrenom());
 		
@@ -100,10 +119,10 @@ public class PopupPlanning extends JDialog {
 							.addGroup(gl_panelNord.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblNom)
 								.addComponent(lblHoraireDeDbut)
-								.addComponent(button))
+								.addComponent(boutonRetard))
 							.addGap(43)
 							.addGroup(gl_panelNord.createParallelGroup(Alignment.LEADING)
-								.addComponent(button_1)
+								.addComponent(boutonAbsence)
 								.addComponent(lblHoraireDeFin)
 								.addComponent(lblPrnom)))
 						.addComponent(lblPlanning))
@@ -124,8 +143,8 @@ public class PopupPlanning extends JDialog {
 						.addComponent(lblHoraireDeFin))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panelNord.createParallelGroup(Alignment.BASELINE)
-						.addComponent(button)
-						.addComponent(button_1))
+						.addComponent(boutonRetard)
+						.addComponent(boutonAbsence))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblPlanning)
 					.addGap(4))

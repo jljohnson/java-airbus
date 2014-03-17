@@ -41,7 +41,7 @@ public class Main {
 			System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribu�es :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
 	
 			try {
-				Agent.getAgent("P0007").absence();
+				//Agent.getAgent("P0007").absence();
 				Agent.getAgent("P0007").afficherPlanning();
 				System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribu�es :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
 

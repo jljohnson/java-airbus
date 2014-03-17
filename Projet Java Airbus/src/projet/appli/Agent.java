@@ -1,23 +1,14 @@
 package projet.appli;
 
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
-import projet.appli.agent.AgentPartiel;
-import projet.appli.agent.AgentPlein;
+
+
 import projet.appli.taches.TacheAccueil;
 import projet.appli.taches.TacheRepas;
-import projet.exceptions.IdAvionException;
 import projet.exceptions.MatAgentException;
 import projet.exceptions.semaineInvalideException;
 import projet.outils.Duree;
@@ -196,11 +187,11 @@ public abstract class  Agent {
 			tranches.add(new TrancheHoraire(trancheService.getDebutTrancheHoraire(), first.getHoraires().getDebutTrancheHoraire()));
 			
 			Tache t,tPrec ;
-			for (Iterator it = tachesAgent.iterator(); it.hasNext();) {
-				tPrec = (Tache) it.next();
+			for (Iterator<Tache> it = tachesAgent.iterator(); it.hasNext();) {
+				tPrec =  it.next();
 
 				if (it.hasNext()) {
-					t = (Tache) it.next();
+					t = it.next();
 					tranches.add(new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()) ) ;
 				} else {
 					tranches.add(new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), trancheService.getFinTrancheHoraire()));
@@ -228,7 +219,9 @@ public abstract class  Agent {
 			TreeSet<Tache> tachesAReaffecter = new TreeSet<Tache>();
 			
 			for (Tache t : tachesAgent) {
+				if ((t.getClass() != TacheAccueil.class) && (t.getClass() != TacheRepas.class)) {
 					tachesAReaffecter.add(t);
+				}
 			} 
 		
 			for (Tache t : tachesAReaffecter) {
@@ -257,7 +250,9 @@ public abstract class  Agent {
 
 			for (Tache t : tachesAgent) {
 				if (retard.compareTo(t.getHoraires().getDebutTrancheHoraire())>0) {
-					tachesAReaffecter.add(t);
+					if ((t.getClass() != TacheAccueil.class) && (t.getClass() != TacheRepas.class)) {
+						tachesAReaffecter.add(t);
+					}
 				} else break ;
 			} 
 			
