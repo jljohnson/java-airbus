@@ -3,6 +3,7 @@ package projet.appli;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
@@ -24,6 +25,11 @@ public abstract class Vol {
 		lesVols.put(idVol, this);
 	}
 	
+	public String getId ()
+	{
+		return (idVol);
+	}
+	
 	public Horaire getHeure()
 	{
 		return (heure);
@@ -32,6 +38,9 @@ public abstract class Vol {
 	public Avion getAvion() {
 		return avion;
 	}
+	
+	public abstract String  getVille ();
+	
 	
 	@Override
 	public String toString() {
@@ -44,14 +53,14 @@ public abstract class Vol {
 			throws NumberFormatException, IOException {
 		BufferedReader entree = null;
 
-		// D��claration d'une ligne
+		// D������claration d'une ligne
 		String ligne;
 
-		// D��coupage en mot
+		// D������coupage en mot
 		StringTokenizer mot;
 
 		try {
-			// Entr��e du fichier
+			// Entr������e du fichier
 			entree = new BufferedReader(new FileReader(adresseFichier));
 
 			while ((ligne = entree.readLine()) != null) // boucle de
@@ -92,6 +101,11 @@ public abstract class Vol {
 		}
 	}
 	
-	// Méthode pour la création des taches
+	// M��thode pour la cr��ation des taches
 	public abstract void  creerTaches ();
+	
+	public static ArrayList<Vol> getVols() {
+		// TODO Auto-generated method stub
+		return new ArrayList<Vol>(lesVols.values());
+	}
 }

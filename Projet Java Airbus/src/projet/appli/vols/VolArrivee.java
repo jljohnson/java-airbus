@@ -29,20 +29,25 @@ public class VolArrivee extends Vol {
 	
 	@Override
 	public String toString() {
-		return "Vol Arriv�e n�" + super.toString() +"\n  - ville d�part :" + villeDepart;
+		return "Vol Arriv���e n���" + super.toString() +"\n  - ville d���part :" + villeDepart;
+	}
+	
+	public String getVille()
+	{
+		return (villeDepart);
 	}
 	
 	static public void lireVolsArrivees (String adresseFichier) {
 			
 		BufferedReader entree = null;
 			try {
-				// Entrée du fichier
+				// Entr��e du fichier
 			    entree = new BufferedReader(new FileReader (adresseFichier));
 				
-				// Déclaration d'une ligne
+				// D��claration d'une ligne
 				String ligne;
 				
-				// Découpage en mot
+				// D��coupage en mot
 				StringTokenizer mot;
 
 				while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
@@ -75,7 +80,7 @@ public class VolArrivee extends Vol {
 		
 	}
 	
-	// Création des taches debarquement
+	// Cr��ation des taches debarquement
 	public void creerTaches ()
 	{
 		TacheDebarquement td = new TacheDebarquement(this) ;
