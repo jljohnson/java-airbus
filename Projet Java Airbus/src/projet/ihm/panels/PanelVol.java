@@ -48,14 +48,10 @@ public class PanelVol extends JPanel{
 	
 		
 		/* cr?ation des check box */
-		tempsPlein = new JCheckBox("Agents ? temps plein",true);
-		tempsPartiel = new JCheckBox("Agents ? temps partiel",true);
 		
 		panelBox.add(tempsPlein);
 		panelBox.add(tempsPartiel);
 		this.add(panelBox,BorderLayout.NORTH);
-		
-	
 		
 		/* cr?ation du tableau d'agents */
 		tableauVol = new JTable(new TableVol(lV));

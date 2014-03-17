@@ -44,7 +44,7 @@ public class PopupPlanning extends JDialog {
 		catch (Exception e){}
 		
 		setTitle("Agent " + agent.getMatricules() + " - Planning"); //On donne un titre à l'application
-		setSize(600,500); //On donne une taille à notre fenètre
+		setSize(450,400); //On donne une taille à notre fenètre
 		setLocationRelativeTo(null); //On centre la fenètre sur l'écran
 		setResizable(false); //On interdit la redimensionnement de la fenètre
 		setModal (true);
@@ -66,29 +66,26 @@ public class PopupPlanning extends JDialog {
 		/* cr�ation footer */
 		layoutSud = new FlowLayout();
 		panelSud.setLayout(layoutSud);
-		
-	
-		/* cr�ation planning */	
-		panelCentre.setLayout(new FlowLayout());
+		panelCentre.setLayout(new GridLayout(0, 1, 0, 0));
 		planning = new JScrollPane(new JTable(new TablePlanning(a)));
 		
 		panelCentre.add(planning);	
 		
 		contentPane.add(panelNord,BorderLayout.NORTH);
 		
-		JLabel lblAgentNXxx = new JLabel("Agent n\u00B0 XXX");
+		JLabel lblAgentNXxx = new JLabel("Agent n\u00B0 " + a.getMatricules() + " : ");
 		lblAgentNXxx.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-		JLabel lblNom = new JLabel("Nom :");
+		JLabel lblNom = new JLabel("Nom : " + a.getNom());
 		
 		JButton button = new JButton("Indiquer un retard");
 		JButton button_1 = new JButton("Indiquer une abscence");
 		
-		JLabel lblPrnom = new JLabel("Pr\u00E9nom :");
+		JLabel lblPrnom = new JLabel("Pr\u00E9nom :" + a.getPrenom());
 		
-		JLabel lblHoraireDeDbut = new JLabel("Horaire de d\u00E9but");
+		JLabel lblHoraireDeDbut = new JLabel("Horaire de d\u00E9but : " + a.getHoraire().getDebutTrancheHoraire());
 		
-		JLabel lblHoraireDeFin = new JLabel("Horaire de fin :");
+		JLabel lblHoraireDeFin = new JLabel("Horaire de fin : " + a.getHoraire().getFinTrancheHoraire());
 		
 		JLabel lblPlanning = new JLabel("Planning :");
 		lblPlanning.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -100,39 +97,36 @@ public class PopupPlanning extends JDialog {
 					.addGroup(gl_panelNord.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblAgentNXxx)
 						.addGroup(gl_panelNord.createSequentialGroup()
-							.addGroup(gl_panelNord.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_panelNord.createSequentialGroup()
-									.addComponent(button)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(button_1)
-									.addGap(81))
-								.addGroup(gl_panelNord.createSequentialGroup()
-									.addComponent(lblNom)
-									.addGap(78)
-									.addComponent(lblPrnom)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(lblHoraireDeDbut)
-									.addGap(57)))
-							.addComponent(lblHoraireDeFin))
+							.addGroup(gl_panelNord.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblNom)
+								.addComponent(lblHoraireDeDbut)
+								.addComponent(button))
+							.addGap(43)
+							.addGroup(gl_panelNord.createParallelGroup(Alignment.LEADING)
+								.addComponent(button_1)
+								.addComponent(lblHoraireDeFin)
+								.addComponent(lblPrnom)))
 						.addComponent(lblPlanning))
-					.addContainerGap(159, Short.MAX_VALUE))
+					.addContainerGap(154, Short.MAX_VALUE))
 		);
 		gl_panelNord.setVerticalGroup(
-			gl_panelNord.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panelNord.createSequentialGroup()
+			gl_panelNord.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelNord.createSequentialGroup()
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(lblAgentNXxx)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panelNord.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNom)
-						.addComponent(lblPrnom)
-						.addComponent(lblHoraireDeFin)
-						.addComponent(lblHoraireDeDbut))
+						.addComponent(lblPrnom))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panelNord.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblHoraireDeDbut)
+						.addComponent(lblHoraireDeFin))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panelNord.createParallelGroup(Alignment.BASELINE)
 						.addComponent(button)
 						.addComponent(button_1))
-					.addGap(18)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblPlanning)
 					.addGap(4))
 		);

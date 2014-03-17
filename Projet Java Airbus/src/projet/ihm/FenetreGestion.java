@@ -45,7 +45,7 @@ public class FenetreGestion extends JFrame {
 		catch (Exception e){}
 		
 		setTitle("Gestion Aéroport"); // On donne un titre à l'application
-		setSize(900, 700); // On donne une taille à notre fenètre
+		setSize(700, 500); // On donne une taille à notre fenètre
 		setLocationRelativeTo(null); // On centre la fenètre sur l'écran
 		setResizable(false); // On interdit la redimensionnement de la fenètre
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 

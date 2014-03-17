@@ -27,6 +27,11 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Font;
 
 public class PanelAgent extends JPanel{
 	JPanel courant = this;
@@ -39,6 +44,7 @@ public class PanelAgent extends JPanel{
 	JTable tableauAgents ;
 	JButton boutonPlanning ;
 	ArrayList<Agent> lAgents;
+	private JLabel lblFiltrerPar, lblListeDesAgents;
 
 
 	public PanelAgent(ArrayList<Agent> lA) {
@@ -47,13 +53,43 @@ public class PanelAgent extends JPanel{
 		this.setLayout(layout);
 	
 		
-		/* création des check box */
+		/* création des check box & mise en place du panel*/
 		tempsPlein = new JCheckBox("Agents à temps plein",true);
 		tempsPartiel = new JCheckBox("Agents à temps partiel",true);
-		
-		panelBox.add(tempsPlein);
-		panelBox.add(tempsPartiel);
 		this.add(panelBox,BorderLayout.NORTH);
+		
+		lblListeDesAgents = new JLabel("Liste des agents :");
+		lblListeDesAgents.setFont(new Font("Tahoma", Font.BOLD, 11));
+		
+		lblFiltrerPar = new JLabel("Filtrer par :");
+		GroupLayout gl_panelBox = new GroupLayout(panelBox);
+		gl_panelBox.setHorizontalGroup(
+			gl_panelBox.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBox.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelBox.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblListeDesAgents)
+						.addGroup(gl_panelBox.createSequentialGroup()
+							.addComponent(lblFiltrerPar)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(tempsPlein)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(tempsPartiel)))
+					.addGap(120))
+		);
+		gl_panelBox.setVerticalGroup(
+			gl_panelBox.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBox.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblListeDesAgents)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panelBox.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblFiltrerPar)
+						.addComponent(tempsPlein)
+						.addComponent(tempsPartiel))
+					.addContainerGap(11, Short.MAX_VALUE))
+		);
+		panelBox.setLayout(gl_panelBox);
 		
 		/* création du bouton planning*/	
 		boutonPlanning = new JButton("Voir planning");
@@ -71,6 +107,7 @@ public class PanelAgent extends JPanel{
 		
 		ListSelectionModel listSelectionModel = tableauAgents.getSelectionModel();        
 		listSelectionModel.addListSelectionListener(new ControleurTable());
+		panelCenter.setLayout(new GridLayout(0, 1, 0, 0));
 
 		
 		panelCenter.add(new JScrollPane(tableauAgents));	
