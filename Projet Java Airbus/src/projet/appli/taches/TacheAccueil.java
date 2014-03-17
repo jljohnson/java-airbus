@@ -17,4 +17,10 @@ public class TacheAccueil extends Tache{
 		numTaches++;
 	}
 
+
+	@Override
+	public String getType() {
+		return "Accueil";
+	}
+
 }

@@ -19,4 +19,14 @@ public class TacheDebarquement extends Tache {
 		lesTachesDebarquement.put(this.getIdTache(), this);
 	}
 
+
+	@Override
+	public String getType() {
+		return "Débarquement vol " + volDebarquement.getId();
+	}
+	
+	public VolArrivee getVol() {
+		return volDebarquement;
+	}
+
 }

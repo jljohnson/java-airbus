@@ -16,4 +16,9 @@ public class TacheRepas extends Tache{
 		numTaches++;
 		lesTachesRepas.put(this.getIdTache(), this);
 	}
+
+	@Override
+	public String getType() {
+		return "Repas";
+	}
 }

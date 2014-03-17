@@ -8,6 +8,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -23,17 +25,25 @@ import javax.swing.UIManager;
 
 
 
+
+
+
+
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+
 import projet.appli.Agent;
 import projet.appli.Avion;
+import projet.appli.Tache;
 import projet.ihm.panels.PanelAgent;
+import projet.ihm.panels.PanelPlanning;
 
 public class FenetreGestion extends JFrame {
 		
 	private JMenuBar menu;
-	protected JMenu menuAvion,menuAgent,menuVol,menuPlanning;
-	protected JMenuItem listeAvion; 
-	protected JPanel contentPane;
-	protected String etat;
+	protected JMenu menuAvion,menuAgent,menuVol,menuPlanning,menuFichier;
+	protected JMenuItem listeAvion,listeAgent,listeVolA,listeVolD,listePlanning,quitter; 
+	protected JPanel contentPane,panelPlanning,panelAgent,panelCourant;
 	
 	
 	
@@ -45,35 +55,96 @@ public class FenetreGestion extends JFrame {
 		catch (Exception e){}
 		
 		setTitle("Gestion Aéroport"); // On donne un titre à l'application
-		setSize(700, 500); // On donne une taille à notre fenètre
+		setSize(600, 450); // On donne une taille à notre fenètre
 		setLocationRelativeTo(null); // On centre la fenètre sur l'écran
 		setResizable(false); // On interdit la redimensionnement de la fenètre
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		
+		contentPane = new JPanel();
+		contentPane.setLayout(new GridLayout());
+		ArrayList<Tache> tachesPlanning = new ArrayList<Tache>(Tache.getTaches());
+		panelPlanning = new PanelPlanning(tachesPlanning);
+		panelAgent = new PanelAgent(Agent.getAgents());
 
 		// Création du menu
 		menu = new JMenuBar();
 		this.setJMenuBar(menu);
 
+		menuFichier = new JMenu("Fichier");
 		menuAvion = new JMenu("Avion");
 		menuAgent = new JMenu("Agent");
 		menuVol = new JMenu("Vols");
 		menuPlanning = new JMenu("Planning");
-
-		// Ajout au menu principale
+		
+		// Ajout au menu principal
+		menu.add(menuFichier);
 		menu.add(menuAvion);
 		menu.add(menuAgent);
 		menu.add(menuVol);
 		menu.add(menuPlanning);
 
 		// Création des items
-		listeAvion = new JMenuItem("Liste des avions");
+		listeAvion = new JMenuItem("Liste des avions");		
+		listeVolA = new JMenuItem("Vols arriv�es");
+		listeVolD = new JMenuItem("Vols d�part");
+		listeAgent = new JMenuItem("Liste des agents");
+		listePlanning = new JMenuItem("Liste des t�ches");
+		quitter = new JMenuItem("Quitter");
+		
+		listeAvion.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("menu");
+			}
+		});
+		
+		listePlanning.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changerPanel(panelPlanning);
+			}
+		});
+		
+		listeAgent.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				changerPanel(panelAgent);
+			}
+		});
+		
+		quitter.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();				
+			}
+		});
+
 
 		// Ajout des composants
 		menuAvion.add(listeAvion);
-
-		this.setContentPane(new PanelAgent(Agent.getAgents()));
-
+		menuAgent.add(listeAgent);
+		menuVol.add(listeVolA);
+		menuVol.add(listeVolD);
+		menuPlanning.add(listePlanning);
+		menuFichier.add(quitter);
+		
+		this.setContentPane(contentPane);
+		contentPane.add(panelAgent);
+		panelCourant = panelAgent;
+		
 		this.setVisible(true);
+	}
+	
+	private void changerPanel(JPanel p) {
+		panelCourant.setVisible(false);
+		contentPane.remove(panelCourant);
+		panelCourant = p;
+		contentPane.add(panelCourant);
+		panelCourant.setVisible(true);
 	}
 
 }

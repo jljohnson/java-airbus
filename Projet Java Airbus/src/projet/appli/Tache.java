@@ -19,6 +19,7 @@ public abstract class Tache implements Comparable{
 
 	private String idTache;
 	private TrancheHoraire horaire;
+	private Agent a ;
 
 	static private Hashtable<String, Tache> lesTaches = new Hashtable<String, Tache>();
 	static public TreeSet<Tache> tachesCourantes = new TreeSet<Tache>();
@@ -57,16 +58,12 @@ public abstract class Tache implements Comparable{
 		return res;
 	}
 	
+	public abstract String getType() ;
 	
-	public static TreeSet<Tache> getTache () {
-		return tachesCourantes;
+	public static Collection<Tache> getTaches() {
+		return lesTaches.values();
 	}
 	
-	public static TreeSet<Tache> test() {
-		return new TreeSet<Tache>(lesTaches.values());
-	}
-	
-	// Méthode qui affiche tous les avions
 	public String toString ()
 	{
 		String res = "Identifiant : " + idTache + " tranche horaire :" + horaire.toString();
@@ -77,13 +74,6 @@ public abstract class Tache implements Comparable{
 	{
 		for (Tache t : lesTaches.values()) {
 			System.out.println(t.toString());
-		}
-	}
-	
-	static public void afficherInstanceTrier(){
-		Iterator it = Tache.getTache().iterator();
-		while(it.hasNext()){
-			System.out.println(it.next().toString());
 		}
 	}
 	
