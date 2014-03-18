@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -49,7 +50,7 @@ public class Avion {
 	}
 	
 	
-	// M�thode statique qui permet de retrouver la r�ference du pointeur
+	// M���thode statique qui permet de retrouver la r���ference du pointeur
 	public static Avion getAvion (String id) throws IdAvionException
 	{
 		if (!lesAvions.containsKey(id))
@@ -60,14 +61,14 @@ public class Avion {
 		
 	}
 	
-	// M�thode qui affiche tous les avions
+	// M���thode qui affiche tous les avions
 	public String toString ()
 	{
-		String res = "Identifiant : " + idAvion + " Modèle : " + modele + " Capacite :" + capacite;
+		String res = "Identifiant : " + idAvion + " Mod��le : " + modele + " Capacite :" + capacite;
 		return res;
 	}
 	
-	// M�thode statique pour lire le fichier avion
+	// M���thode statique pour lire le fichier avion
 	// lit le fichier
 	// creer une instance
 	// ajoute dans la map
@@ -77,14 +78,14 @@ public class Avion {
 	
 			BufferedReader entree = null;
 			
-			// Déclaration d'une ligne
+			// D��claration d'une ligne
 			String ligne;
 			
-			// Découpage en mot
+			// D��coupage en mot
 			StringTokenizer mot;
 			
 			try {
-				// Entrée du fichier
+				// Entr��e du fichier
 				 entree = new BufferedReader(new FileReader (adresseFichier));
 				
 				while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
@@ -120,6 +121,11 @@ public class Avion {
 		for (Avion a : lesAvions.values()) {
 			System.out.println(a.toString());
 		}
+	}
+	
+	public static ArrayList<Avion> getAvions() {
+		// TODO Auto-generated method stub
+		return new ArrayList<Avion>(lesAvions.values());
 	}
 
 }
