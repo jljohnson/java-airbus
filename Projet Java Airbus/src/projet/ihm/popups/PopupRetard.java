@@ -144,7 +144,7 @@ public class PopupRetard extends JDialog {
 	
 	public boolean saisieValide(Horaire h) throws SaisieInvalideException {
 		if (h.compareTo(agent.getHoraire().getFinTrancheHoraire()) >= 0) {
-			throw new SaisieInvalideException("Heure supérieure à horaire de fin agent");
+			throw new SaisieInvalideException();
 		}
 		return true ;
 	}
