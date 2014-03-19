@@ -20,6 +20,7 @@ public class TacheEnregistrement extends Tache {
 		numTache++;
 		volEnregistrement = v ;
 		lesTachesEnregistrement.put(this.getIdTache(), this);
+		tachesCourantes.add(this);
 	}
 
 

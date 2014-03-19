@@ -180,27 +180,32 @@ public abstract class  Agent {
 				tranches.add(trancheService);
 				return tranches;
 			}
-			
-			Tache first = tachesAgent.first();
-			if (trancheService.getDebutTrancheHoraire().compareTo(first.getHoraires().getDebutTrancheHoraire()) 
-					> 0) {
+			Iterator<Tache> it = tachesAgent.iterator();
+
+			Tache first = it.next();
+			if (trancheService.getDebutTrancheHoraire().compareTo(first.getHoraires().getDebutTrancheHoraire()) < 0) {
 				tranches.add(new TrancheHoraire(trancheService.getDebutTrancheHoraire(), first.getHoraires().getDebutTrancheHoraire()));				
 			}
 			
-			Tache t,tPrec ;
-			for (Iterator<Tache> it = tachesAgent.iterator(); it.hasNext();) {
-				tPrec =  it.next();
+			Tache tNext,tCour ;
+			tCour = first ;
+			while (it.hasNext()) {
+				tNext =  it.next();
+				System.out.println("tCour = " + tCour.toString() + " tNext " + tNext.toString());
 				TrancheHoraire trancheAMettre ;
-				if (it.hasNext()) {
-					t = it.next();
-					trancheAMettre = (new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()) ) ;
-				} else {
-					trancheAMettre = (new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), trancheService.getFinTrancheHoraire()));
-				}
+				
+				trancheAMettre = new TrancheHoraire(tCour.getHoraires().getFinTrancheHoraire(), tNext.getHoraires().getDebutTrancheHoraire()) ;
 				if (trancheAMettre.getDuree().dureeEnMinutes() > 0) {
 					tranches.add(trancheAMettre);
 				}
+				if (!it.hasNext()) {	
+					trancheAMettre = new TrancheHoraire(tNext.getHoraires().getFinTrancheHoraire(), trancheService.getFinTrancheHoraire());
+					if (trancheAMettre.getDuree().dureeEnMinutes() > 0) {
+						tranches.add(trancheAMettre);
+					}
+				}
 
+				tCour = tNext;
 			}
 						
 			return tranches;

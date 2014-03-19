@@ -31,7 +31,6 @@ public abstract class Tache implements Comparable{
 		horaire = new TrancheHoraire(debut, fin);
 
 		lesTaches.put(idTache, this);
-		tachesCourantes.add(this);
 	}
 
 	// tous les gets
@@ -89,7 +88,7 @@ public abstract class Tache implements Comparable{
 		throw new PlusDeTachesExeception();
 	}
 	
-	static public Tache demanderTacheRepas(Horaire hDeb) {
+	static public TacheRepas demanderTacheRepas(Horaire hDeb) {
 		return new TacheRepas(hDeb);
 	}
 	

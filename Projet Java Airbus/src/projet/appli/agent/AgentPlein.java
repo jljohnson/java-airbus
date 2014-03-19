@@ -169,55 +169,36 @@ public class AgentPlein extends Agent{
 				TrancheHoraire trancheLastTache;
 				boolean fini = false;
 				
+				if (trancheService.equals(trancheHoraireSoir) && !aMange) {
+					TacheRepas tR = Tache.demanderTacheRepas(trancheService.getDebutTrancheHoraire()); 
+					ajouterTache(tR);	
+					trancheTravail = new TrancheHoraire(trancheTravail.getDebutTrancheHoraire().ajout(new Duree(1, 0)),
+							trancheTravail.getFinTrancheHoraire());
+					aMange = true ;
+				}
 
 				while((trancheTravail.getDebutTrancheHoraire().compareTo(trancheTravail.getFinTrancheHoraire()) < 0) && !fini){
 					try{
-					if (trancheService.equals(trancheHoraireSoir) && !aMange) {
-							ajouterTache(Tache.demanderTacheRepas(trancheService.getDebutTrancheHoraire()));
-							aMange = true ;
-							trancheTravail = new TrancheHoraire(trancheService.getDebutTrancheHoraire().ajout(new Duree(0,60)), trancheTravail.getFinTrancheHoraire());
-					}
-					
-					Tache t= Tache.demanderTache(trancheTravail);
-					ajouterTache(t);
-					trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire(), trancheTravail.getFinTrancheHoraire());
 
-					if (!aMange) {
-						
-						// la tache se finit pendant la tranche repas
-						if (trancheRepas.contient(t.getHoraires().getFinTrancheHoraire())) {
-							ajouterTache(Tache.demanderTacheRepas(t.getHoraires().getFinTrancheHoraire()));
-							aMange = true ;
-							trancheTravail = new TrancheHoraire(trancheTravail.getDebutTrancheHoraire().ajout(new Duree(0,60)), trancheTravail.getFinTrancheHoraire());
+						Tache t= Tache.demanderTache(trancheTravail);
+						ajouterTache(t);
+						trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire(), trancheTravail.getFinTrancheHoraire());
+						if ((t.getHoraires().getFinTrancheHoraire().compareTo(trancheRepas.getDebutTrancheHoraire()) > 0) && !aMange) {
+							TacheRepas tR = Tache.demanderTacheRepas(t.getHoraires().getFinTrancheHoraire()); 
+							ajouterTache(tR);	
+							trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire().ajout(new Duree(1, 0)),
+									trancheTravail.getFinTrancheHoraire());
+							aMange = true;
 						}
-						// la tache commence après la tranche repas et tache précédente finit avant
-						else if (trancheTravail.getDebutTrancheHoraire().compareTo(trancheRepas.getDebutTrancheHoraire()) < 0
-								&& (trancheRepas.getDebutTrancheHoraire().compareTo(t.getHoraires().getFinTrancheHoraire()) < 0) ) {
-							ajouterTache(Tache.demanderTacheRepas(trancheRepas.getDebutTrancheHoraire()));
-							trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire().ajout(new Duree(0,60)), trancheTravail.getFinTrancheHoraire());
-							System.out.println("-->ok");
-							aMange = true ;
-						}  		
 					}
-
-
-				}
-				catch (Exception e){
+					catch (Exception e){
 						fini = true;
 						//e.printStackTrace();
 					}
 				}
 				
-				/*if (!aMange) {
-					if (trancheService.equals(trancheHoraireSoir)) {
-						ajouterTache(Tache.demanderTacheRepas(trancheService.getDebutTrancheHoraire()));						
-					} else {
-						ajouterTache(Tache.demanderTacheRepas(trancheRepas.getDebutTrancheHoraire()));
-					}
-					aMange=true;
-				}*/ 
 				
-				//genererTachesAccueil();
+				genererTachesAccueil();
 		}
 		
 		
