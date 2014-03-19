@@ -20,6 +20,7 @@ import org.w3c.dom.views.AbstractView;
 
 import projet.appli.Agent;
 import projet.appli.Tache;
+import projet.outils.TrancheHoraire;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -39,6 +40,10 @@ public class PopupPlanning extends JDialog {
 	
 	public PopupPlanning(Agent a) {
 		agent = a ;
+		System.out.println("Tranches libres agent " + a.getMatricules());		
+		for (TrancheHoraire th : a.tranchesLibres()) {
+			System.out.println(th.toString());
+		}
 		// Récupération du design système
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

@@ -173,9 +173,7 @@ public abstract class  Agent {
 		public ArrayList<TrancheHoraire> tranchesLibres() {
 
 			TrancheHoraire trancheService = horaires ;
-
 		
-			
 			ArrayList<TrancheHoraire> tranches = new ArrayList<TrancheHoraire>();
 			
 			if (tachesAgent.isEmpty()) {
@@ -184,18 +182,25 @@ public abstract class  Agent {
 			}
 			
 			Tache first = tachesAgent.first();
-			tranches.add(new TrancheHoraire(trancheService.getDebutTrancheHoraire(), first.getHoraires().getDebutTrancheHoraire()));
+			if (trancheService.getDebutTrancheHoraire().compareTo(first.getHoraires().getDebutTrancheHoraire()) 
+					> 0) {
+				tranches.add(new TrancheHoraire(trancheService.getDebutTrancheHoraire(), first.getHoraires().getDebutTrancheHoraire()));				
+			}
 			
 			Tache t,tPrec ;
 			for (Iterator<Tache> it = tachesAgent.iterator(); it.hasNext();) {
 				tPrec =  it.next();
-
+				TrancheHoraire trancheAMettre ;
 				if (it.hasNext()) {
 					t = it.next();
-					tranches.add(new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()) ) ;
+					trancheAMettre = (new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()) ) ;
 				} else {
-					tranches.add(new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), trancheService.getFinTrancheHoraire()));
+					trancheAMettre = (new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), trancheService.getFinTrancheHoraire()));
 				}
+				if (trancheAMettre.getDuree().dureeEnMinutes() > 0) {
+					tranches.add(trancheAMettre);
+				}
+
 			}
 						
 			return tranches;
@@ -223,55 +228,25 @@ public abstract class  Agent {
 					tachesAReaffecter.add(t);
 				}
 			} 
-		
-			for (Tache t : tachesAReaffecter) {
-				if (tachesAgent.contains(t)) {
-					tachesAgent.remove(t);
-				}
-			}
+			tachesAgent.clear();
 			
-			for (Agent a : lesAgents.values()) {
+			for (Tache tacheAReaffecter : tachesAReaffecter) {
 				boolean affecte = false ;
-				for (Tache t: tachesAReaffecter) {
-					if (affecterTache(t)) {
-						affecte = true ;
-						break;
-					}
-					if (affecte==true) break;
+				ArrayList<Agent> agents = new ArrayList<Agent>(lesAgents.values()) ;
+				for (int i = 0; i < agents.size() && !affecte; i++ ) {
+					Agent a = agents.get(i);
+					if (!a.isAbsent()) {
+						if (a.affecterTache(tacheAReaffecter)) {
+							affecte = true ;
+							System.out.println("tache " + tacheAReaffecter.getIdTache() + " affectée à l'agent " + a.getMatricules());
+						}
+					}					
 				}
 			}
 		}
-	
-		public void retard(Horaire retard) {
-			horaires = new TrancheHoraire(retard, horaires.getFinTrancheHoraire());
+		
+		public void retard(Horaire h1) {
 			
-			TreeSet<Tache> tachesAReaffecter = new TreeSet<Tache>();
-			
-
-			for (Tache t : tachesAgent) {
-				if (retard.compareTo(t.getHoraires().getDebutTrancheHoraire())>0) {
-					if ((t.getClass() != TacheAccueil.class) && (t.getClass() != TacheRepas.class)) {
-						tachesAReaffecter.add(t);
-					}
-				} else break ;
-			} 
-			
-			for (Tache t : tachesAReaffecter) {
-				if (tachesAgent.contains(t)) {
-					tachesAgent.remove(t);
-				}
-			}
-
-			for (Agent a : lesAgents.values()) {
-				boolean affecte = false ;
-				for (Tache t: tachesAReaffecter) {
-					if (affecterTache(t)) {
-						affecte = true ;
-						break;
-					}
-					if (affecte==true) break;
-				}
-			}
 		}
 		
 		public boolean affecterTache(Tache t) {

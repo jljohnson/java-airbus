@@ -50,7 +50,7 @@ public abstract class Tache implements Comparable{
 			res = -1;
 		}
 		else if((((this.getHoraires()).getDebutTrancheHoraire()).compareTo(t.getHoraires().getDebutTrancheHoraire())) == 0){
-			res = 0;
+			res = this.idTache.compareTo(t.getIdTache());
 		}
 		else{
 			res = 1;
