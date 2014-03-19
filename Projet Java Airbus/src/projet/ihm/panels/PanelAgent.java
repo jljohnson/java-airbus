@@ -17,10 +17,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import projet.appli.Agent;
 import projet.ihm.popups.PopupPlanning;
@@ -36,6 +40,7 @@ import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import java.awt.Font;
+
 import javax.swing.JToggleButton;
 import javax.swing.JComboBox;
 
@@ -50,6 +55,8 @@ public class PanelAgent extends JPanel{
 	JTable tableauAgents ;
 	JButton boutonPlanning ;
 	ArrayList<Agent> lAgents;
+	private TableAgent modeleAgent;
+	private TableRowSorter sorter;
 	private JLabel lblFiltrerPar, lblListeDesAgents;
 
 
@@ -70,13 +77,42 @@ public class PanelAgent extends JPanel{
 			public void itemStateChanged(ItemEvent item) {
 
 				int status = item.getStateChange();
-				if (status == ItemEvent.SELECTED)
-				{
-						System.out.print("Temps plein");
-				}
-						
-				
+			if (tempsPlein.isSelected() && tempsPartiel.isSelected())
+			{
+		          sorter.setRowFilter(RowFilter.regexFilter(""));
+
 			}
+			else if (status == ItemEvent.SELECTED)
+				{
+				          sorter.setRowFilter(RowFilter.regexFilter("P",0));
+				}
+			else if (!tempsPlein.isSelected())
+			{
+				sorter.setRowFilter(RowFilter.regexFilter(""));
+			}
+		}
+		});
+		
+	tempsPartiel.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent item) {
+
+				int status = item.getStateChange();
+			if (tempsPlein.isSelected() && tempsPartiel.isSelected())
+			{
+		          sorter.setRowFilter(RowFilter.regexFilter(""));
+
+			}
+			else if (status == ItemEvent.SELECTED)
+				{
+				          sorter.setRowFilter(RowFilter.regexFilter("M",0));
+				}
+			else if (!tempsPartiel.isSelected())
+			{
+				sorter.setRowFilter(RowFilter.regexFilter(""));
+			}
+		}
 		});
 		this.add(panelBox,BorderLayout.NORTH);
 		
@@ -124,9 +160,17 @@ public class PanelAgent extends JPanel{
 		panelBtns.add(boutonPlanning);
 		this.add(panelBtns,BorderLayout.SOUTH);
 		
-		/* cr�ation du tableau d'agents */
-		tableauAgents = new JTable(new TableAgent(lAgents));
+		/* création du tableau d'agents */
+		 modeleAgent = new TableAgent(lAgents);
+
+		
+		tableauAgents = new JTable(modeleAgent);
 		tableauAgents.setAutoCreateRowSorter(true);
+		
+		 sorter = new TableRowSorter(modeleAgent);
+	    tableauAgents.setRowSorter(sorter);
+		
+
 
 		
 		ListSelectionModel listSelectionModel = tableauAgents.getSelectionModel();        
