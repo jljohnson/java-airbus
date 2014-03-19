@@ -56,6 +56,8 @@ public class PanelAvion extends JPanel{
 		
 		/* cr?ation du tableau d'agents */
 		tableauAvion = new JTable(new TableAvion(lA));
+		tableauAvion.setAutoCreateRowSorter(true);
+
 		tableauAvion.setToolTipText("");
 		
 		ListSelectionModel listSelectionModel = tableauAvion.getSelectionModel();        

@@ -47,6 +47,8 @@ public class PanelVolDepart extends PanelVol{
 		
 		/* cr?ation du tableau d'agents */
 		tableauVols = new JTable(new TableVol(lV));
+		tableauVols.setAutoCreateRowSorter(true);
+
 		
 		ListSelectionModel listSelectionModel = tableauVols.getSelectionModel();        
 		listSelectionModel.addListSelectionListener(new ControleurTable());

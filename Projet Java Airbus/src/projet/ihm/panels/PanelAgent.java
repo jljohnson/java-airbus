@@ -126,6 +126,8 @@ public class PanelAgent extends JPanel{
 		
 		/* cr�ation du tableau d'agents */
 		tableauAgents = new JTable(new TableAgent(lAgents));
+		tableauAgents.setAutoCreateRowSorter(true);
+
 		
 		ListSelectionModel listSelectionModel = tableauAgents.getSelectionModel();        
 		listSelectionModel.addListSelectionListener(new ControleurTable());

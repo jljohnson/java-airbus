@@ -66,7 +66,7 @@ public class PanelPlanning extends JPanel{
 		
 
 		
-		/* création du bouton planning*/	
+		/* crï¿½ation du bouton planning*/	
 		boutonPlanning = new JButton("Voir planning");
 		boutonPlanning.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -165,8 +165,10 @@ public class PanelPlanning extends JPanel{
 		);
 		panelBtns.setLayout(gl_panelBtns);
 		
-		/* création du tableau d'agents */
+		/* crï¿½ation du tableau d'agents */
 		tableauTaches = new JTable(new TablePlanning(lTaches));
+		tableauTaches.setAutoCreateRowSorter(true);
+
 		
 		ListSelectionModel listSelectionModel = tableauTaches.getSelectionModel();        
 		listSelectionModel.addListSelectionListener(new ControleurTable());
@@ -241,19 +243,19 @@ public class PanelPlanning extends JPanel{
 	        			TacheDebarquement tCast = (TacheDebarquement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
-		        		lblTypeVol.setText("Type : arrivée");
+		        		lblTypeVol.setText("Type : arrivï¿½e");
 	        		}
 	        		if (t.getClass() == TacheEmbarquement.class) {
 	        			TacheEmbarquement tCast = (TacheEmbarquement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
-		        		lblTypeVol.setText("Type : départ");
+		        		lblTypeVol.setText("Type : dï¿½part");
 	        		}
 	        		if (t.getClass() == TacheEnregistrement.class) {
 	        			TacheEnregistrement tCast = (TacheEnregistrement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
-		        		lblTypeVol.setText("Type : départ");
+		        		lblTypeVol.setText("Type : dï¿½part");
 	        		}
 	        		lblVolCorrespondant.setEnabled(true);
 	        		lblHeureVol.setEnabled(true);
