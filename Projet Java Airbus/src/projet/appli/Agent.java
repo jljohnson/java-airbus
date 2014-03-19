@@ -190,13 +190,17 @@ public abstract class  Agent {
 			Tache t,tPrec ;
 			for (Iterator<Tache> it = tachesAgent.iterator(); it.hasNext();) {
 				tPrec =  it.next();
-
+				TrancheHoraire trancheAMettre ;
 				if (it.hasNext()) {
 					t = it.next();
-					tranches.add(new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()) ) ;
+					trancheAMettre = (new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()) ) ;
 				} else {
-					tranches.add(new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), trancheService.getFinTrancheHoraire()));
+					trancheAMettre = (new TrancheHoraire(tPrec.getHoraires().getFinTrancheHoraire(), trancheService.getFinTrancheHoraire()));
 				}
+				if (trancheAMettre.getDuree().dureeEnMinutes() > 0) {
+					tranches.add(trancheAMettre);
+				}
+
 			}
 						
 			return tranches;
