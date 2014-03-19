@@ -80,15 +80,22 @@ public class PanelAgent extends JPanel{
 			if (tempsPlein.isSelected() && tempsPartiel.isSelected())
 			{
 		          sorter.setRowFilter(RowFilter.regexFilter(""));
-
+		          
 			}
 			else if (status == ItemEvent.SELECTED)
 				{
 				          sorter.setRowFilter(RowFilter.regexFilter("P",0));
 				}
-			else if (!tempsPlein.isSelected())
+			else if (status == ItemEvent.DESELECTED)
 			{
 				sorter.setRowFilter(RowFilter.regexFilter(""));
+				
+				if (status == ItemEvent.DESELECTED && tempsPartiel.isSelected())
+				{
+					sorter.setRowFilter(RowFilter.regexFilter("M",0));
+				}
+				
+
 			}
 		}
 		});
@@ -108,11 +115,16 @@ public class PanelAgent extends JPanel{
 				{
 				          sorter.setRowFilter(RowFilter.regexFilter("M",0));
 				}
-			else if (!tempsPartiel.isSelected())
+			else if (status == ItemEvent.DESELECTED)
 			{
 				sorter.setRowFilter(RowFilter.regexFilter(""));
-			}
-		}
+				
+				if (status == ItemEvent.DESELECTED && tempsPlein.isSelected())
+				{
+					sorter.setRowFilter(RowFilter.regexFilter("P",0));
+				}
+			}			
+		 }
 		});
 		this.add(panelBox,BorderLayout.NORTH);
 		
