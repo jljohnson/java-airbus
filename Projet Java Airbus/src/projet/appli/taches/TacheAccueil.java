@@ -2,6 +2,7 @@ package projet.appli.taches;
 
 import java.util.Hashtable;
 
+import projet.appli.Agent;
 import projet.appli.Tache;
 import projet.outils.Duree;
 import projet.outils.Horaire;

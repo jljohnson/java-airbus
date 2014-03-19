@@ -20,7 +20,6 @@ public abstract class Tache implements Comparable{
 	private String idTache;
 	private TrancheHoraire horaire;
 	private Agent a ;
-
 	static private Hashtable<String, Tache> lesTaches = new Hashtable<String, Tache>();
 	static public TreeSet<Tache> tachesCourantes = new TreeSet<Tache>();
 	static public ArrayList<Tache> tachesAttribuees = new ArrayList<Tache>();
@@ -29,13 +28,19 @@ public abstract class Tache implements Comparable{
 	public Tache(String id, Horaire debut, Horaire fin) {
 		idTache = id;
 		horaire = new TrancheHoraire(debut, fin);
-
 		lesTaches.put(idTache, this);
 	}
-
+	// setteur
+	public void setAgent(Agent ag){
+		a = ag;
+	}
 	// tous les gets
 	public String getIdTache() {
 		return (idTache);
+	}
+	
+	public Agent getAgent(){
+		return a;
 	}
 
 	public TrancheHoraire getHoraires() {

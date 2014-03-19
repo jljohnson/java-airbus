@@ -40,7 +40,7 @@ public class Main {
 			Agent.genererCalendrier();
 			System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribu�es :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
 	
-			try {
+			/*try {
 				//Agent.getAgent("P0007").absence();
 				Agent.getAgent("P0007").afficherPlanning();
 				System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches attribuees :" + Tache.tachesAttribuees.size() + "/Taches repas:" + TacheRepas.lesTachesRepas.size());
@@ -48,7 +48,7 @@ public class Main {
 			} catch (MatAgentException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			}
+			}*/ 
 			new FenetreGestion();
 			System.out.println("Taches courantes :" + Tache.tachesCourantes.size() + "Taches lesTaches:" + Tache.getTaches().size());
 

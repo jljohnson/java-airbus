@@ -191,7 +191,6 @@ public abstract class  Agent {
 			tCour = first ;
 			while (it.hasNext()) {
 				tNext =  it.next();
-				System.out.println("tCour = " + tCour.toString() + " tNext " + tNext.toString());
 				TrancheHoraire trancheAMettre ;
 				
 				trancheAMettre = new TrancheHoraire(tCour.getHoraires().getFinTrancheHoraire(), tNext.getHoraires().getDebutTrancheHoraire()) ;
@@ -218,7 +217,15 @@ public abstract class  Agent {
 					TacheAccueil t = new TacheAccueil(tH.getDebutTrancheHoraire(), tH.getFinTrancheHoraire());
 					tachesAgent.add(t);
 					tachesAccueil.add(t);
+//					System.out.println("Id tache accueil : " + t.getIdTache() + " agent asso " + t.getAgent().matricule + "agent base " + matricule );
 				}
+			}
+		}
+		
+		public void affecterTachesAAgent(){
+			for (Tache t : tachesAgent){
+				t.setAgent(this);
+				System.out.println("Agent : " + matricule + " tache : " + t.toString() + " ag asso : " + t.getAgent().toString());
 			}
 		}
 		
@@ -243,7 +250,7 @@ public abstract class  Agent {
 					if (!a.isAbsent()) {
 						if (a.affecterTache(tacheAReaffecter)) {
 							affecte = true ;
-							System.out.println("tache " + tacheAReaffecter.getIdTache() + " affectée à l'agent " + a.getMatricules());
+							//System.out.println("tache " + tacheAReaffecter.getIdTache() + " affectée à l'agent " + a.getMatricules());
 						}
 					}					
 				}

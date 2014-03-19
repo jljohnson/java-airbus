@@ -171,9 +171,9 @@ public class AgentPlein extends Agent{
 				
 				if (trancheService.equals(trancheHoraireSoir) && !aMange) {
 					TacheRepas tR = Tache.demanderTacheRepas(trancheService.getDebutTrancheHoraire()); 
-					ajouterTache(tR);	
+					ajouterTache(tR);
 					trancheTravail = new TrancheHoraire(trancheTravail.getDebutTrancheHoraire().ajout(new Duree(1, 0)),
-							trancheTravail.getFinTrancheHoraire());
+					trancheTravail.getFinTrancheHoraire());
 					aMange = true ;
 				}
 
@@ -185,7 +185,7 @@ public class AgentPlein extends Agent{
 						trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire(), trancheTravail.getFinTrancheHoraire());
 						if ((t.getHoraires().getFinTrancheHoraire().compareTo(trancheRepas.getDebutTrancheHoraire()) > 0) && !aMange) {
 							TacheRepas tR = Tache.demanderTacheRepas(t.getHoraires().getFinTrancheHoraire()); 
-							ajouterTache(tR);	
+							ajouterTache(tR);
 							trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire().ajout(new Duree(1, 0)),
 									trancheTravail.getFinTrancheHoraire());
 							aMange = true;
@@ -199,6 +199,7 @@ public class AgentPlein extends Agent{
 				
 				
 				genererTachesAccueil();
+				affecterTachesAAgent();
 		}
 		
 		

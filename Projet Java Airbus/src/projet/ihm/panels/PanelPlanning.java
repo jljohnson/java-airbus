@@ -232,30 +232,54 @@ public class PanelPlanning extends JPanel{
 	        	Tache t = lTaches.get(tableauTaches.convertRowIndexToModel(tableauTaches.getSelectedRow()));
 	        	
 	        	if ((t.getClass() == TacheAccueil.class) || (t.getClass() == TacheRepas.class)) {
+	        		
         			lblVolCorrespondant.setText("Vol correspondant : " );
 	        		lblHeureVol.setText("Heure : ");
 	        		lblTypeVol.setText("Type :");
 	        		lblVolCorrespondant.setEnabled(false);
 	        		lblHeureVol.setEnabled(false);
 	        		lblTypeVol.setEnabled(false);
+	        		if(t.getClass()== TacheAccueil.class){
+	        			TacheAccueil tCastAcc = (TacheAccueil) t;
+	        			lblNomAgent.setText("Nom : " + tCastAcc.getAgent().getNom());
+		        		lblPrnomAgent.setText("Prénom : " + tCastAcc.getAgent().getPrenom());
+		        		lblHorairesAgent.setText("Horaire travail :" + tCastAcc.getAgent().getHoraire().toString());
+	        		}
+	        		else
+	        		{
+	        			TacheRepas tCast = (TacheRepas) t;
+	        			lblNomAgent.setText("Nom : " + tCast.getAgent().getNom());
+		        		lblPrnomAgent.setText("Prénom : " + tCast.getAgent().getPrenom());
+		        		lblHorairesAgent.setText("Horaire travail :" + tCast.getAgent().getHoraire().toString());
+	        		}
+	        		
 	        	} else {
 	        		if (t.getClass() == TacheDebarquement.class) {
 	        			TacheDebarquement tCast = (TacheDebarquement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
 		        		lblTypeVol.setText("Type : arrivï¿½e");
+		        		lblNomAgent.setText("Nom : " + tCast.getAgent().getNom());
+		        		lblPrnomAgent.setText("Prénom : " + tCast.getAgent().getPrenom());
+		        		lblHorairesAgent.setText("Horaire travail :" + tCast.getAgent().getHoraire().toString());
 	        		}
 	        		if (t.getClass() == TacheEmbarquement.class) {
 	        			TacheEmbarquement tCast = (TacheEmbarquement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
 		        		lblTypeVol.setText("Type : dï¿½part");
+		        		lblNomAgent.setText("Nom : " + tCast.getAgent().getNom());
+		        		lblPrnomAgent.setText("Prénom : " + tCast.getAgent().getPrenom());
+		        		lblHorairesAgent.setText("Horaire travail :" + tCast.getAgent().getHoraire().toString());
 	        		}
 	        		if (t.getClass() == TacheEnregistrement.class) {
 	        			TacheEnregistrement tCast = (TacheEnregistrement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
 		        		lblTypeVol.setText("Type : dï¿½part");
+		        		lblNomAgent.setText("Nom : " + tCast.getAgent().getNom());
+		        		lblPrnomAgent.setText("Prénom : " + tCast.getAgent().getPrenom());
+		        		lblHorairesAgent.setText("Horaire travail :" + tCast.getAgent().getHoraire().toString());
 	        		}
 	        		lblVolCorrespondant.setEnabled(true);
 	        		lblHeureVol.setEnabled(true);
