@@ -23,6 +23,7 @@ import javax.swing.table.AbstractTableModel;
 import projet.appli.Agent;
 import projet.appli.Vol;
 import projet.ihm.popups.PopupPlanning;
+import projet.ihm.popups.PopupRetardVol;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
@@ -35,6 +36,7 @@ import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import java.awt.Font;
+
 import javax.swing.SwingConstants;
 
 public class PanelVol extends JPanel{
@@ -77,6 +79,14 @@ public class PanelVol extends JPanel{
 		
 		btnRetard = new JButton("Retard");
 		panelBtns.add(btnRetard);
+		
+		btnRetard.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new PopupRetardVol(lVols.get(tableauVols.convertRowIndexToModel(tableauVols.getSelectedRow()))) ;
+			}
+		});
+		btnRetard.setEnabled(false);
+
 		
 		btnAnnulation = new JButton("Annulation");
 		panelBtns.add(btnAnnulation);
@@ -135,9 +145,15 @@ public class PanelVol extends JPanel{
 			if (listSelectionEvent.getValueIsAdjusting())
 	            return;
 	        ListSelectionModel lsm = (ListSelectionModel)listSelectionEvent.getSource();
+	        
 	        if (!lsm.isSelectionEmpty()) {
 	        	Vol v = lVols.get(tableauVols.convertRowIndexToModel(tableauVols.getSelectedRow()));
-	        }			
+	        	btnRetard.setEnabled(true);
+	        }	
+	        else
+	        {
+	        	btnRetard.setEnabled(false);
+	        }
 		}
 	}	
 }
