@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
@@ -29,7 +30,7 @@ public class VolArrivee extends Vol {
 	
 	@Override
 	public String toString() {
-		return "Vol Arriv���e n���" + super.toString() +"\n  - ville d���part :" + villeDepart;
+		return "Vol Arriv���������e n���������" + super.toString() +"\n  - ville d���������part :" + villeDepart;
 	}
 	
 	public String getVille()
@@ -41,13 +42,13 @@ public class VolArrivee extends Vol {
 			
 		BufferedReader entree = null;
 			try {
-				// Entr��e du fichier
+				// Entr������e du fichier
 			    entree = new BufferedReader(new FileReader (adresseFichier));
 				
-				// D��claration d'une ligne
+				// D������claration d'une ligne
 				String ligne;
 				
-				// D��coupage en mot
+				// D������coupage en mot
 				StringTokenizer mot;
 
 				while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
@@ -80,9 +81,14 @@ public class VolArrivee extends Vol {
 		
 	}
 	
-	// Cr��ation des taches debarquement
+	// Cr������ation des taches debarquement
 	public void creerTaches ()
 	{
 		TacheDebarquement td = new TacheDebarquement(this) ;
+	}
+	
+	public static ArrayList<Vol> getVolsArrivee() {
+		// TODO Auto-generated method stub
+		return new ArrayList<Vol>(lesVolsArrivee.values());
 	}
 }

@@ -29,6 +29,14 @@ import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
+import java.awt.Font;
+import javax.swing.SwingConstants;
+
 public class PanelVol extends JPanel{
 	JPanel courant = this;
 	JPanel panelBox = new JPanel();
@@ -36,35 +44,47 @@ public class PanelVol extends JPanel{
 	JPanel panelCenter = new JPanel();
 	BorderLayout layout = new BorderLayout();
 	FlowLayout layoutBtns = new FlowLayout();
-	JCheckBox tempsPlein, tempsPartiel ;
-	JTable tableauVol ;
+	JTable tableauVols ;
 	ArrayList<Vol> lVols;
+	private JButton btnAnnulation;
+	private JButton btnRetard;
 
 
 	public PanelVol(ArrayList<Vol> lV) {
 		lVols = lV ;
 		
 		this.setLayout(layout);
-	
-		
-		/* cr?ation des check box */
-		
-		panelBox.add(tempsPlein);
-		panelBox.add(tempsPartiel);
 		this.add(panelBox,BorderLayout.NORTH);
 		
-		/* cr?ation du tableau d'agents */
-		tableauVol = new JTable(new TableVol(lV));
+		JLabel lblListeDesVols = new JLabel("Liste des Vols");
+		GroupLayout gl_panelBox = new GroupLayout(panelBox);
+		gl_panelBox.setHorizontalGroup(
+			gl_panelBox.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBox.createSequentialGroup()
+					.addGap(21)
+					.addComponent(lblListeDesVols)
+					.addContainerGap(342, Short.MAX_VALUE))
+		);
+		gl_panelBox.setVerticalGroup(
+			gl_panelBox.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBox.createSequentialGroup()
+					.addGap(23)
+					.addComponent(lblListeDesVols)
+					.addContainerGap(27, Short.MAX_VALUE))
+		);
+		panelBox.setLayout(gl_panelBox);
+		this.add(panelBtns,BorderLayout.SOUTH);
 		
-		ListSelectionModel listSelectionModel = tableauVol.getSelectionModel();        
-		listSelectionModel.addListSelectionListener(new ControleurTable());
-
+		btnRetard = new JButton("Retard");
+		panelBtns.add(btnRetard);
 		
-		panelCenter.add(new JScrollPane(tableauVol));	
-		this.add(panelCenter,BorderLayout.CENTER);
+		btnAnnulation = new JButton("Annulation");
+		panelBtns.add(btnAnnulation);
+		
+	
 	}
 	
-	private class TableVol extends AbstractTableModel {
+	 public  class TableVol extends AbstractTableModel {
 		private ArrayList<Vol> vols ;
 		private String index[] =  {"Id Vol","Heure","Destination","Id Avion"};
 		
@@ -99,7 +119,7 @@ public class PanelVol extends JPanel{
 			case 2:
 				return v.getVille();
 			case 3:
-				return v.getAvion();
+				return v.getAvion().getIdAvion();
 			default:
 				return null;
 			}
@@ -110,13 +130,13 @@ public class PanelVol extends JPanel{
 	    }
 	}
 	
-	private class ControleurTable  implements ListSelectionListener{
+	public class ControleurTable  implements ListSelectionListener{
 		public void valueChanged(ListSelectionEvent listSelectionEvent) {
 			if (listSelectionEvent.getValueIsAdjusting())
 	            return;
 	        ListSelectionModel lsm = (ListSelectionModel)listSelectionEvent.getSource();
 	        if (!lsm.isSelectionEmpty()) {
-	        	Vol v = lVols.get(tableauVol.convertRowIndexToModel(tableauVol.getSelectedRow()));
+	        	Vol v = lVols.get(tableauVols.convertRowIndexToModel(tableauVols.getSelectedRow()));
 	        }			
 		}
 	}	

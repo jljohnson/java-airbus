@@ -35,16 +35,22 @@ import javax.swing.event.MenuListener;
 import projet.appli.Agent;
 import projet.appli.Avion;
 import projet.appli.Tache;
+import projet.appli.Vol;
+import projet.appli.vols.VolArrivee;
+import projet.appli.vols.VolDepart;
 import projet.ihm.panels.PanelAgent;
 import projet.ihm.panels.PanelAvion;
 import projet.ihm.panels.PanelPlanning;
+import projet.ihm.panels.PanelVol;
+import projet.ihm.panels.PanelVolArrivee;
+import projet.ihm.panels.PanelVolDepart;
 
 public class FenetreGestion extends JFrame {
 		
 	private JMenuBar menu;
 	protected JMenu menuAvion,menuAgent,menuVol,menuPlanning,menuFichier;
 	protected JMenuItem listeAvion,listeAgent,listeVolA,listeVolD,listePlanning,quitter; 
-	protected JPanel contentPane,panelPlanning,panelAgent,panelAvion,panelCourant;
+	protected JPanel contentPane,panelPlanning,panelAgent,panelAvion,panelVolArrivee,panelVolDepart,panelCourant;
 	
 	
 	
@@ -55,7 +61,7 @@ public class FenetreGestion extends JFrame {
 		}
 		catch (Exception e){}
 		
-		setTitle("Gestion A��roport"); // On donne un titre �� l'application
+		setTitle("Gestion Aéroport"); // On donne un titre �� l'application
 		setSize(600, 450); // On donne une taille �� notre fen��tre
 		setLocationRelativeTo(null); // On centre la fen��tre sur l'��cran
 		setResizable(false); // On interdit la redimensionnement de la fen��tre
@@ -68,6 +74,8 @@ public class FenetreGestion extends JFrame {
 		panelAgent = new PanelAgent(Agent.getAgents());
 		
 		panelAvion = new PanelAvion(Avion.getAvions());
+		panelVolArrivee = new PanelVolArrivee(VolArrivee.getVolsArrivee());
+		panelVolDepart = new PanelVolDepart (VolDepart.getVolsDepart());
 
 		// Cr��ation du menu
 		menu = new JMenuBar();
@@ -88,10 +96,10 @@ public class FenetreGestion extends JFrame {
 
 		// Cr��ation des items
 		listeAvion = new JMenuItem("Liste des avions");		
-		listeVolA = new JMenuItem("Vols arriv�es");
-		listeVolD = new JMenuItem("Vols d�part");
+		listeVolA = new JMenuItem("Vols arrivées");
+		listeVolD = new JMenuItem("Vols départ");
 		listeAgent = new JMenuItem("Liste des agents");
-		listePlanning = new JMenuItem("Liste des t�ches");
+		listePlanning = new JMenuItem("Liste des tâches");
 		quitter = new JMenuItem("Quitter");
 		
 		listeAvion.addActionListener(new ActionListener() {
@@ -130,15 +138,14 @@ public class FenetreGestion extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.print("Arrive");				
-			}
+				changerPanel(panelVolArrivee);			}
 		});
 			
 		listeVolD.addActionListener(new ActionListener() {
 				
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.print("Depart");				
+				changerPanel(panelVolDepart);				
 			}
 		});
 

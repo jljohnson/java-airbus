@@ -3,6 +3,8 @@ package projet.ihm.panels;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -27,11 +29,15 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
+
 import java.awt.Font;
+import javax.swing.JToggleButton;
+import javax.swing.JComboBox;
 
 public class PanelAgent extends JPanel{
 	JPanel courant = this;
@@ -53,9 +59,25 @@ public class PanelAgent extends JPanel{
 		this.setLayout(layout);
 	
 		
-		/* création des check box & mise en place du panel*/
-		tempsPlein = new JCheckBox("Agents à temps plein",true);
-		tempsPartiel = new JCheckBox("Agents à temps partiel",true);
+		/* crï¿½ation des check box & mise en place du panel*/
+		tempsPlein = new JCheckBox("Agents Ã  temps plein",false);
+		tempsPartiel = new JCheckBox("Agents Ã  temps partiel",false);
+		
+		// ecoute des checbox
+		tempsPlein.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent item) {
+
+				int status = item.getStateChange();
+				if (status == ItemEvent.SELECTED)
+				{
+						System.out.print("Temps plein");
+				}
+						
+				
+			}
+		});
 		this.add(panelBox,BorderLayout.NORTH);
 		
 		lblListeDesAgents = new JLabel("Liste des agents :");
@@ -72,9 +94,9 @@ public class PanelAgent extends JPanel{
 						.addGroup(gl_panelBox.createSequentialGroup()
 							.addComponent(lblFiltrerPar)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(tempsPlein)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(tempsPartiel)))
+							.addComponent(tempsPlein)))
+					.addGap(80)
+					.addComponent(tempsPartiel)
 					.addGap(120))
 		);
 		gl_panelBox.setVerticalGroup(
@@ -91,7 +113,7 @@ public class PanelAgent extends JPanel{
 		);
 		panelBox.setLayout(gl_panelBox);
 		
-		/* création du bouton planning*/	
+		/* crï¿½ation du bouton planning*/	
 		boutonPlanning = new JButton("Voir planning");
 		boutonPlanning.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -102,7 +124,7 @@ public class PanelAgent extends JPanel{
 		panelBtns.add(boutonPlanning);
 		this.add(panelBtns,BorderLayout.SOUTH);
 		
-		/* création du tableau d'agents */
+		/* crï¿½ation du tableau d'agents */
 		tableauAgents = new JTable(new TableAgent(lAgents));
 		
 		ListSelectionModel listSelectionModel = tableauAgents.getSelectionModel();        
@@ -116,7 +138,7 @@ public class PanelAgent extends JPanel{
 	
 	private class TableAgent extends AbstractTableModel {
 		private ArrayList<Agent> agents ;
-		private String index[] =  {"Identifiant","Nom","Prénom","Horaires"};
+		private String index[] =  {"Identifiant","Nom","Prï¿½nom","Horaires"};
 		
 		public TableAgent(ArrayList<Agent> lAgents) {
 			super();

@@ -3,6 +3,7 @@ package projet.appli.vols;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
@@ -29,7 +30,7 @@ public class VolDepart extends Vol {
 	
 	@Override
 	public String toString() {
-		return "Vol D�part n�" + super.toString() + "\n - ville arriv�e : " + villeArrivee;
+		return "Vol D���part n���" + super.toString() + "\n - ville arriv���e : " + villeArrivee;
 	}
 	
 	public String getVille()
@@ -41,13 +42,13 @@ public class VolDepart extends Vol {
 		
 
 		try {
-			// Entr��e du fichier
+			// Entr������e du fichier
 			BufferedReader entree = new BufferedReader(new FileReader (adresseFichier));
 			
-			// D��claration d'une ligne
+			// D������claration d'une ligne
 			String ligne;
 			
-			// D��coupage en mot
+			// D������coupage en mot
 			StringTokenizer mot;
 			
 			while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
@@ -79,7 +80,7 @@ public class VolDepart extends Vol {
 	
 	
 	
-	// Cr��ation des taches debarquement
+	// Cr������ation des taches debarquement
 	public void creerTaches ()
 	{
 			TacheEmbarquement te = new TacheEmbarquement(this) ;
@@ -90,6 +91,11 @@ public class VolDepart extends Vol {
 				TacheEnregistrement tEr = new TacheEnregistrement(this);
 			}
 		
+	}
+	
+	public static ArrayList<Vol> getVolsDepart() {
+		// TODO Auto-generated method stub
+		return new ArrayList<Vol>(lesVolsDepart.values());
 	}
 
 }
