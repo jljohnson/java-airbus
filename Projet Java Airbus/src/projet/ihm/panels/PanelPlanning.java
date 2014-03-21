@@ -248,19 +248,19 @@ public class PanelPlanning extends JPanel{
 	        			TacheDebarquement tCast = (TacheDebarquement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
-		        		lblTypeVol.setText("Type : arrivï¿½e");
+		        		lblTypeVol.setText("Type : arrivée");
 	        		}
 	        		if (t.getClass() == TacheEmbarquement.class) {
 	        			TacheEmbarquement tCast = (TacheEmbarquement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
-		        		lblTypeVol.setText("Type : dï¿½part");
+		        		lblTypeVol.setText("Type : départ");
 	        		}
 	        		if (t.getClass() == TacheEnregistrement.class) {
 	        			TacheEnregistrement tCast = (TacheEnregistrement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
-		        		lblTypeVol.setText("Type : dï¿½part");
+		        		lblTypeVol.setText("Type : départ");
 	        		}
 	        		lblVolCorrespondant.setEnabled(true);
 	        		lblHeureVol.setEnabled(true);
@@ -300,7 +300,7 @@ public class PanelPlanning extends JPanel{
 				cell.setBackground(Color.red);
 			} else {
 				if (tableauTaches.getSelectedRow() == row) {
-					cell.setBackground(Color.getHSBColor(211, 80, 100));
+					cell.setBackground(Color.lightGray);
 				} else cell.setBackground(Color.white);
 			}
 			

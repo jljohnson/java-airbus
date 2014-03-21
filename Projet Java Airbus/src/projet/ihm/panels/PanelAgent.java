@@ -67,8 +67,8 @@ public class PanelAgent extends JPanel{
 	
 		
 		/* crï¿½ation des check box & mise en place du panel*/
-		tempsPlein = new JCheckBox("Agents Ã  temps plein",false);
-		tempsPartiel = new JCheckBox("Agents Ã  temps partiel",false);
+		tempsPlein = new JCheckBox("Agents à temps plein",false);
+		tempsPartiel = new JCheckBox("Agents à temps partiel",false);
 		
 		// ecoute des checbox
 		tempsPlein.addItemListener(new ItemListener() {
