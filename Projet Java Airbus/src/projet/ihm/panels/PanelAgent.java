@@ -196,7 +196,7 @@ public class PanelAgent extends JPanel{
 	
 	private class TableAgent extends AbstractTableModel {
 		private ArrayList<Agent> agents ;
-		private String index[] =  {"Identifiant","Nom","Prï¿½nom","Horaires"};
+		private String index[] =  {"Identifiant","Nom","Prénom","Horaires"};
 		
 		public TableAgent(ArrayList<Agent> lAgents) {
 			super();

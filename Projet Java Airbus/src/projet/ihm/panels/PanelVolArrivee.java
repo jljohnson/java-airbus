@@ -61,7 +61,7 @@ public class PanelVolArrivee extends PanelVol{
 	
 	private class TableVol extends AbstractTableModel {
 		private ArrayList<Vol> vols ;
-		private String index[] =  {"Id Vol","Heure ArrivÃ©e","Destination","Id Avion"};
+		private String index[] =  {"Id Vol","Heure Arrivée","Destination","Id Avion"};
 		
 		public TableVol(ArrayList<Vol> lVols) {
 			super();
