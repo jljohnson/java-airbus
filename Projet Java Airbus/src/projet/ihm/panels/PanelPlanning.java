@@ -1,6 +1,8 @@
 package projet.ihm.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
@@ -19,6 +21,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import projet.appli.Agent;
 import projet.appli.Tache;
@@ -168,6 +171,7 @@ public class PanelPlanning extends JPanel{
 		/* crï¿½ation du tableau d'agents */
 		tableauTaches = new JTable(new TablePlanning(lTaches));
 		tableauTaches.setAutoCreateRowSorter(true);
+		tableauTaches.setDefaultRenderer(Object.class, new TachesRenderer());
 
 		
 		ListSelectionModel listSelectionModel = tableauTaches.getSelectionModel();        
@@ -238,55 +242,71 @@ public class PanelPlanning extends JPanel{
 	        		lblTypeVol.setText("Type :");
 	        		lblVolCorrespondant.setEnabled(false);
 	        		lblHeureVol.setEnabled(false);
-	        		lblTypeVol.setEnabled(false);
-	        		if(t.getClass()== TacheAccueil.class){
-	        			TacheAccueil tCastAcc = (TacheAccueil) t;
-	        			lblNomAgent.setText("Nom : " + tCastAcc.getAgent().getNom());
-		        		lblPrnomAgent.setText("Prénom : " + tCastAcc.getAgent().getPrenom());
-		        		lblHorairesAgent.setText("Horaire travail :" + tCastAcc.getAgent().getHoraire().toString());
-	        		}
-	        		else
-	        		{
-	        			TacheRepas tCast = (TacheRepas) t;
-	        			lblNomAgent.setText("Nom : " + tCast.getAgent().getNom());
-		        		lblPrnomAgent.setText("Prénom : " + tCast.getAgent().getPrenom());
-		        		lblHorairesAgent.setText("Horaire travail :" + tCast.getAgent().getHoraire().toString());
-	        		}
-	        		
+	        		lblTypeVol.setEnabled(false);	
 	        	} else {
 	        		if (t.getClass() == TacheDebarquement.class) {
 	        			TacheDebarquement tCast = (TacheDebarquement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
 		        		lblTypeVol.setText("Type : arrivï¿½e");
-		        		lblNomAgent.setText("Nom : " + tCast.getAgent().getNom());
-		        		lblPrnomAgent.setText("Prénom : " + tCast.getAgent().getPrenom());
-		        		lblHorairesAgent.setText("Horaire travail :" + tCast.getAgent().getHoraire().toString());
 	        		}
 	        		if (t.getClass() == TacheEmbarquement.class) {
 	        			TacheEmbarquement tCast = (TacheEmbarquement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
 		        		lblTypeVol.setText("Type : dï¿½part");
-		        		lblNomAgent.setText("Nom : " + tCast.getAgent().getNom());
-		        		lblPrnomAgent.setText("Prénom : " + tCast.getAgent().getPrenom());
-		        		lblHorairesAgent.setText("Horaire travail :" + tCast.getAgent().getHoraire().toString());
 	        		}
 	        		if (t.getClass() == TacheEnregistrement.class) {
 	        			TacheEnregistrement tCast = (TacheEnregistrement) t;
 	        			lblVolCorrespondant.setText("Vol correspondant : " + tCast.getVol().getId());
 		        		lblHeureVol.setText("Heure : " + tCast.getVol().getHeure());
 		        		lblTypeVol.setText("Type : dï¿½part");
-		        		lblNomAgent.setText("Nom : " + tCast.getAgent().getNom());
-		        		lblPrnomAgent.setText("Prénom : " + tCast.getAgent().getPrenom());
-		        		lblHorairesAgent.setText("Horaire travail :" + tCast.getAgent().getHoraire().toString());
 	        		}
 	        		lblVolCorrespondant.setEnabled(true);
 	        		lblHeureVol.setEnabled(true);
 	        		lblTypeVol.setEnabled(true);
-
 	        	}
+	        	
+				if (t.isAffectee()) {
+	        		lblNomAgent.setText("Nom : " + t.getAgent().getNom());
+	        		lblPrnomAgent.setText("Prénom : " + t.getAgent().getPrenom());
+	        		lblHorairesAgent.setText("Horaire travail :" + t.getAgent().getHoraire().toString());
+	        		lblNomAgent.setEnabled(true);
+	        		lblPrnomAgent.setEnabled(true);
+	        		lblHorairesAgent.setEnabled(true);
+	        		
+
+				} else {
+	        		lblNomAgent.setText("Nom : NON AFFECTE");
+	        		lblPrnomAgent.setText("Prénom : NON AFFECTE");
+	        		lblHorairesAgent.setText("Horaire travail : NON AFFECTE");
+	        		lblNomAgent.setEnabled(false);
+	        		lblPrnomAgent.setEnabled(false);
+	        		lblHorairesAgent.setEnabled(false);
+				}
+
 	        }			
 		}
 	}	
+	
+	private class TachesRenderer extends DefaultTableCellRenderer {
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
+			Component cell = super.getTableCellRendererComponent(table, value,
+					isSelected, hasFocus, row, column);
+
+			if (!lTaches.get(row).isAffectee()) {
+				cell.setBackground(Color.red);
+			} else {
+				if (tableauTaches.getSelectedRow() == row) {
+					cell.setBackground(Color.getHSBColor(211, 80, 100));
+				} else cell.setBackground(Color.white);
+			}
+			
+			
+			return cell;
+		}
+
+	}
 }
