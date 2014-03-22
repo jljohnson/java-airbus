@@ -6,8 +6,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 import projet.appli.taches.TacheAccueil;
+import projet.appli.taches.TacheRepas;
+import projet.outils.Duree;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
@@ -124,6 +127,39 @@ public abstract class Vol {
 			a.desaffecterTache(t);
 			a.ajouterTache(new TacheAccueil(t.getHoraires().getDebutTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()));
 		}
+	}
+	
+	/**
+	 * Méthode retard vol
+	 * @param d : Durée du retard 
+	 */
+	
+	public void retarderVol(Duree d){
+		TreeSet<Tache> tachesAReaffecter = new TreeSet<Tache>();
+		
+		for (Tache t : tachesVol){
+			t.setHoraire(new TrancheHoraire(t.getHoraires().getDebutTrancheHoraire().ajout(d),t.getHoraires().getFinTrancheHoraire().ajout(d)));
+			tachesAReaffecter.add(t);
+			t.getAgent().desaffecterTache(t);
+		}
+		
+		for (Tache tacheAReaffecter : tachesAReaffecter) {
+			boolean affecte = false ;
+			ArrayList<Agent> agents = new ArrayList<Agent>(Agent.lesAgents.values()) ;
+			for (int i = 0; i < agents.size() && !affecte; i++ ) {
+				Agent a = agents.get(i);
+				if (!a.isAbsent()) {
+					if (a.affecterTache(tacheAReaffecter)) {
+						affecte = true ;
+					} else {
+						tacheAReaffecter.setAgent(null);
+						tacheAReaffecter.setAffectee(false);
+					}
+				}					
+			}
+		}
+		
+		
 	}
 	
 	/**

@@ -39,6 +39,11 @@ public abstract class Tache implements Comparable{
 		a = ag;
 	}
 	
+	// Permet de modifier l'horaire d'une tache
+	public void setHoraire(TrancheHoraire tH){
+		horaire = tH;
+	}
+	
 	// Permet de savoir si une tâche est bien affectée
 	public boolean isAffectee() {
 		return affectee ;
