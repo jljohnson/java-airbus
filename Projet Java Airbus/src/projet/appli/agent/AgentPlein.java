@@ -199,7 +199,6 @@ public class AgentPlein extends Agent{
 				
 				
 				genererTachesAccueil();
-				affecterTachesAAgent();
 		}
 		
 		

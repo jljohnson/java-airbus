@@ -117,7 +117,15 @@ public abstract class  Agent {
 	// Méthode qui ajoute une tâche dans la map d'un agent
 	public void ajouterTache(Tache t) {
 		tachesAgent.add(t);
+		t.setAgent(this);
 	}
+	
+	public void ajouterTache(TacheAccueil t) {
+		tachesAgent.add(t);
+		t.setAgent(this);
+		tachesAccueil.add(t);
+	}
+	
 	
 	// Genère le planning de la journée pour un agent
 	public static void genererCalendrier() {
@@ -237,21 +245,12 @@ public abstract class  Agent {
 				// Si une tranche libre à une durée supérieur ou egale à 30 minutes alors on insère la tâche
 				if (tH.getDuree().dureeEnMinutes() >= 30) {
 					TacheAccueil t = new TacheAccueil(tH.getDebutTrancheHoraire(), tH.getFinTrancheHoraire());
-					tachesAgent.add(t);
-					tachesAccueil.add(t);
+					ajouterTache(t);
 				}
 			}
 		}
 		
-		// Effectue le lien entre une tâche et un agent
-		public void affecterTachesAAgent(){
-			for (Tache t : tachesAgent){
-				t.setAgent(this);
-			}
-		}
-		
-		
-		// PAS FAIT ICI
+	
 		public void absence() {
 			absent = true ;
 			horaires = new TrancheHoraire(new Horaire(0),new Horaire(0));
@@ -273,7 +272,8 @@ public abstract class  Agent {
 					if (!a.isAbsent()) {
 						if (a.affecterTache(tacheAReaffecter)) {
 							affecte = true ;
-							//System.out.println("tache " + tacheAReaffecter.getIdTache() + " affectée à l'agent " + a.getMatricules());
+						} else {
+							
 						}
 					}					
 				}
@@ -283,7 +283,6 @@ public abstract class  Agent {
 		public void retard(Horaire h1) {		
 		}
 		
-		// JUSQUE LA 
 		
 		/**
 		 * Affecte une tache en fonction du temps libre de l'agent
@@ -293,16 +292,18 @@ public abstract class  Agent {
 		public boolean affecterTache(Tache t) {
 			for (TrancheHoraire tH : this.tranchesLibres()) {
 				if (tH.contient(t.getHoraires())) {
-					tachesAgent.add(t);
+					System.out.println("NORMAl / tache " + t.getIdTache() + " affectée à l'agent " + getMatricules());
+					ajouterTache(t);
 					return true ;
 				}
 			}			
 			
 			for (TacheAccueil tAcc : tachesAccueil) {
 				if (tAcc.getHoraires().contient(t.getHoraires())) {
+					System.out.println("ACCUEIL / tache " + t.getIdTache() + " affectée à l'agent " + getMatricules());
 					tachesAgent.remove(tAcc);
-					tachesAgent.add(t);
-			
+					ajouterTache(t);
+					
 					return true ;
 				}
 			}

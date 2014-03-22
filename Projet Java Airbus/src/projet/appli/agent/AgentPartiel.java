@@ -141,7 +141,6 @@ public class AgentPartiel extends Agent {
 		}
 
 		genererTachesAccueil();
-		affecterTachesAAgent();
 	}
 
 	// récupération des données du fichier

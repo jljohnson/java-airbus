@@ -122,7 +122,7 @@ public abstract class Vol {
 			Agent a = t.getAgent();
 			System.out.println("Agent " + a.getMatricules() + " désaffecté");
 			a.desaffecterTache(t);
-			a.affecterTache(new TacheAccueil(t.getHoraires().getDebutTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()));
+			a.ajouterTache(new TacheAccueil(t.getHoraires().getDebutTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()));
 		}
 	}
 	
