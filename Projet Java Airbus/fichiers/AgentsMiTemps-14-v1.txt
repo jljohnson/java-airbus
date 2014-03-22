@@ -1,4 +1,4 @@
-﻿M0025 Nom25 Prénom25 1
+M0025 Nom25 Prénom25 1
 M0026 Nom26 Prénom26 2
 M0027 Nom27 Prénom27 3
 M0028 Nom28 Prénom27 1
