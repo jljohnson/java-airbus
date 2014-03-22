@@ -273,7 +273,8 @@ public abstract class  Agent {
 						if (a.affecterTache(tacheAReaffecter)) {
 							affecte = true ;
 						} else {
-							
+							tacheAReaffecter.setAgent(null);
+							tacheAReaffecter.setAffectee(false);
 						}
 					}					
 				}

@@ -65,6 +65,10 @@ public abstract class Tache implements Comparable{
 		return lesTaches.values();
 	}
 	
+	public void setAffectee(boolean aff) {
+		affectee = aff ;
+	}
+	
 	// Fin des accesseurs
 	
 	// Implementation de Comparable afin de comparer des TrancheHoraires
