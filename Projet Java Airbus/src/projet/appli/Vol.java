@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
+import projet.appli.taches.TacheAccueil;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
@@ -121,6 +122,7 @@ public abstract class Vol {
 			Agent a = t.getAgent();
 			System.out.println("Agent " + a.getMatricules() + " désaffecté");
 			a.desaffecterTache(t);
+			a.affecterTache(new TacheAccueil(t.getHoraires().getDebutTrancheHoraire(), t.getHoraires().getDebutTrancheHoraire()));
 		}
 	}
 	
