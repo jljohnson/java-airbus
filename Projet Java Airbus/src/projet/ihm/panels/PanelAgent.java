@@ -45,16 +45,14 @@ import javax.swing.JToggleButton;
 import javax.swing.JComboBox;
 
 public class PanelAgent extends JPanel{
-	JPanel courant = this;
-	JPanel panelBox = new JPanel();
-	JPanel panelBtns = new JPanel();
-	JPanel panelCenter = new JPanel();
-	BorderLayout layout = new BorderLayout();
-	FlowLayout layoutBtns = new FlowLayout();
-	JCheckBox tempsPlein, tempsPartiel ;
-	JTable tableauAgents ;
-	JButton boutonPlanning ;
-	ArrayList<Agent> lAgents;
+	private JPanel courant = this;
+	private JPanel panelBox, panelBtns, panelCenter;
+	private BorderLayout layout ;
+	private FlowLayout layoutBtns ;
+	private JCheckBox tempsPlein, tempsPartiel ;
+	private JTable tableauAgents ;
+	private JButton boutonPlanning ;
+	private ArrayList<Agent> lAgents;
 	private TableAgent modeleAgent;
 	private TableRowSorter sorter;
 	private JLabel lblFiltrerPar, lblListeDesAgents;
@@ -63,6 +61,11 @@ public class PanelAgent extends JPanel{
 	public PanelAgent(ArrayList<Agent> lA) {
 		lAgents = lA ;
 		
+		panelBox = new JPanel();
+		panelBtns = new JPanel();
+		panelCenter = new JPanel();
+		layout = new BorderLayout();
+		layoutBtns = new FlowLayout();
 		this.setLayout(layout);
 	
 		

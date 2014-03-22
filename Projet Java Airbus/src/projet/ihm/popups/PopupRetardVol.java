@@ -5,6 +5,7 @@ import javax.swing.JDialog;
 import projet.appli.Agent;
 import projet.appli.Vol;
 import projet.exceptions.SaisieInvalideException;
+import projet.outils.Duree;
 import projet.outils.Horaire;
 
 import javax.swing.JPanel;
@@ -49,7 +50,7 @@ public class PopupRetardVol extends JDialog {
 		
 		lblHoraire = new JLabel("Horaire actuel : " + v.getHeure());
 		
-		lblHeureDeRetard = new JLabel("Heure de retard :");
+		lblHeureDeRetard = new JLabel("En retard de :");
 		
 		textH = new JTextField();
 		textH.setColumns(10);
@@ -72,8 +73,8 @@ public class PopupRetardVol extends JDialog {
 				try {
 					int h = Integer.parseInt(textH.getText());
 					int m = Integer.parseInt(textH.getText());
-					Horaire retard = new Horaire(h,m) ;
-						// vol.retard(retard);
+					Duree d = new Duree(h, m);
+					vol.retarderVol(d);
 						dispose();
 					
 				}

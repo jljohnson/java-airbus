@@ -32,6 +32,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.Font;
 
 public class PanelAvion extends JPanel{
 	JPanel courant = this;
@@ -40,7 +43,7 @@ public class PanelAvion extends JPanel{
 	BorderLayout layout = new BorderLayout();
 	JTable tableauAvion ;
 	ArrayList<Avion> lAvions;
-	private final JLabel lblListeDesAvions = new JLabel("Liste des Avions");
+	private final JLabel lblListeDesAvions = new JLabel("Liste des avions :\r\n");
 
 
 	public PanelAvion(ArrayList<Avion> lA) {
@@ -49,9 +52,24 @@ public class PanelAvion extends JPanel{
 		this.setLayout(layout);
 				
 		this.add(panelBox,BorderLayout.NORTH);
+		lblListeDesAvions.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblListeDesAvions.setHorizontalAlignment(SwingConstants.LEFT);
-		
-		panelBox.add(lblListeDesAvions);
+		GroupLayout gl_panelBox = new GroupLayout(panelBox);
+		gl_panelBox.setHorizontalGroup(
+			gl_panelBox.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBox.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblListeDesAvions)
+					.addContainerGap(344, Short.MAX_VALUE))
+		);
+		gl_panelBox.setVerticalGroup(
+			gl_panelBox.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelBox.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblListeDesAvions)
+					.addContainerGap(19, Short.MAX_VALUE))
+		);
+		panelBox.setLayout(gl_panelBox);
 
 		
 		/* cr?ation du tableau d'agents */

@@ -282,6 +282,9 @@ public abstract class  Agent {
 		}
 		
 		public void retard(Horaire h1) {		
+			horaires = new TrancheHoraire(h1, horaires.getFinTrancheHoraire());
+
+			
 		}
 		
 		
