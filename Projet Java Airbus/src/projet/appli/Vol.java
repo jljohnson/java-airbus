@@ -19,6 +19,7 @@ public abstract class Vol {
 	private Avion avion ;
 	private Horaire heure ;
 	private ArrayList<Tache> tachesVol;
+	private boolean retard,annule ;
 	
 	static private Hashtable<String, Vol> lesVols = new Hashtable<String, Vol>();
 
@@ -29,6 +30,8 @@ public abstract class Vol {
 		this.avion = avion;
 		tachesVol = new ArrayList<Tache>();
 		lesVols.put(idVol, this);
+		retard = false ;
+		annule = false ;
 	}
 	
 	// Début des accesseurs 
@@ -45,6 +48,14 @@ public abstract class Vol {
 	
 	public Avion getAvion() {
 		return avion;
+	}
+	
+	public boolean isRetard() {
+		return retard ;
+	}	
+	
+	public boolean isAnnule() {
+		return annule ;
 	}
 	
 	public abstract String  getVille ();
@@ -121,6 +132,8 @@ public abstract class Vol {
 	
 	// méthode d'annulation des vols
 	public void annulerVol() {
+		retard = false ;
+		annule = true ;
 		for (Tache t : tachesVol) {
 			Agent a = t.getAgent();
 			System.out.println("Agent " + a.getMatricules() + " désaffecté");
@@ -135,6 +148,8 @@ public abstract class Vol {
 	 */
 	
 	public void retarderVol(Duree d){
+		retard = true ;
+		heure = heure.ajout(d);
 		TreeSet<Tache> tachesAReaffecter = new TreeSet<Tache>();
 		
 		for (Tache t : tachesVol){

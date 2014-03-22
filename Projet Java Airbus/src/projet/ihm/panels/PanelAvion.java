@@ -142,4 +142,6 @@ public class PanelAvion extends JPanel{
 	        }			
 		}
 	}	
+	
+	
 }

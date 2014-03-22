@@ -300,7 +300,7 @@ public class PanelPlanning extends JPanel{
 				cell.setBackground(Color.red);
 			} else {
 				if (tableauTaches.getSelectedRow() == row) {
-					cell.setBackground(Color.lightGray);
+					cell.setBackground(new Color(51,151,255));
 				} else cell.setBackground(Color.white);
 			}
 			

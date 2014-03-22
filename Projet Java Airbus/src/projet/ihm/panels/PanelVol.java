@@ -1,6 +1,8 @@
 package projet.ihm.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
@@ -19,6 +21,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import projet.appli.Agent;
 import projet.appli.Vol;
@@ -40,25 +43,28 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 
 public class PanelVol extends JPanel{
-	JPanel courant = this;
-	JPanel panelBox = new JPanel();
-	JPanel panelBtns = new JPanel();
-	JPanel panelCenter = new JPanel();
-	BorderLayout layout = new BorderLayout();
-	FlowLayout layoutBtns = new FlowLayout();
-	JTable tableauVols ;
-	ArrayList<Vol> lVols;
+	private JPanel courant = this;
+	private JPanel panelBox, panelBtns, panelCenter;
+	private BorderLayout layout ;
+	private FlowLayout layoutBtns ;
+	private JTable tableauVols ;
+	private ArrayList<Vol> lVols;
 	private JButton btnAnnulation;
 	private JButton btnRetard;
 
 
-	public PanelVol(ArrayList<Vol> lV) {
+	public PanelVol(ArrayList<Vol> lV, String nomListe) {
 		lVols = lV ;
-		
+		panelBox = new JPanel();
+		panelBtns = new JPanel();
+		panelCenter = new JPanel();
+		layout = new BorderLayout();
+		layoutBtns = new FlowLayout();
+
 		this.setLayout(layout);
 		this.add(panelBox,BorderLayout.NORTH);
 		
-		JLabel lblListeDesVols = new JLabel("Liste des Vols");
+		JLabel lblListeDesVols = new JLabel(nomListe);
 		GroupLayout gl_panelBox = new GroupLayout(panelBox);
 		gl_panelBox.setHorizontalGroup(
 			gl_panelBox.createParallelGroup(Alignment.LEADING)
@@ -89,7 +95,29 @@ public class PanelVol extends JPanel{
 
 		
 		btnAnnulation = new JButton("Annulation");
+		btnAnnulation.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lVols.get(tableauVols.convertRowIndexToModel(tableauVols.getSelectedRow())).annulerVol();
+			}
+		});
 		panelBtns.add(btnAnnulation);
+		
+		tableauVols = new JTable(new TableVol(lV));
+		tableauVols.setAutoCreateRowSorter(true);
+		tableauVols.setDefaultRenderer(Object.class, new TachesRenderer());
+
+
+		
+		ListSelectionModel listSelectionModel = tableauVols.getSelectionModel();        
+		listSelectionModel.addListSelectionListener(new ControleurTable());
+		panelCenter.setLayout(new GridLayout(0, 1, 0, 0));
+
+		
+		panelCenter.add(new JScrollPane(tableauVols));	
+		this.add(panelCenter,BorderLayout.CENTER);
+
 		
 	
 	}
@@ -156,4 +184,29 @@ public class PanelVol extends JPanel{
 	        }
 		}
 	}	
+	
+	private class TachesRenderer extends DefaultTableCellRenderer {
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
+			Component cell = super.getTableCellRendererComponent(table, value,
+					isSelected, hasFocus, row, column);
+
+			if (lVols.get(row).isAnnule()) {
+				cell.setBackground(Color.red);
+			} else {
+				if (lVols.get(row).isRetard()) {
+					cell.setBackground(Color.GREEN);					
+				} else {
+					if (tableauVols.getSelectedRow() == row) {
+						cell.setBackground(new Color(51,151,255));
+					} else cell.setBackground(Color.white);
+				}
+			}
+			
+			
+			return cell;
+		}
+
+	}
 }
