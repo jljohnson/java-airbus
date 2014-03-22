@@ -22,6 +22,7 @@ public class TacheEmbarquement extends Tache{
 		numTaches++;
 		lesTachesEmbarquement.put(this.getIdTache(), this);
 		tachesCourantes.add(this);
+		volEmbarquement.ajouterTacheVol(this);
 	}
 
 

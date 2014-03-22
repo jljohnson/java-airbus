@@ -14,6 +14,7 @@ public abstract class Vol {
 	private String idVol ;
 	private Avion avion ;
 	private Horaire heure ;
+	private ArrayList<Tache> tachesVol;
 	
 	static private Hashtable<String, Vol> lesVols = new Hashtable<String, Vol>();
 
@@ -22,7 +23,7 @@ public abstract class Vol {
 		this.idVol = idVol;
 		this.heure = heure ;
 		this.avion = avion;
-		
+		tachesVol = new ArrayList<Tache>();
 		lesVols.put(idVol, this);
 	}
 	
@@ -112,5 +113,24 @@ public abstract class Vol {
 	// Retourne la liste des vols, utilisé dans la JTable graphique.
 	public static ArrayList<Vol> getVols() {
 		return new ArrayList<Vol>(lesVols.values());
+	}
+	
+	// méthode d'annulation des vols
+	public void annulerVol() {
+		for (Tache t : tachesVol) {
+			Agent a = t.getAgent();
+			System.out.println("Agent " + a.getMatricules() + " désaffecté");
+			a.desaffecterTache(t);
+		}
+	}
+	
+	/**
+	 * Ajoute une tache au vol, si elle n'est pas présente dans sa liste de taches
+	 * @param t : tache à ajouter
+	 */
+	public void ajouterTacheVol(Tache t) {
+		if (!tachesVol.contains(t)) {
+			tachesVol.add(t);
+		}
 	}
 }

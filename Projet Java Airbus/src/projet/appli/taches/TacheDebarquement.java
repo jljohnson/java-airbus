@@ -18,6 +18,7 @@ public class TacheDebarquement extends Tache {
 		numTaches++;
 		lesTachesDebarquement.put(this.getIdTache(), this);
 		tachesCourantes.add(this);
+		volDebarquement.ajouterTacheVol(this);
 
 	}
 

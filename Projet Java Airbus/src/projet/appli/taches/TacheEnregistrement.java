@@ -21,6 +21,7 @@ public class TacheEnregistrement extends Tache {
 		volEnregistrement = v ;
 		lesTachesEnregistrement.put(this.getIdTache(), this);
 		tachesCourantes.add(this);
+		volEnregistrement.ajouterTacheVol(this);
 	}
 
 

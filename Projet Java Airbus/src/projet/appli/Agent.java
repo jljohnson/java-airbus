@@ -145,28 +145,38 @@ public abstract class  Agent {
 		}
 	}
 	
-	// Permet d'obtenir le planning des taches d'un agent
+	/**
+	 * Liste des tâches d'un agent
+	 * @return planning agent
+	 */
 	public TreeSet<Tache> getPlanning() {
 		return tachesAgent;
 	}
 	
-	// Gestion du planning en fonction du type de l'agent
+	/**
+	 * Crée le planning de l'agent en fonction du numéro de semaine
+	 * @throws semaineInvalideException
+	 */
 	public abstract void creerPlanning() throws semaineInvalideException ;
 	
 
-	// Modifie l'affichage par défaut pour un Agent
 	public String toString() {
 		return  "\nAgent : " + matricule +  "\n - Nom : " + nom  +  "\n - Prénom : " + prenom +  "\n - Cycle de travail : " + cycle;	
 	}
 		
-	// Affiche les instances d'agents
+	/**
+	 * affiche le planning de tous les agents
+	 */
 	static public void afficherInstance(){
 		for (Agent a : lesAgents.values()) {
 			a.afficherPlanning();
 		}
 	}
 
-	// Permet de trouve les tranches libres dans le planning d'un agent
+	/**
+	 * Renvoie les tranches horaires libres de l'agent
+	 * @return liste de tranches horaires libres
+	 */
 	public ArrayList<TrancheHoraire> tranchesLibres() {
 
 		TrancheHoraire trancheService = horaires ;
@@ -217,7 +227,9 @@ public abstract class  Agent {
 			return tranches;
 		}
 		
-		// Genère les tâches accueil en parcourant la map des tranches libres
+		/**
+		 * Génère les taches accueil en  parcourant les tranches libres
+		 */
 		public void genererTachesAccueil() {
 			ArrayList<TrancheHoraire> listeTranches = this.tranchesLibres();
 			for (TrancheHoraire tH : listeTranches) {
@@ -273,7 +285,11 @@ public abstract class  Agent {
 		
 		// JUSQUE LA 
 		
-		// Remplis le planning d'un agent en fonction de som temps libre
+		/**
+		 * Affecte une tache en fonction du temps libre de l'agent
+		 * @param t : tache à affecter
+		 * @return réussite ou non 
+		 */
 		public boolean affecterTache(Tache t) {
 			for (TrancheHoraire tH : this.tranchesLibres()) {
 				if (tH.contient(t.getHoraires())) {
@@ -298,6 +314,14 @@ public abstract class  Agent {
 		// Liste des agents pour la JTable graphique
 		public static ArrayList<Agent> getAgents() {
 			return new ArrayList<Agent>(lesAgents.values());
+		}
+
+		/**
+		 * Désaffecte un tache si elle existe
+		 * @param t : tache à désaffecter
+		 */
+		public void desaffecterTache(Tache t) {
+			tachesAgent.remove(t);		
 		}
 		
 }
