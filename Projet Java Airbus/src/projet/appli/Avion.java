@@ -20,8 +20,7 @@ public class Avion {
 	
 	static private Hashtable<String,Avion> lesAvions = new Hashtable<String,Avion>();
 	
-	
-	//Constructeur
+	// Constructeur de la classe avion
 	public Avion (String id, int place, String mod)
 	{
 		idAvion = id;
@@ -33,7 +32,7 @@ public class Avion {
 				
 	}
 	
-	// Tous les get
+	// Début des accesseurs
 	public String getIdAvion ()
 	{
 		return (idAvion);
@@ -49,8 +48,10 @@ public class Avion {
 		return (modele);
 	}
 	
+	// Fin des accesseurs
 	
-	// M���thode statique qui permet de retrouver la r���ference du pointeur
+	
+	// Méthode statique qui permet de retrouver la réference du pointeur
 	public static Avion getAvion (String id) throws IdAvionException
 	{
 		if (!lesAvions.containsKey(id))
@@ -61,34 +62,30 @@ public class Avion {
 		
 	}
 	
-	// M���thode qui affiche tous les avions
+	// Méthode qui affiche tous les avions
 	public String toString ()
 	{
 		String res = "Identifiant : " + idAvion + " Mod��le : " + modele + " Capacite :" + capacite;
 		return res;
 	}
 	
-	// M���thode statique pour lire le fichier avion
-	// lit le fichier
-	// creer une instance
-	// ajoute dans la map
-
+	// Méthode statique pour lire le fichier avion
 	static public void lireAvion (String adresseFichier) 
 	{
 	
 			BufferedReader entree = null;
 			
-			// D��claration d'une ligne
+			// Déclaration d'une ligne
 			String ligne;
 			
-			// D��coupage en mot
+			// Découpage en mot
 			StringTokenizer mot;
 			
 			try {
-				// Entr��e du fichier
+				// Entrée du fichier
 				 entree = new BufferedReader(new FileReader (adresseFichier));
 				
-				while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
+				while ((ligne = entree.readLine()) != null ) 
 				  { 
 					// Lecture par mot sur chaque ligne
 					  mot = new StringTokenizer(ligne);
@@ -116,6 +113,7 @@ public class Avion {
 		      }	
 	}
 	
+	// Permet d'afficher toute les instances de la classe Avion
 	static public void afficherInstance()
 	{
 		for (Avion a : lesAvions.values()) {
@@ -123,8 +121,8 @@ public class Avion {
 		}
 	}
 	
+	// Retourne une liste d'avion qui sert à l'interface graphique dans la JTable
 	public static ArrayList<Avion> getAvions() {
-		// TODO Auto-generated method stub
 		return new ArrayList<Avion>(lesAvions.values());
 	}
 

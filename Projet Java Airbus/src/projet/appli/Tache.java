@@ -25,24 +25,26 @@ public abstract class Tache implements Comparable{
 	static public ArrayList<Tache> tachesAttribuees = new ArrayList<Tache>();
 	private boolean affectee ;
 
-	// Constructeur
+	// Constructeur de la classe Tache
 	public Tache(String id, Horaire debut, Horaire fin) {
 		affectee = false ;
 		idTache = id;
 		horaire = new TrancheHoraire(debut, fin);
 		lesTaches.put(idTache, this);
 	}
-	// setteur
+	
+	// Permet de modifier un agent affecté à une tâche
 	public void setAgent(Agent ag){
 		affectee = true ;
 		a = ag;
 	}
 	
+	// Permet de savoir si une tâche est bien affectée
 	public boolean isAffectee() {
 		return affectee ;
 	}
 	
-	// tous les gets
+	// Début des acesseurs
 	public String getIdTache() {
 		return (idTache);
 	}
@@ -55,6 +57,17 @@ public abstract class Tache implements Comparable{
 		return (horaire);
 	}
 	
+	// Permet de savoir le type d'une tâche
+	public abstract String getType() ;
+	
+	// Retourne la liste des taches
+	public static Collection<Tache> getTaches() {
+		return lesTaches.values();
+	}
+	
+	// Fin des accesseurs
+	
+	// Implementation de Comparable afin de comparer des TrancheHoraires
 	public int compareTo(Object o){
 		Tache t = (Tache)o;
 		int res; 
@@ -70,18 +83,14 @@ public abstract class Tache implements Comparable{
 		return res;
 	}
 	
-	public abstract String getType() ;
-	
-	public static Collection<Tache> getTaches() {
-		return lesTaches.values();
-	}
-	
+	// Définition de la méthode pour afficher une tâche
 	public String toString ()
 	{
 		String res = "Identifiant : " + idTache + " tranche horaire :" + horaire.toString();
 		return res;
 	}
 
+	// Affiche toute les instance de tâche
 	static public void afficherInstance()
 	{
 		for (Tache t : lesTaches.values()) {
@@ -89,6 +98,7 @@ public abstract class Tache implements Comparable{
 		}
 	}
 	
+	// Méthode qui donne une tâche non affecté en fonction des horaires demandés
 	static public Tache demanderTache(TrancheHoraire trancheH) throws PlusDeTachesExeception {
 		TrancheHoraire repas = new TrancheHoraire(new Horaire(11,30), new Horaire(14,00));
 		
@@ -101,10 +111,12 @@ public abstract class Tache implements Comparable{
 		throw new PlusDeTachesExeception();
 	}
 	
+	// Méthode qui renvoi une tâche repas
 	static public TacheRepas demanderTacheRepas(Horaire hDeb) {
 		return new TacheRepas(hDeb);
 	}
 	
+	// Méthode qui crée une tâche acceuil dans les horaires demandés.
 	static public Tache demanderTacheAccueil(TrancheHoraire trancheH) {
 		return new TacheAccueil(trancheH.getDebutTrancheHoraire(),trancheH.getFinTrancheHoraire());
 	}

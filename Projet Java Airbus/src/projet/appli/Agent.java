@@ -15,14 +15,6 @@ import projet.outils.Duree;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
-/**
- * <p>Title: Agent</p>
- * <p>Description: classe d'un agent</p>
- * <p>Copyright: Copyright (c) 2014</p>
- * <p>Company: Miage L3 </p>
- * @author Le Moing Stéfan
- * @version 1.0
- */
 
 public abstract class  Agent {
 	
@@ -39,7 +31,7 @@ public abstract class  Agent {
 	static public Hashtable <String,Agent> lesAgents = new Hashtable<String,Agent>();
 	private boolean absent ;
 	
-	// constructeur
+	// Constructeur de la classe Agent
 	public Agent(String mat, String n, String p, int c){
 		tachesAgent = new TreeSet<Tache>();
 		tachesAccueil = new TreeSet<TacheAccueil>();
@@ -57,81 +49,88 @@ public abstract class  Agent {
 		
 	}
 	
+	// Permet de savoir si un agent est absent
 	public boolean isAbsent() {
 		return absent ;
 	}
 	
-	// getteur
+	// Retourne le Matricule d'un agent
 	public String getMatricules(){
 		return matricule;
 	}
 	
+	// Retourne le nom d'un agent
 	public String getNom(){
 		return nom;
 	}
 	
+	// Retourne le prénom d'un agent
 	public String getPrenom(){
 		return prenom;
 	}
 	
+	// Retourne le cycle d'un agent
 	public int getCycle(){
 		return cycle;
 	}
 	
 	
-	// setteur
+	// Permet de modifier le nom de l'agent
 	public void setNom(String n){
 	 nom = n;
 	}
 	
+	// Permet de modifier le prénom de l'agent
 	public void setPrenom(String p){
 		 prenom = p;
 	}
 	
+	// Permet de modifier le cycle d'un agent
 	public void setCycle(int c){
 		cycle = c;	
 	}
 	
 	// Méthode statique qui permet de retrouver la réference du pointeur
-		public static Agent getAgent (String id) throws MatAgentException
+	public static Agent getAgent (String id) throws MatAgentException {
+		if (!lesAgents.containsKey(id))
 		{
-			if (!lesAgents.containsKey(id))
-			{
-				throw new MatAgentException (id);
-			}
-			return ((Agent)lesAgents.get(id));
-			
+			throw new MatAgentException (id);
 		}
+		return ((Agent)lesAgents.get(id));
+	}
 	
-	// gestion du temps
+	//  Retourne le temps de travai restant pour un Agent
 	public Duree tempsDeTravailRestant(){
 		Duree d = new Duree();
 		
 		return d;
 	}
 	
-	// gestion de la tranche horaire
+	// Permet de calculer les horaires de service en fonction d'une semaine donnée
 	public abstract TrancheHoraire horaireSemaine(int sem) throws semaineInvalideException;
 	
+	// Permet d'obtenir les horaires d'un agent
 	public TrancheHoraire getHoraire() {
 		return horaires;
 	}
 	
+	// Méthode qui ajoute une tâche dans la map d'un agent
 	public void ajouterTache(Tache t) {
 		tachesAgent.add(t);
 	}
 	
+	// Genère le planning de la journée pour un agent
 	public static void genererCalendrier() {
-		for (Agent a : lesAgents.values()) {
+	  for (Agent a : lesAgents.values()) {
 			try {
 				a.creerPlanning();
 			} catch (semaineInvalideException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 	
+	// Affiche le planning pour tous les agents de l'aéroport
 	public static void afficherCalendrier() {
 		for (Agent a : lesAgents.values()) {
 			System.out.println(a.toString());
@@ -139,66 +138,74 @@ public abstract class  Agent {
 		}
 	}
 	
+	// Affiche le planning d'un agent
 	public void afficherPlanning() {
 		for (Tache t : tachesAgent) {
 			System.out.println(t.toString());
 		}
 	}
 	
+	// Permet d'obtenir le planning des taches d'un agent
 	public TreeSet<Tache> getPlanning() {
 		return tachesAgent;
 	}
 	
-	// gestion du planning pour les agents à temps plein
+	// Gestion du planning en fonction du type de l'agent
 	public abstract void creerPlanning() throws semaineInvalideException ;
 	
-	
-	
-	// gestion de l'affichage
-		@Override
-		public String toString() {
-			return  "\nAgent : " + matricule
-					+  "\n - Nom : " + nom 
-					+  "\n - Prénom : " + prenom
-					+  "\n - Cycle de travail : " + cycle;	
-		}
-		
-		static public void afficherInstance()
-		{
-			for (Agent a : lesAgents.values()) {
-				a.afficherPlanning();
-			}
-		}
 
-		public ArrayList<TrancheHoraire> tranchesLibres() {
-
-			TrancheHoraire trancheService = horaires ;
+	// Modifie l'affichage par défaut pour un Agent
+	public String toString() {
+		return  "\nAgent : " + matricule +  "\n - Nom : " + nom  +  "\n - Prénom : " + prenom +  "\n - Cycle de travail : " + cycle;	
+	}
 		
-			ArrayList<TrancheHoraire> tranches = new ArrayList<TrancheHoraire>();
-			
-			if (tachesAgent.isEmpty()) {
+	// Affiche les instances d'agents
+	static public void afficherInstance(){
+		for (Agent a : lesAgents.values()) {
+			a.afficherPlanning();
+		}
+	}
+
+	// Permet de trouve les tranches libres dans le planning d'un agent
+	public ArrayList<TrancheHoraire> tranchesLibres() {
+
+		TrancheHoraire trancheService = horaires ;
+		
+		ArrayList<TrancheHoraire> tranches = new ArrayList<TrancheHoraire>();
+		
+		// Si l'agent n'a pas encore de tâche affecté
+		if (tachesAgent.isEmpty()) {
 				tranches.add(trancheService);
 				return tranches;
 			}
+		
 			Iterator<Tache> it = tachesAgent.iterator();
-
 			Tache first = it.next();
+			
+			// Si l'horaire de prise de service est inférieur à la premiere tache alors on a une tranche libre
 			if (trancheService.getDebutTrancheHoraire().compareTo(first.getHoraires().getDebutTrancheHoraire()) < 0) {
 				tranches.add(new TrancheHoraire(trancheService.getDebutTrancheHoraire(), first.getHoraires().getDebutTrancheHoraire()));				
 			}
 			
 			Tache tNext,tCour ;
 			tCour = first ;
+			
+			// Parcours de l'ensemble du planning d'un agent
 			while (it.hasNext()) {
 				tNext =  it.next();
 				TrancheHoraire trancheAMettre ;
-				
 				trancheAMettre = new TrancheHoraire(tCour.getHoraires().getFinTrancheHoraire(), tNext.getHoraires().getDebutTrancheHoraire()) ;
+				
+				// Si la durée de la comparaison tâche suivante - tache actuel est supérieur à 0 alors on insère une nouvelle tranche libre
 				if (trancheAMettre.getDuree().dureeEnMinutes() > 0) {
 					tranches.add(trancheAMettre);
 				}
+				
+				// Si on est arrivé à la dernière tâche de l'agent on compare la dernière tâche avec son horaire de fin de service
 				if (!it.hasNext()) {	
 					trancheAMettre = new TrancheHoraire(tNext.getHoraires().getFinTrancheHoraire(), trancheService.getFinTrancheHoraire());
+					
+					// Si la durée de l'horaire de fin de service - la dernière tâche est supérieur à 0, on insère une nouvelle tâche
 					if (trancheAMettre.getDuree().dureeEnMinutes() > 0) {
 						tranches.add(trancheAMettre);
 					}
@@ -210,25 +217,29 @@ public abstract class  Agent {
 			return tranches;
 		}
 		
+		// Genère les tâches accueil en parcourant la map des tranches libres
 		public void genererTachesAccueil() {
 			ArrayList<TrancheHoraire> listeTranches = this.tranchesLibres();
 			for (TrancheHoraire tH : listeTranches) {
+				
+				// Si une tranche libre à une durée supérieur ou egale à 30 minutes alors on insère la tâche
 				if (tH.getDuree().dureeEnMinutes() >= 30) {
 					TacheAccueil t = new TacheAccueil(tH.getDebutTrancheHoraire(), tH.getFinTrancheHoraire());
 					tachesAgent.add(t);
 					tachesAccueil.add(t);
-//					System.out.println("Id tache accueil : " + t.getIdTache() + " agent asso " + t.getAgent().matricule + "agent base " + matricule );
 				}
 			}
 		}
 		
+		// Effectue le lien entre une tâche et un agent
 		public void affecterTachesAAgent(){
 			for (Tache t : tachesAgent){
 				t.setAgent(this);
-				System.out.println("Agent : " + matricule + " tache : " + t.toString() + " ag asso : " + t.getAgent().toString());
 			}
 		}
 		
+		
+		// PAS FAIT ICI
 		public void absence() {
 			absent = true ;
 			horaires = new TrancheHoraire(new Horaire(0),new Horaire(0));
@@ -257,10 +268,12 @@ public abstract class  Agent {
 			}
 		}
 		
-		public void retard(Horaire h1) {
-			
+		public void retard(Horaire h1) {		
 		}
 		
+		// JUSQUE LA 
+		
+		// Remplis le planning d'un agent en fonction de som temps libre
 		public boolean affecterTache(Tache t) {
 			for (TrancheHoraire tH : this.tranchesLibres()) {
 				if (tH.contient(t.getHoraires())) {
@@ -282,8 +295,8 @@ public abstract class  Agent {
 		}
 
 
+		// Liste des agents pour la JTable graphique
 		public static ArrayList<Agent> getAgents() {
-			// TODO Auto-generated method stub
 			return new ArrayList<Agent>(lesAgents.values());
 		}
 		

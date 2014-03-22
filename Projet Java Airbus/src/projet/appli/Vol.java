@@ -17,6 +17,7 @@ public abstract class Vol {
 	
 	static private Hashtable<String, Vol> lesVols = new Hashtable<String, Vol>();
 
+	// Constructeur de la classe Vol
 	public Vol(String idVol, Horaire heure, Avion avion) {
 		this.idVol = idVol;
 		this.heure = heure ;
@@ -24,6 +25,8 @@ public abstract class Vol {
 		
 		lesVols.put(idVol, this);
 	}
+	
+	// Début des accesseurs 
 	
 	public String getId ()
 	{
@@ -41,31 +44,31 @@ public abstract class Vol {
 	
 	public abstract String  getVille ();
 	
+	// Fin des accesseurs
 	
-	@Override
+	// Méthode qui redéfinit l'affichage pour un Vol
 	public String toString() {
 		return idVol 
 				+  "\n - heure : " + heure.toString()
 				+  "\n - Identifiant avion : " + avion.getIdAvion() ;		
 	}
 	
+	// Méthode qui lit les fichiers Vols.
 	static public void lireVolsArrivees(String adresseFichier)
 			throws NumberFormatException, IOException {
 		BufferedReader entree = null;
 
-		// Dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½claration d'une ligne
+		// Déclaration d'une ligne
 		String ligne;
 
-		// Dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½coupage en mot
+		// Découpage en mot
 		StringTokenizer mot;
 
 		try {
-			// Entrï¿½ï¿½ï¿½ï¿½ï¿½ï¿½e du fichier
+			// Entrée du fichier
 			entree = new BufferedReader(new FileReader(adresseFichier));
 
-			while ((ligne = entree.readLine()) != null) // boucle de
-														// lecture/affichage du
-														// fichier
+			while ((ligne = entree.readLine()) != null) 
 			{
 				// Lecture par mot sur chaque ligne
 				mot = new StringTokenizer(ligne);
@@ -88,6 +91,7 @@ public abstract class Vol {
 		}
 	}
 	
+	// Affiche les instances de vol
 	static public void afficherInstances() {
 		for (Vol v : lesVols.values()) {
 			System.out.println(v.toString());
@@ -95,17 +99,18 @@ public abstract class Vol {
 		}
 	}
 	
+	// Méthode qui genère l'ensemble des tâches en fonction des vols
 	public static void genererTaches() {
 		for (Vol v : lesVols.values()) {
 			v.creerTaches();
 		}
 	}
 	
-	// Mï¿½ï¿½thode pour la crï¿½ï¿½ation des taches
+	// Méthode pour la création des taches en fonction de vol arrivé ou départ
 	public abstract void  creerTaches ();
 	
+	// Retourne la liste des vols, utilisé dans la JTable graphique.
 	public static ArrayList<Vol> getVols() {
-		// TODO Auto-generated method stub
 		return new ArrayList<Vol>(lesVols.values());
 	}
 }
