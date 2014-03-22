@@ -11,7 +11,7 @@ public class TacheDebarquement extends Tache {
 	private VolArrivee volDebarquement ;
 	static private Hashtable<String, TacheDebarquement> lesTachesDebarquement = new Hashtable<String, TacheDebarquement>();
 
-	
+	// Constructeur avec génération d'un numéro automatique pour chaque tâche
 	public TacheDebarquement(VolArrivee v) {
 		super("A" + numTaches,v.getHeure().retrait(new Duree (0,5)),v.getHeure().ajout(new Duree (0,15)));
 		volDebarquement = v ;
@@ -23,11 +23,12 @@ public class TacheDebarquement extends Tache {
 	}
 
 
-	@Override
+	// Retourne le type de la tâche
 	public String getType() {
 		return "Débarquement vol " + volDebarquement.getId();
 	}
 	
+	// Retourne le vol associé à la tâche
 	public VolArrivee getVol() {
 		return volDebarquement;
 	}

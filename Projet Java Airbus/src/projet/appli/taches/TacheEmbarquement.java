@@ -13,11 +13,9 @@ public class TacheEmbarquement extends Tache{
 	private VolDepart volEmbarquement ;
 	static private Hashtable<String, TacheEmbarquement> lesTachesEmbarquement = new Hashtable<String, TacheEmbarquement>();
 
-	
+	// Constructeur avec génération d'un numéro automatique pour chaque tâche
 	public TacheEmbarquement(VolDepart v) {
-		super("D" + numTaches,
-				v.getHeure().retrait(new Duree (0,15)),
-				v.getHeure().ajout(new Duree (0,5)));
+		super("D" + numTaches,v.getHeure().retrait(new Duree (0,15)),v.getHeure().ajout(new Duree (0,5)));
 		volEmbarquement = v;
 		numTaches++;
 		lesTachesEmbarquement.put(this.getIdTache(), this);
@@ -26,10 +24,12 @@ public class TacheEmbarquement extends Tache{
 	}
 
 
-	@Override
+	// Retourne le type de la tâche
 	public String getType() {
 		return "Embarquement vol " + volEmbarquement.getId();
 	}
+	
+	// Retourne le vol associé à la tâche
 	public VolDepart getVol() {
 		return volEmbarquement;
 	}

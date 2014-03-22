@@ -13,10 +13,9 @@ public class TacheEnregistrement extends Tache {
 	private VolDepart volEnregistrement ;
 	static private Hashtable<String, TacheEnregistrement> lesTachesEnregistrement = new Hashtable<String, TacheEnregistrement>();
 
-	
+	// Constructeur avec génération d'un numéro automatique pour chaque tâche
 	public TacheEnregistrement(VolDepart v) {
-		super("ER" + numTache, v.getHeure().retrait(new Duree (1,30)),
-				v.getHeure().retrait(new Duree (0,15)));
+		super("ER" + numTache, v.getHeure().retrait(new Duree (1,30)),v.getHeure().retrait(new Duree (0,15)));
 		numTache++;
 		volEnregistrement = v ;
 		lesTachesEnregistrement.put(this.getIdTache(), this);
@@ -25,11 +24,12 @@ public class TacheEnregistrement extends Tache {
 	}
 
 
-	@Override
+	// Retourne le type de la tâche
 	public String getType() {
 		return "Enregistrement vol " + volEnregistrement.getId();
 	}
 	
+	// Retourne le vol associé à la tâche
 	public VolDepart getVol() {
 		return volEnregistrement;
 	}

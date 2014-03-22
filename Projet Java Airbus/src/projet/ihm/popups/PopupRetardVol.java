@@ -37,19 +37,21 @@ public class PopupRetardVol extends JDialog {
 	private JLabel lblM;
 	
 	public PopupRetardVol(Vol v) {
+		
+		// Paramètre de la fenêtre
 		vol = v ;
 		setModal (true);
 		setAlwaysOnTop (true);
 		setModalityType (ModalityType.APPLICATION_MODAL);
-		setLocationRelativeTo(null); //On centre la fen??tre sur l'??cran
-		setResizable(false); //On interdit la redimensionnement de la fen??tre
-		setSize(234,137); //On donne une taille ?? notre fen??tre
+		setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
+		setResizable(false); //On interdit la redimensionnement de la fenêtre
+		setSize(234,137); //On donne une taille à notre fenêtre
 
-		
+		// Titre de la fenêtre
 		this.setTitle("Vol " + v.getId() + " - retard");
 		
+		// Déclaration des JLabels 
 		lblHoraire = new JLabel("Horaire actuel : " + v.getHeure());
-		
 		lblHeureDeRetard = new JLabel("En retard de :");
 		
 		textH = new JTextField();
@@ -63,12 +65,10 @@ public class PopupRetardVol extends JDialog {
 		lblM = new JLabel("m");
 		
 		JButton btnValider = new JButton("Valider");
-		
 		JButton btnAnnuler = new JButton("Annuler");
 		
+		// Ecouteur sur le bouton Valider
 		btnValider.addActionListener(new ActionListener() {
-			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int h = Integer.parseInt(textH.getText());
@@ -85,9 +85,8 @@ public class PopupRetardVol extends JDialog {
 			}
 		});
 		
+		// Ecouteur sur le bouton annuler 
 		btnAnnuler.addActionListener(new ActionListener() {
-			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}

@@ -18,40 +18,41 @@ import projet.outils.Horaire;
 public class VolArrivee extends Vol {
 	
 	static private Hashtable<String, VolArrivee> lesVolsArrivee = new Hashtable<String, VolArrivee>();
-
 	private String villeDepart;
 	
-	
+	// Constructeur
 	public VolArrivee(String idVol, Horaire heureArrivee, String ville, Avion avion) {
 		super(idVol, heureArrivee, avion);
 		villeDepart = ville ;
 		lesVolsArrivee.put(idVol, this);
 	}
 	
-	@Override
-	public String toString() {
-		return "Vol Arrivï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½e nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½" + super.toString() +"\n  - ville dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½part :" + villeDepart;
-	}
-	
+	// Retourne la ville du vol Arrivée
 	public String getVille()
 	{
 		return (villeDepart);
 	}
 	
+	// Modifie l'affichage par defaut
+	public String toString() {
+		return "Vol Arrivée" + super.toString() +"\n  - ville départ :" + villeDepart;
+	}
+	
+	
 	static public void lireVolsArrivees (String adresseFichier) {
 			
 		BufferedReader entree = null;
 			try {
-				// Entrï¿½ï¿½ï¿½ï¿½ï¿½ï¿½e du fichier
+				// Entrée du fichier
 			    entree = new BufferedReader(new FileReader (adresseFichier));
 				
-				// Dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½claration d'une ligne
+				// Déclaration d'une ligne
 				String ligne;
 				
-				// Dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½coupage en mot
+				// Découpage en mot
 				StringTokenizer mot;
 
-				while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
+				while ((ligne = entree.readLine()) != null )
 				  { 
 					// Lecture par mot sur chaque ligne
 					  mot = new StringTokenizer(ligne);
@@ -66,7 +67,6 @@ public class VolArrivee extends Vol {
 						  String idAvion = mot.nextToken();
 						  
 						  Horaire heureDepart = new Horaire(heures, minutes);
-
 						 VolArrivee v = new VolArrivee(id, heureDepart, ville, Avion.getAvion(idAvion));
 					  
 					  }
@@ -81,14 +81,14 @@ public class VolArrivee extends Vol {
 		
 	}
 	
-	// Crï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ation des taches debarquement
+	// Création des taches debarquement
 	public void creerTaches ()
 	{
 		TacheDebarquement td = new TacheDebarquement(this) ;
 	}
 	
+	// Retourne la liste des vols pour le graphisme
 	public static ArrayList<Vol> getVolsArrivee() {
-		// TODO Auto-generated method stub
 		return new ArrayList<Vol>(lesVolsArrivee.values());
 	}
 }

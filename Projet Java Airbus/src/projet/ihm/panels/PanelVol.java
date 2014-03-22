@@ -54,6 +54,8 @@ public class PanelVol extends JPanel{
 
 
 	public PanelVol(ArrayList<Vol> lV, String nomListe) {
+		
+		// Déclaration des panels
 		lVols = lV ;
 		panelBox = new JPanel();
 		panelBtns = new JPanel();
@@ -61,6 +63,7 @@ public class PanelVol extends JPanel{
 		layout = new BorderLayout();
 		layoutBtns = new FlowLayout();
 
+		// Modification du layout principal
 		this.setLayout(layout);
 		this.add(panelBox,BorderLayout.NORTH);
 		
@@ -86,6 +89,7 @@ public class PanelVol extends JPanel{
 		btnRetard = new JButton("Retard");
 		panelBtns.add(btnRetard);
 		
+		// Déclaration des écouteurs
 		btnRetard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new PopupRetardVol(lVols.get(tableauVols.convertRowIndexToModel(tableauVols.getSelectedRow()))) ;
@@ -122,6 +126,7 @@ public class PanelVol extends JPanel{
 	
 	}
 	
+	// Modèle de la JTable
 	 public  class TableVol extends AbstractTableModel {
 		private ArrayList<Vol> vols ;
 		private String index[] =  {"Id Vol","Heure","Destination","Id Avion"};
@@ -131,14 +136,11 @@ public class PanelVol extends JPanel{
 			vols = lVols ;
 		}
 		
-		@Override
 		public int getColumnCount() {
 			return index.length;
 		}
 
-		@Override
 		public int getRowCount() {
-			// TODO Auto-generated method stub
 			return vols.size();
 		}
 		
@@ -146,7 +148,6 @@ public class PanelVol extends JPanel{
 			return vols.get(ligne);
 		}
 
-		@Override
 		public Object getValueAt(int ligne, int colonne) {
 			Vol v = vols.get(ligne);
 			switch (colonne) {
@@ -168,6 +169,7 @@ public class PanelVol extends JPanel{
 	    }
 	}
 	
+	 // Controleur qui active ou pas le bouton retard en fonction de la selection
 	public class ControleurTable  implements ListSelectionListener{
 		public void valueChanged(ListSelectionEvent listSelectionEvent) {
 			if (listSelectionEvent.getValueIsAdjusting())
@@ -185,6 +187,7 @@ public class PanelVol extends JPanel{
 		}
 	}	
 	
+	// Coloration de la JTable en fonction de la selection
 	private class TachesRenderer extends DefaultTableCellRenderer {
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,

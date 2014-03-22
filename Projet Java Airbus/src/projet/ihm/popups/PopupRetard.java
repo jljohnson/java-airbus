@@ -35,19 +35,21 @@ public class PopupRetard extends JDialog {
 	private JLabel lblM;
 	
 	public PopupRetard(Agent a) {
+		
+		// Paramètre de la fenêtre
 		agent = a ;
 		setModal (true);
 		setAlwaysOnTop (true);
 		setModalityType (ModalityType.APPLICATION_MODAL);
-		setLocationRelativeTo(null); //On centre la fenÃ¨tre sur l'Ã©cran
-		setResizable(false); //On interdit la redimensionnement de la fenÃ¨tre
-		setSize(234,137); //On donne une taille Ã  notre fenÃ¨tre
+		setLocationRelativeTo(null); //On centre la fenêtre sur l'écran
+		setResizable(false); //On interdit la redimensionnement de la fenêtre
+		setSize(234,137); //On donne une taille à  notre fenêtre
 
-		
+		// Titre de la fenêtre
 		this.setTitle("Agent " + a.getMatricules() + " - retard");
 		
+		// Déclaration des JLabel plus leur contenus
 		lblHoraire = new JLabel("Horaire actuel : " + a.getHoraire().toString());
-		
 		lblHeureDeRetard = new JLabel("Heure de retard :");
 		
 		textH = new JTextField();
@@ -61,12 +63,10 @@ public class PopupRetard extends JDialog {
 		lblM = new JLabel("m");
 		
 		JButton btnValider = new JButton("Valider");
-		
 		JButton btnAnnuler = new JButton("Annuler");
-		
 		btnValider.addActionListener(new ActionListener() {
 			
-			@Override
+			// Ecouteur sur le bouton Valider
 			public void actionPerformed(ActionEvent e) {
 				try {
 					int h = Integer.parseInt(textH.getText());
@@ -86,15 +86,14 @@ public class PopupRetard extends JDialog {
 			}
 		});
 		
+		// Ecouteur sur le bouton annuler 
 		btnAnnuler.addActionListener(new ActionListener() {
-			
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
 		
-		
+		// Code généré automatiquement
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -142,6 +141,7 @@ public class PopupRetard extends JDialog {
 		
 	}
 	
+	// Vérification de la saisie des horaires dans la pop-up
 	public boolean saisieValide(Horaire h) throws SaisieInvalideException {
 		if (h.compareTo(agent.getHoraire().getFinTrancheHoraire()) >= 0) {
 			throw new SaisieInvalideException();

@@ -11,13 +11,14 @@ public class TacheRepas extends Tache{
 	private static int numTaches = 1 ;
 	static public Hashtable<String, TacheRepas> lesTachesRepas = new Hashtable<String, TacheRepas>();
 
+	// Constructeur avec génération d'un numéro automatique pour chaque tâche
 	public TacheRepas(Horaire horaireDeb) {
 		super("REP" + numTaches ,horaireDeb, horaireDeb.ajout(new Duree(1,0))) ;
 		numTaches++;
 		lesTachesRepas.put(this.getIdTache(), this);
 	}
 
-	@Override
+	// Retourne le type de la tâche
 	public String getType() {
 		return "Repas";
 	}

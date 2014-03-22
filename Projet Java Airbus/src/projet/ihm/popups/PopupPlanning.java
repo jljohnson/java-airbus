@@ -44,12 +44,14 @@ public class PopupPlanning extends JDialog {
 		for (TrancheHoraire th : a.tranchesLibres()) {
 			System.out.println(th.toString());
 		}
-		// RÃ©cupÃ©ration du design systÃ¨me
+		
+		// Récupération du design hôte de la machine
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (Exception e){}
 		
+		// Paramètre de la fenêtre
 		setTitle("Agent " + agent.getMatricules() + " - Planning"); //On donne un titre Ã  l'application
 		setSize(450,400); //On donne une taille Ã  notre fenÃ¨tre
 		setLocationRelativeTo(null); //On centre la fenÃ¨tre sur l'Ã©cran
@@ -58,28 +60,28 @@ public class PopupPlanning extends JDialog {
 		setAlwaysOnTop (true);
 		setModalityType (ModalityType.APPLICATION_MODAL);
 
-		
+		// Déclaration des panneaux du BorderLayout
 		panelCentre = new JPanel();
 		panelNord = new JPanel();
 		panelSud = new JPanel();
 		contentPane = new JPanel();
 		
+		// Modification du JPanel
 		layout = new BorderLayout() ;
 		contentPane.setLayout(layout);
-
 		this.setContentPane(contentPane);
 		
 		
-		/* création footer */
+		// création du bas de la page
 		layoutSud = new FlowLayout();
 		panelSud.setLayout(layoutSud);
 		panelCentre.setLayout(new GridLayout(0, 1, 0, 0));
 		planning = new JScrollPane(new JTable(new TablePlanning(a)));
 		
 		panelCentre.add(planning);	
-		
 		contentPane.add(panelNord,BorderLayout.NORTH);
 		
+		// Code généré automatiquement
 		JLabel lblAgentNXxx = new JLabel("Agent n\u00B0 " + a.getMatricules() + " : ");
 		lblAgentNXxx.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
@@ -161,6 +163,7 @@ public class PopupPlanning extends JDialog {
 		this.setVisible(true);
 	}
 	
+	// Classe qui définit le modèle pour la JTable
 	class TablePlanning extends AbstractTableModel {
 		private ArrayList<Tache> taches ;
 		private String[] index = {"Horaires","Numéro","Description"};
@@ -169,18 +172,15 @@ public class PopupPlanning extends JDialog {
 			super();
 			taches = new ArrayList<Tache>(a.getPlanning());
 		}
-		@Override
+		
 		public int getColumnCount() {
 			return index.length ;
 		}
 
-		@Override
 		public int getRowCount() {
-			// TODO Auto-generated method stub
 			return taches.size();
 		}
 
-		@Override
 		public Object getValueAt(int ligne, int colonne) {
 			Tache t = taches.get(ligne);
 			

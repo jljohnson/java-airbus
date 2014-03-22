@@ -15,31 +15,28 @@ import projet.outils.Duree;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
-/**
- * <p>Title: AgentPlein</p>
- * <p>Description: classe d'un agent plein</p>
- * <p>Copyright: Copyright (c) 2014</p>
- * <p>Company: Miage L3 </p>
- * @author Le Moing Stéfan
- * @version 1.0
- */
 
 public class AgentPlein extends Agent{
 	
 		private boolean aMange;
-	// constructeur
+		
+		// Constructeur
 		public AgentPlein(String mat, String n, String p, int c){
 			super(mat,n,p,c);
 			aMange = false ;
 		}
 		
-		// récupère les horaires en temps partiel
+		
+		/**
+		 * Caclul les tranches horaire d'un agent en fonction de son cycle
+		 * @return tranche horaire de l'agent
+		 */
 		public TrancheHoraire getH (int numHo){
 			Horaire hdeb = new Horaire();
 			Horaire hfin = new Horaire();		
 			TrancheHoraire th = new TrancheHoraire(hdeb,hfin);
 			switch(numHo){
-				// cas de la semaine multiple de 3
+				// Cas de la semaine multiple de 3
 				case 3:
 					hdeb = new Horaire(13,30);
 					hfin = new Horaire(21,30);
@@ -59,15 +56,17 @@ public class AgentPlein extends Agent{
 			return th;	
 		}
 
-		// méthode permettant de trouver l'horaire pour une semaine donnée
-		//c = cycle / sem = numéro de la semaine
+		/**
+		 * Permet de trouver l'horaire pour une semaine donnée
+		 * @return Retourne une trancheHoraire
+		 */
 		public TrancheHoraire horaireSemaine(int sem){
 			Horaire hdeb = new Horaire();
 			Horaire hfin = new Horaire();
 			TrancheHoraire th = new TrancheHoraire(hdeb,hfin);
 			if(super.getCycle() == 1){
 				switch(sem%3){
-					// cas de la semaine multiple de 3
+					// Cas de la semaine multiple de 3
 					case 0:
 						th = getH(3);
 						break;
@@ -81,7 +80,7 @@ public class AgentPlein extends Agent{
 			}
 			else if(super.getCycle() == 2){
 				switch(sem%3){
-					// cas de la semaine multiple de 3
+					// Cas de la semaine multiple de 3
 					case 0:
 						th = getH(2);
 						break;
@@ -95,7 +94,7 @@ public class AgentPlein extends Agent{
 			}
 			else{
 				switch(sem%3){
-				// cas de la semaine multiple de 3
+				// Cas de la semaine multiple de 3
 				case 0:
 					th = getH(1);
 					break;
@@ -112,22 +111,21 @@ public class AgentPlein extends Agent{
 			return th;
 		}
 				
-		// récupération des données du fichier
-		
+		// Lecture du fichier AgentPlein
 		 static public void lireAgent (String adresseFichier) {
 					BufferedReader entree = null;
 					
-					// DÃ©claration d'une ligne
+					// Déclaration d'une ligne
 					String ligne;
 					
-					// DÃ©coupage en mot
+					// Découpage en mot
 					StringTokenizer mot;
 					
 					try {
-						// EntrÃ©e du fichier
+						// Entrée du fichier
 						 entree = new BufferedReader(new FileReader (adresseFichier));
 						
-						while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
+						while ((ligne = entree.readLine()) != null )
 						  { 
 							// Lecture par mot sur chaque ligne
 							  mot = new StringTokenizer(ligne);
@@ -157,18 +155,18 @@ public class AgentPlein extends Agent{
 				
 			}
 
-		@Override
-		// gestion du planning pour les agents à temps plein
+		 /**
+			 * Création du planning pour un agentPlein
+			 */
 		public void creerPlanning() throws semaineInvalideException {
 				TrancheHoraire trancheTravail = getHoraire();
 				TrancheHoraire trancheService = getHoraire();
 				TrancheHoraire trancheHoraireSoir = getH(3);
-				
-				//System.out.println("Val de trancheHoraire soir" + trancheHoraireSoir.toString());
 				TrancheHoraire trancheRepas = new TrancheHoraire(new Horaire(11, 30),new Horaire(14,0));
 				TrancheHoraire trancheLastTache;
 				boolean fini = false;
 				
+				// Si on est dans la tranche et que l'agent n'a pas encore mangé alors on affecte la tâche repas
 				if (trancheService.equals(trancheHoraireSoir) && !aMange) {
 					TacheRepas tR = Tache.demanderTacheRepas(trancheService.getDebutTrancheHoraire()); 
 					ajouterTache(tR);
@@ -177,17 +175,19 @@ public class AgentPlein extends Agent{
 					aMange = true ;
 				}
 
+				// Tant qu'on a pas parcouru l'ensemble de ces horaires de services
 				while((trancheTravail.getDebutTrancheHoraire().compareTo(trancheTravail.getFinTrancheHoraire()) < 0) && !fini){
 					try{
-
 						Tache t= Tache.demanderTache(trancheTravail);
 						ajouterTache(t);
 						trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire(), trancheTravail.getFinTrancheHoraire());
+						
+						// Si l'heure de fin de la tache est plus grande que l'heure de debut de la tranche repas et que l'agent n'a pas mangé alors
 						if ((t.getHoraires().getFinTrancheHoraire().compareTo(trancheRepas.getDebutTrancheHoraire()) > 0) && !aMange) {
 							TacheRepas tR = Tache.demanderTacheRepas(t.getHoraires().getFinTrancheHoraire()); 
 							ajouterTache(tR);
 							trancheTravail = new TrancheHoraire(t.getHoraires().getFinTrancheHoraire().ajout(new Duree(1, 0)),
-									trancheTravail.getFinTrancheHoraire());
+							trancheTravail.getFinTrancheHoraire());
 							aMange = true;
 						}
 					}
@@ -196,7 +196,6 @@ public class AgentPlein extends Agent{
 						//e.printStackTrace();
 					}
 				}
-				
 				
 				genererTachesAccueil();
 		}

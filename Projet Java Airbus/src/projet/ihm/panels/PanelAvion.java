@@ -47,8 +47,9 @@ public class PanelAvion extends JPanel{
 
 
 	public PanelAvion(ArrayList<Avion> lA) {
-		lAvions = lA ;
 		
+		// Création du layout
+		lAvions = lA ;
 		this.setLayout(layout);
 				
 		this.add(panelBox,BorderLayout.NORTH);
@@ -88,6 +89,8 @@ public class PanelAvion extends JPanel{
 		this.add(panelCenter,BorderLayout.CENTER);
 	}
 	
+	
+	// Modèle pour la JTable
 	private class TableAvion extends AbstractTableModel {
 		private ArrayList<Avion> avions ;
 		private String index[] =  {"Id Avion","Modèle","Capacité"};
@@ -97,14 +100,12 @@ public class PanelAvion extends JPanel{
 			avions = lAvions ;
 		}
 		
-		@Override
+		
 		public int getColumnCount() {
 			return index.length;
 		}
 
-		@Override
 		public int getRowCount() {
-			// TODO Auto-generated method stub
 			return avions.size();
 		}
 		
@@ -132,6 +133,7 @@ public class PanelAvion extends JPanel{
 	    }
 	}
 	
+	// Controleur qui récupère la ligne sélectionnée
 	private class ControleurTable  implements ListSelectionListener{
 		public void valueChanged(ListSelectionEvent listSelectionEvent) {
 			if (listSelectionEvent.getValueIsAdjusting())

@@ -18,7 +18,6 @@ import projet.outils.TrancheHoraire;
 
 public abstract class  Agent {
 	
-	/// A CHANGER 
 	private static final int N_SEM = 1;
 	
 	private String matricule;

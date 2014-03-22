@@ -69,7 +69,7 @@ public class PanelPlanning extends JPanel{
 		
 
 		
-		/* crï¿½ation du bouton planning*/	
+		// création du bouton planning
 		boutonPlanning = new JButton("Voir planning");
 		boutonPlanning.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -79,6 +79,8 @@ public class PanelPlanning extends JPanel{
 		boutonPlanning.setEnabled(false);
 		
 		boutonVol = new JButton("Voir vols");
+		
+		// Gestion des écoutes sur les boutons
 		boutonVol.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			}
@@ -87,6 +89,8 @@ public class PanelPlanning extends JPanel{
 
 		this.add(panelBtns,BorderLayout.SOUTH);
 		
+		
+		// Déclaration de l'ensemble des JLabels
 		lblAgentCorrespondant = new JLabel("Agent correspondant :");
 		lblAgentCorrespondant.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
@@ -183,6 +187,8 @@ public class PanelPlanning extends JPanel{
 		this.add(panelCenter,BorderLayout.CENTER);
 	}
 	
+	
+	// Modèle pour la JTable
 	private class TablePlanning extends AbstractTableModel {
 		private ArrayList<Tache> taches ;
 		private String index[] =  {"Identifiant","Horaires","Type"};
@@ -192,14 +198,11 @@ public class PanelPlanning extends JPanel{
 			taches = lTaches ;
 		}
 		
-		@Override
 		public int getColumnCount() {
 			return index.length;
 		}
 
-		@Override
 		public int getRowCount() {
-			// TODO Auto-generated method stub
 			return taches.size();
 		}
 		
@@ -227,6 +230,7 @@ public class PanelPlanning extends JPanel{
 	    }
 	}
 	
+	// Controleur permettant de voir quel agent est affecté à une tâche, quel vol est associé à la tâche
 	private class ControleurTable  implements ListSelectionListener{
 		public void valueChanged(ListSelectionEvent listSelectionEvent) {
 			if (listSelectionEvent.getValueIsAdjusting())
@@ -289,6 +293,7 @@ public class PanelPlanning extends JPanel{
 		}
 	}	
 	
+	// Permet de colorer les taches non affectées en rouge
 	private class TachesRenderer extends DefaultTableCellRenderer {
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,

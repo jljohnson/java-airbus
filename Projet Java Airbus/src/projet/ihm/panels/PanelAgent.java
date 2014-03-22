@@ -57,10 +57,11 @@ public class PanelAgent extends JPanel{
 	private TableRowSorter sorter;
 	private JLabel lblFiltrerPar, lblListeDesAgents;
 
-
+	// Constructeur
 	public PanelAgent(ArrayList<Agent> lA) {
-		lAgents = lA ;
 		
+		// Création des différents panels pour le borderLayout
+		lAgents = lA ;
 		panelBox = new JPanel();
 		panelBtns = new JPanel();
 		panelCenter = new JPanel();
@@ -69,14 +70,14 @@ public class PanelAgent extends JPanel{
 		this.setLayout(layout);
 	
 		
-		/* crï¿½ation des check box & mise en place du panel*/
+		//  création des check box et mise en place du panel
 		tempsPlein = new JCheckBox("Agents à temps plein",false);
 		tempsPartiel = new JCheckBox("Agents à temps partiel",false);
 		
 		// ecoute des checbox
 		tempsPlein.addItemListener(new ItemListener() {
 			
-			@Override
+			// Algorithme d'écoute sur le clic de la checkbox
 			public void itemStateChanged(ItemEvent item) {
 
 				int status = item.getStateChange();
@@ -164,8 +165,10 @@ public class PanelAgent extends JPanel{
 		);
 		panelBox.setLayout(gl_panelBox);
 		
-		/* crï¿½ation du bouton planning*/	
+		// création du bouton planning	
 		boutonPlanning = new JButton("Voir planning");
+		
+		// Ecoute sur le boutton planning
 		boutonPlanning.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new PopupPlanning(lAgents.get(tableauAgents.convertRowIndexToModel(tableauAgents.getSelectedRow()))) ;
@@ -175,18 +178,15 @@ public class PanelAgent extends JPanel{
 		panelBtns.add(boutonPlanning);
 		this.add(panelBtns,BorderLayout.SOUTH);
 		
-		/* crÃ©ation du tableau d'agents */
+		// création du tableau d'agents avec la JTable
 		 modeleAgent = new TableAgent(lAgents);
 
-		
+		 // Création de la JTable permettant le tri
 		tableauAgents = new JTable(modeleAgent);
 		tableauAgents.setAutoCreateRowSorter(true);
 		
 		 sorter = new TableRowSorter(modeleAgent);
 	    tableauAgents.setRowSorter(sorter);
-		
-
-
 		
 		ListSelectionModel listSelectionModel = tableauAgents.getSelectionModel();        
 		listSelectionModel.addListSelectionListener(new ControleurTable());
@@ -197,6 +197,7 @@ public class PanelAgent extends JPanel{
 		this.add(panelCenter,BorderLayout.CENTER);
 	}
 	
+	// Modèle d'agent pour la JTable
 	private class TableAgent extends AbstractTableModel {
 		private ArrayList<Agent> agents ;
 		private String index[] =  {"Identifiant","Nom","Prénom","Horaires"};
@@ -206,14 +207,11 @@ public class PanelAgent extends JPanel{
 			agents = lAgents ;
 		}
 		
-		@Override
 		public int getColumnCount() {
 			return index.length;
 		}
 
-		@Override
 		public int getRowCount() {
-			// TODO Auto-generated method stub
 			return agents.size();
 		}
 		
@@ -221,7 +219,6 @@ public class PanelAgent extends JPanel{
 			return agents.get(ligne);
 		}
 
-		@Override
 		public Object getValueAt(int ligne, int colonne) {
 			Agent a = agents.get(ligne);
 			switch (colonne) {
@@ -243,6 +240,7 @@ public class PanelAgent extends JPanel{
 	    }
 	}
 	
+	// Controleur sur la JTable qui active ou désactive le bouton "voir planning"
 	private class ControleurTable  implements ListSelectionListener{
 		public void valueChanged(ListSelectionEvent listSelectionEvent) {
 			if (listSelectionEvent.getValueIsAdjusting())

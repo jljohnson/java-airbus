@@ -19,39 +19,39 @@ public class VolDepart extends Vol {
     static private Hashtable<String, VolDepart> lesVolsDepart = new Hashtable<String, VolDepart>();
     private String villeArrivee ;
 
-	public VolDepart(String idVol, Horaire heureArrivee,
-			String ville, Avion avion) {
-		
+    // Constructeur
+	public VolDepart(String idVol, Horaire heureArrivee,String ville, Avion avion) {
 		super(idVol, heureArrivee, avion);
 		villeArrivee = ville ;
 		lesVolsDepart.put(idVol, this);
 
 	}
 	
-	@Override
-	public String toString() {
-		return "Vol Dï¿½ï¿½ï¿½part nï¿½ï¿½ï¿½" + super.toString() + "\n - ville arrivï¿½ï¿½ï¿½e : " + villeArrivee;
-	}
-	
+	// Retourne la ville d'arrivée
 	public String getVille()
 	{
 		return (villeArrivee);
 	}
 	
+	// Modifie la méthode d'affichage par défaut
+	public String toString() {
+		return "Vol Départ " + super.toString() + "\n - ville arrivée : " + villeArrivee;
+	}
+	
+	
+	
 	static public void lireVolsDepart (String adresseFichier) {
-		
-
 		try {
-			// Entrï¿½ï¿½ï¿½ï¿½ï¿½ï¿½e du fichier
+			// Entrée du fichier
 			BufferedReader entree = new BufferedReader(new FileReader (adresseFichier));
 			
-			// Dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½claration d'une ligne
+			// Déclaration d'une ligne
 			String ligne;
 			
-			// Dï¿½ï¿½ï¿½ï¿½ï¿½ï¿½coupage en mot
+			// Découpage en mot
 			StringTokenizer mot;
 			
-			while ((ligne = entree.readLine()) != null ) // boucle de lecture/affichage du fichier
+			while ((ligne = entree.readLine()) != null )
 			  { 
 				// Lecture par mot sur chaque ligne
 				  mot = new StringTokenizer(ligne);
@@ -80,7 +80,7 @@ public class VolDepart extends Vol {
 	
 	
 	
-	// Crï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ation des taches debarquement
+	// Création des taches debarquement
 	public void creerTaches ()
 	{
 			TacheEmbarquement te = new TacheEmbarquement(this) ;
@@ -93,8 +93,8 @@ public class VolDepart extends Vol {
 		
 	}
 	
+	// Retourne la liste des vols pour le graphisme
 	public static ArrayList<Vol> getVolsDepart() {
-		// TODO Auto-generated method stub
 		return new ArrayList<Vol>(lesVolsDepart.values());
 	}
 

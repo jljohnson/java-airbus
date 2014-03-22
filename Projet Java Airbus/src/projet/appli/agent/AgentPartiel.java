@@ -13,32 +13,19 @@ import projet.outils.Duree;
 import projet.outils.Horaire;
 import projet.outils.TrancheHoraire;
 
-/**
- * <p>
- * Title: AgentPartiel
- * </p>
- * <p>
- * Description: classe d'un agent partiel
- * </p>
- * <p>
- * Copyright: Copyright (c) 2014
- * </p>
- * <p>
- * Company: Miage L3
- * </p>
- * 
- * @author Le Moing Stéfan
- * @version 1.0
- */
+
 
 public class AgentPartiel extends Agent {
 
-	// constructeur
+	// Constructeur
 	public AgentPartiel(String mat, String n, String p, int c) {
 		super(mat, n, p, c);
 	}
 
-	// récupère les horaires en temps partiel
+	/**
+	 * Caclul les tranches horaire d'un agent en fonction de son cycle
+	 * @return tranche horaire de l'agent
+	 */
 	public TrancheHoraire getH(int numHo) {
 		Horaire hdeb = new Horaire();
 		Horaire hfin = new Horaire();
@@ -64,8 +51,11 @@ public class AgentPartiel extends Agent {
 		return th;
 	}
 
-	// méthode permettant de trouver l'horaire pour une semaine donnée
-	// c = cycle / sem = numéro de la semaine
+	
+	/**
+	 * Permet de trouver l'horaire pour une semaine donnée
+	 * @return Retourne une trancheHoraire
+	 */
 	public TrancheHoraire horaireSemaine(int sem) throws semaineInvalideException {
 		if (sem == 0) {
 			throw new semaineInvalideException();
@@ -76,7 +66,7 @@ public class AgentPartiel extends Agent {
 		TrancheHoraire th = new TrancheHoraire(hdeb, hfin);
 		if (super.getCycle() == 1) {
 			switch (sem % 3) {
-			// cas de la semaine multiple de 3
+			// Cas de la semaine multiple de 3
 			case 0:
 				th = getH(3);
 				break;
@@ -90,7 +80,7 @@ public class AgentPartiel extends Agent {
 		} else if (super.getCycle() == 2) {
 
 			switch (sem % 3) {
-			// cas de la semaine multiple de 3
+			// Cas de la semaine multiple de 3
 			case 0:
 				th = getH(2);
 				break;
@@ -119,6 +109,9 @@ public class AgentPartiel extends Agent {
 		return th;
 	}
 
+	/**
+	 * Création du planning pour un agentPartiel
+	 */
 	public void creerPlanning() throws semaineInvalideException {
 		TrancheHoraire trancheTravail = getHoraire();
 
@@ -143,30 +136,28 @@ public class AgentPartiel extends Agent {
 		genererTachesAccueil();
 	}
 
-	// récupération des données du fichier
-
+	// Méthode qui lit le fichier des AgentPartiels
 	static public void lireAgent(String adresseFichier) {
 
 		BufferedReader entree = null;
 
-		// DÃ©claration d'une ligne
+		// Déclaration d'une ligne
 		String ligne;
 
-		// DÃ©coupage en mot
+		// Découpage en mot
 		StringTokenizer mot;
 
 		try {
-			// EntrÃ©e du fichier
+			// Entrée du fichier
 			entree = new BufferedReader(new FileReader(adresseFichier));
 
-			while ((ligne = entree.readLine()) != null) // boucle de
-														// lecture/affichage du
-														// fichier
+			while ((ligne = entree.readLine()) != null) 
 			{
 				// Lecture par mot sur chaque ligne
 				mot = new StringTokenizer(ligne);
 
 				while (mot.hasMoreTokens()) {
+					
 					// Recuperation du mot
 					String mat = mot.nextToken();
 					String nom = mot.nextToken();
