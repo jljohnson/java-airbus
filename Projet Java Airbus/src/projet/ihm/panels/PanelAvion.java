@@ -37,19 +37,22 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Font;
 
 public class PanelAvion extends JPanel{
-	JPanel courant = this;
-	JPanel panelBox = new JPanel();
-	JPanel panelCenter = new JPanel();
-	BorderLayout layout = new BorderLayout();
-	JTable tableauAvion ;
-	ArrayList<Avion> lAvions;
+	private JPanel courant = this;
+	private JPanel panelBox, panelCenter; 
+	private BorderLayout layout ;
+	private JTable tableauAvion ;
+	private ArrayList<Avion> lAvions;
 	private final JLabel lblListeDesAvions = new JLabel("Liste des avions :\r\n");
 
 
 	public PanelAvion(ArrayList<Avion> lA) {
+		lAvions = lA ;
+		
+		panelBox= new JPanel();
+		panelCenter = new JPanel();
+		layout = new BorderLayout();
 		
 		// Création du layout
-		lAvions = lA ;
 		this.setLayout(layout);
 				
 		this.add(panelBox,BorderLayout.NORTH);

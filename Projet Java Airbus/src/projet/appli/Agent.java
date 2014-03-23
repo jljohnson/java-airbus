@@ -280,13 +280,6 @@ public abstract class  Agent {
 			}
 		}
 		
-		public void retard(Horaire h1) {		
-			horaires = new TrancheHoraire(h1, horaires.getFinTrancheHoraire());
-
-			
-		}
-		
-		
 		/**
 		 * Affecte une tache en fonction du temps libre de l'agent
 		 * @param t : tache à affecter

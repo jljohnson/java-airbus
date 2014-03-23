@@ -45,14 +45,14 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Font;
 
 public class PanelPlanning extends JPanel{
-	JPanel panelBox = new JPanel();
-	JPanel panelBtns = new JPanel();
-	JPanel panelCenter = new JPanel();
-	BorderLayout layout = new BorderLayout();
-	FlowLayout layoutBtns = new FlowLayout();
-	JTable tableauTaches ;
-	JButton boutonPlanning ;
-	ArrayList<Tache> lTaches;
+	private JPanel panelBox = new JPanel();
+	private JPanel panelBtns = new JPanel();
+	private JPanel panelCenter = new JPanel();
+	private BorderLayout layout = new BorderLayout();
+	private FlowLayout layoutBtns = new FlowLayout();
+	private JTable tableauTaches ;
+	private JButton boutonPlanning ;
+	private ArrayList<Tache> lTaches;
 	private JLabel lblAgentCorrespondant, lblNomAgent, lblPrnomAgent, lblHorairesAgent, lblVolCorrespondant, lblTypeVol, lblHeureVol;
 	private JButton boutonVol;
 
@@ -73,7 +73,8 @@ public class PanelPlanning extends JPanel{
 		boutonPlanning = new JButton("Voir planning");
 		boutonPlanning.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			//	new PopupPlanning(lAgents.get(tableauAgents.convertRowIndexToModel(tableauAgents.getSelectedRow()))) ;
+				
+				new PopupPlanning(lTaches.get(tableauTaches.convertRowIndexToModel(tableauTaches.getSelectedRow())).getAgent()) ;
 			}
 		});
 		boutonPlanning.setEnabled(false);

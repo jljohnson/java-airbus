@@ -86,17 +86,7 @@ public class PopupPlanning extends JDialog {
 		lblAgentNXxx.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
 		JLabel lblNom = new JLabel("Nom : " + a.getNom());
-		
-		JButton boutonRetard = new JButton("Indiquer un retard");
 		JButton boutonAbsence = new JButton("Indiquer une abscence");
-		
-		boutonRetard.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				new PopupRetard(agent);
-			}
-		});
 		
 		boutonAbsence.addActionListener(new ActionListener() {
 			
@@ -125,15 +115,14 @@ public class PopupPlanning extends JDialog {
 						.addGroup(gl_panelNord.createSequentialGroup()
 							.addGroup(gl_panelNord.createParallelGroup(Alignment.LEADING)
 								.addComponent(lblNom)
-								.addComponent(lblHoraireDeDbut)
-								.addComponent(boutonRetard))
-							.addGap(43)
+								.addComponent(lblHoraireDeDbut))
+							.addGap(57)
 							.addGroup(gl_panelNord.createParallelGroup(Alignment.LEADING)
-								.addComponent(boutonAbsence)
 								.addComponent(lblHoraireDeFin)
 								.addComponent(lblPrnom)))
-						.addComponent(lblPlanning))
-					.addContainerGap(154, Short.MAX_VALUE))
+						.addComponent(lblPlanning)
+						.addComponent(boutonAbsence))
+					.addContainerGap(172, Short.MAX_VALUE))
 		);
 		gl_panelNord.setVerticalGroup(
 			gl_panelNord.createParallelGroup(Alignment.TRAILING)
@@ -149,9 +138,7 @@ public class PopupPlanning extends JDialog {
 						.addComponent(lblHoraireDeDbut)
 						.addComponent(lblHoraireDeFin))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelNord.createParallelGroup(Alignment.BASELINE)
-						.addComponent(boutonRetard)
-						.addComponent(boutonAbsence))
+					.addComponent(boutonAbsence)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblPlanning)
 					.addGap(4))
