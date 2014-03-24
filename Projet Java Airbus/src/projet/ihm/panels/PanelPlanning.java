@@ -51,10 +51,8 @@ public class PanelPlanning extends JPanel{
 	private BorderLayout layout = new BorderLayout();
 	private FlowLayout layoutBtns = new FlowLayout();
 	private JTable tableauTaches ;
-	private JButton boutonPlanning ;
 	private ArrayList<Tache> lTaches;
 	private JLabel lblAgentCorrespondant, lblNomAgent, lblPrnomAgent, lblHorairesAgent, lblVolCorrespondant, lblTypeVol, lblHeureVol;
-	private JButton boutonVol;
 
 
 
@@ -66,27 +64,6 @@ public class PanelPlanning extends JPanel{
 		
 		JLabel lblListeDesAgents = new JLabel("Liste des taches :");
 		lblListeDesAgents.setFont(new Font("Tahoma", Font.BOLD, 11));
-		
-
-		
-		// création du bouton planning
-		boutonPlanning = new JButton("Voir planning");
-		boutonPlanning.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				new PopupPlanning(lTaches.get(tableauTaches.convertRowIndexToModel(tableauTaches.getSelectedRow())).getAgent()) ;
-			}
-		});
-		boutonPlanning.setEnabled(false);
-		
-		boutonVol = new JButton("Voir vols");
-		
-		// Gestion des écoutes sur les boutons
-		boutonVol.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		boutonVol.setEnabled(false);
 
 		this.add(panelBtns,BorderLayout.SOUTH);
 		
@@ -133,17 +110,13 @@ public class PanelPlanning extends JPanel{
 				.addGroup(gl_panelBtns.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panelBtns.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panelBtns.createSequentialGroup()
-							.addGroup(gl_panelBtns.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblAgentCorrespondant)
-								.addComponent(lblNomAgent)
-								.addComponent(lblPrnomAgent))
-							.addGap(7)
-							.addComponent(lblHorairesAgent))
-						.addComponent(boutonPlanning))
+						.addComponent(lblAgentCorrespondant)
+						.addComponent(lblNomAgent)
+						.addComponent(lblPrnomAgent))
+					.addGap(7)
+					.addComponent(lblHorairesAgent)
 					.addGap(64)
 					.addGroup(gl_panelBtns.createParallelGroup(Alignment.LEADING)
-						.addComponent(boutonVol, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblHeureVol)
 						.addComponent(lblTypeVol)
 						.addComponent(lblVolCorrespondant))
@@ -165,11 +138,7 @@ public class PanelPlanning extends JPanel{
 					.addGroup(gl_panelBtns.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPrnomAgent)
 						.addComponent(lblHeureVol))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelBtns.createParallelGroup(Alignment.BASELINE)
-						.addComponent(boutonPlanning)
-						.addComponent(boutonVol))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap(40, Short.MAX_VALUE))
 		);
 		panelBtns.setLayout(gl_panelBtns);
 		
