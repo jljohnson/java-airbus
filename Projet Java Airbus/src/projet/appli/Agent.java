@@ -1,9 +1,13 @@
 package projet.appli;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.TreeSet;
+
+
 
 
 
@@ -18,7 +22,7 @@ import projet.outils.TrancheHoraire;
 
 public abstract class  Agent {
 	
-	private static final int N_SEM = 1;
+	private static final int N_SEM = new GregorianCalendar().get(Calendar.WEEK_OF_YEAR)%3;
 	
 	private String matricule;
 	private String nom;
